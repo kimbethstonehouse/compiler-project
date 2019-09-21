@@ -141,11 +141,13 @@ public class Tokeniser {
             return new Token(TokenClass.INCLUDE, line, column);
         }
 
-        // literals - come back to this
+        // literals
+        // string literal
         if (c == '\"') {
             StringBuilder sb = new StringBuilder();
             sb.append(c);
             c = scanner.peek();
+
             while (c != '\"') {
                 sb.append(c);
                 scanner.next();
@@ -157,6 +159,21 @@ public class Tokeniser {
             scanner.next();
 
             return new Token(TokenClass.STRING_LITERAL, sb.toString(), line, column);
+        }
+
+        // int literal
+        if (Character.isDigit(c)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(c);
+            c = scanner.peek();
+
+            while (Character.isDigit(c)) {
+                sb.append(c);
+                scanner.next();
+                c = scanner.peek();
+            }
+
+            return new Token(TokenClass.INT_LITERAL, sb.toString(), line, column);
         }
 
         // logical operators
