@@ -59,6 +59,7 @@ public class Tokeniser {
             return next();
 
         // skip comments
+        // single line
         if (c == '/' && scanner.peek() == '/') {
             scanner.next();
             c = scanner.peek();
@@ -70,6 +71,16 @@ public class Tokeniser {
 
             return next();
         }
+//        // multiline
+//        if (c == '/' && scanner.peek() == '*') {
+//            scanner.next();
+//            c = scanner.peek();
+//
+//            while (c != '') {
+//                scanner.next();
+//                c = scanner.peek();
+//            }
+//        }
 
         // identifier, types and keywords
         if (Character.isLetter(c) || c == '_') {
@@ -234,7 +245,8 @@ public class Tokeniser {
             return new Token(TokenClass.MINUS, line, column);
         if (c == '*')
             return new Token(TokenClass.ASTERIX, line, column);
-        // div
+        if (c == '/')
+            return new Token(TokenClass.DIV, line, column);
         if (c == '%')
             return new Token(TokenClass.REM, line, column);
 
