@@ -58,9 +58,43 @@ public class Tokeniser {
         if (Character.isWhitespace(c))
             return next();
 
-        // recognises the plus operator
+        // delimiters
+        if (c == '{')
+            return new Token(TokenClass.LBRA, line, column);
+        if (c == '}')
+            return new Token(TokenClass.RBRA, line, column);
+        if (c == '(')
+            return new Token(TokenClass.LPAR, line, column);
+        if (c == ')')
+            return new Token(TokenClass.RPAR, line, column);
+        if (c == '[')
+            return new Token(TokenClass.LSBR, line, column);
+        if (c == ']')
+            return new Token(TokenClass.RSBR, line, column);
+        if (c == ';')
+            return new Token(TokenClass.SC, line, column);
+        if (c == ',')
+            return new Token(TokenClass.COMMA, line, column);
+
+        // comparisons
+        if (c == '<')
+            if (scanner.peek() == '=') {
+                c = scanner.next();
+                return new Token(TokenClass.LE, line, column);
+            } else
+                return new Token(TokenClass.LT, line, column);
+
+
+        // operators
         if (c == '+')
             return new Token(TokenClass.PLUS, line, column);
+        if (c == '-')
+            return new Token(TokenClass.MINUS, line, column);
+        if (c == '*')
+            return new Token(TokenClass.ASTERIX, line, column);
+        // div
+        if (c == '%')
+            return new Token(TokenClass.REM, line, column);
 
         // ... to be completed
 
