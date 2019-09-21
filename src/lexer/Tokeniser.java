@@ -58,6 +58,55 @@ public class Tokeniser {
         if (Character.isWhitespace(c))
             return next();
 
+        // identifier
+        if (Character.isLetter(c) || c == '_') {
+            StringBuilder sb = new StringBuilder();
+            Token token;
+            sb.append(c);
+            c = scanner.peek();
+
+            while (Character.isLetterOrDigit(c) || c == '_') {
+                sb.append(c);
+                scanner.next();
+                c = scanner.peek();
+            }
+
+            switch (sb.toString()) {
+                case "int":
+                    token = new Token(TokenClass.INT, line, column);
+                    break;
+                case "void":
+                    token = new Token(TokenClass.VOID, line, column);
+                    break;
+                case "char":
+                    token = new Token(TokenClass.CHAR, line, column);
+                    break;
+                case "if":
+                    token = new Token(TokenClass.IF, line, column);
+                    break;
+                case "else":
+                    token = new Token(TokenClass.ELSE, line, column);
+                    break;
+                case "while":
+                    token = new Token(TokenClass.WHILE, line, column);
+                    break;
+                case "return":
+                    token = new Token(TokenClass.RETURN, line, column);
+                    break;
+                case "struct":
+                    token = new Token(TokenClass.STRUCT, line, column);
+                    break;
+                case "sizeof":
+                    token = new Token(TokenClass.SIZEOF, line, column);
+                    break;
+                default:
+                    token = new Token(TokenClass.IDENTIFIER, sb.toString(), line, column);
+                    break;
+            }
+
+            return token;
+        }
+
         // delimiters
         if (c == '{')
             return new Token(TokenClass.LBRA, line, column);
@@ -76,13 +125,65 @@ public class Tokeniser {
         if (c == ',')
             return new Token(TokenClass.COMMA, line, column);
 
+        // include
+        if (c == '#') {
+            char[] include = {'#', 'i', 'n', 'c', 'l', 'u', 'd', 'e'};
+
+            for (int i = 1; i < include.length; i++) {
+                c = scanner.peek();
+                if (c == include[i]) {
+                    scanner.next();
+                } else {
+                    error(c, line, column);
+                }
+            }
+
+            return new Token(TokenClass.INCLUDE, line, column);
+        }
+
+        // literals - come back to this
+//        if (c == '\"') {
+//            StringBuilder sb = new StringBuilder();
+//            sb.append(c);
+//            c = scanner.peek();
+//            while (c != '\"') {
+//                sb.append(c);
+//                scanner.next();
+//                c = scanner.peek();
+//            }
+//            return new Token(TokenClass.STRING_LITERAL, sb.toString(), line, column);
+//        }
+
+        // logical operators
+        if (c == '&' && scanner.peek() == '&')
+            return new Token(TokenClass.AND, line, column);
+        if (c == '|' && scanner.peek() == '|')
+            return new Token(TokenClass.OR, line, column);
+
         // comparisons
+        // = and ==
+        if (c == '=')
+            if (scanner.peek() == '=') {
+                scanner.next();
+                return new Token(TokenClass.EQ, line, column);
+            } else
+                return new Token(TokenClass.ASSIGN, line, column);
+
+        // < and <=
         if (c == '<')
             if (scanner.peek() == '=') {
-                c = scanner.next();
+                scanner.next();
                 return new Token(TokenClass.LE, line, column);
             } else
                 return new Token(TokenClass.LT, line, column);
+
+        // > and >=
+        if (c == '>')
+            if (scanner.peek() == '=') {
+                scanner.next();
+                return new Token(TokenClass.GE, line, column);
+            } else
+                return new Token(TokenClass.GT, line, column);
 
 
         // operators
@@ -95,6 +196,10 @@ public class Tokeniser {
         // div
         if (c == '%')
             return new Token(TokenClass.REM, line, column);
+
+        // struct member access
+        if (c == '.')
+            return new Token(TokenClass.DOT, line, column);
 
         // ... to be completed
 
