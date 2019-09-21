@@ -142,17 +142,22 @@ public class Tokeniser {
         }
 
         // literals - come back to this
-//        if (c == '\"') {
-//            StringBuilder sb = new StringBuilder();
-//            sb.append(c);
-//            c = scanner.peek();
-//            while (c != '\"') {
-//                sb.append(c);
-//                scanner.next();
-//                c = scanner.peek();
-//            }
-//            return new Token(TokenClass.STRING_LITERAL, sb.toString(), line, column);
-//        }
+        if (c == '\"') {
+            StringBuilder sb = new StringBuilder();
+            sb.append(c);
+            c = scanner.peek();
+            while (c != '\"') {
+                sb.append(c);
+                scanner.next();
+                c = scanner.peek();
+            }
+
+            // now c is the matching "
+            sb.append(c);
+            scanner.next();
+
+            return new Token(TokenClass.STRING_LITERAL, sb.toString(), line, column);
+        }
 
         // logical operators
         if (c == '&' && scanner.peek() == '&')
