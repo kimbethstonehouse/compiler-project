@@ -71,16 +71,17 @@ public class Tokeniser {
 
             return next();
         }
-//        // multiline
-//        if (c == '/' && scanner.peek() == '*') {
-//            scanner.next();
-//            c = scanner.peek();
-//
-//            while (c != '') {
-//                scanner.next();
-//                c = scanner.peek();
-//            }
-//        }
+        // multiline
+        if (c == '/' && scanner.peek() == '*') {
+            c = scanner.next();
+
+            while (!(c == '*' && scanner.peek() == '/')) {
+                c = scanner.next();
+            }
+
+            c = scanner.next();
+            return next();
+        }
 
         // identifier, types and keywords
         if (Character.isLetter(c) || c == '_') {
@@ -198,6 +199,33 @@ public class Tokeniser {
             }
 
             return new Token(TokenClass.INT_LITERAL, sb.toString(), line, column);
+        }
+
+        // char literal
+        if (c == '\'') {
+            StringBuilder sb = new StringBuilder();
+            sb.append(c);
+            c = scanner.peek();
+
+            while (c != '\'') {
+                scanner.next();
+                sb.append(c);
+                c = scanner.peek();
+            }
+
+            if (Character.isLetterOrDigit(c)) {
+                return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
+            } else switch (sb.toString()) {
+                case "\t":
+                    return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
+
+            }
+
+//            if (Character.isLetterOrDigit(c) && scanner.peek() == '\'') {
+//                return new Token(TokenClass.CHAR_LITERAL, (String) c, line, column);
+//            } else {
+//
+//            }
         }
 
         // logical operators
