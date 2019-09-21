@@ -58,7 +58,20 @@ public class Tokeniser {
         if (Character.isWhitespace(c))
             return next();
 
-        // identifier
+        // skip comments
+        if (c == '/' && scanner.peek() == '/') {
+            scanner.next();
+            c = scanner.peek();
+
+            while (c != '\n') {
+                scanner.next();
+                c = scanner.peek();
+            }
+
+            return next();
+        }
+
+        // identifier, types and keywords
         if (Character.isLetter(c) || c == '_') {
             StringBuilder sb = new StringBuilder();
             Token token;
@@ -191,6 +204,12 @@ public class Tokeniser {
             } else
                 return new Token(TokenClass.ASSIGN, line, column);
 
+        // !=
+        if (c == '!' && scanner.peek() == '=') {
+            scanner.next();
+            return new Token(TokenClass.NE, line, column);
+        }
+
         // < and <=
         if (c == '<')
             if (scanner.peek() == '=') {
@@ -222,9 +241,6 @@ public class Tokeniser {
         // struct member access
         if (c == '.')
             return new Token(TokenClass.DOT, line, column);
-
-        // ... to be completed
-
 
         // if we reach this point, it means we did not recognise a valid token
         error(c, line, column);
