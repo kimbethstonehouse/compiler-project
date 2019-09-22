@@ -2,23 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6e608816-35a9-44f8-a5c1-33cda070843c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/comparisons.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/delimiters.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/identifiers.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/logical.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/multi_line_comments.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/operators.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/single_line_comments.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/struct.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/types.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/literals.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/lexer/Tokeniser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/lexer/Tokeniser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lexer/Tokeniser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Tokeniser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/for_loop.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/keywords.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/if_then_else.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/multi_line_comment.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/nested_if.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/single_line_comment.c" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,7 +37,7 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
-      <option name="PROGRAM_PARAMETERS" value="-lexer tests/single_line_comments.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-lexer tests/literals.c dummy.out" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -86,5 +73,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
+          <line>213</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

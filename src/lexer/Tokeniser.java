@@ -4,6 +4,7 @@ import lexer.Token.TokenClass;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * @author cdubach
@@ -200,26 +201,57 @@ public class Tokeniser {
 
             return new Token(TokenClass.INT_LITERAL, sb.toString(), line, column);
         }
+//            c = scanner.next();
+//            if (c == '\\') {
+//                c = scanner.next();
+//                if (c == '\'' && scanner.peek() == '\'') {
+//                    return new Token(TokenClass.CHAR_LITERAL, "\'", line, column);
+//                }
+//            }
+//
 
         // char literal
         if (c == '\'') {
-            StringBuilder sb = new StringBuilder();
-            sb.append(c);
-            c = scanner.peek();
-
-            while (c != '\'') {
+            c = scanner.next();
+            if (Character.isDefined(c) && scanner.peek() == '\'') {
                 scanner.next();
+                return new Token(TokenClass.CHAR_LITERAL, Character.toString(c), line, column);
+            } else {
+                StringBuilder sb = new StringBuilder();
                 sb.append(c);
-                c = scanner.peek();
+
+                while (scanner.peek() != '\'') {
+                    c = scanner.next();
+                    sb.append(c);
+                }
+
+                scanner.next();
+
+                String[] escapes = {"\\t", "\\b", "\\n", "\\r", "\\f", "\\\"", "\\\\", "\\0"};
+                for (String escapeChar : escapes) {
+                    if (sb.toString().equals(escapeChar)) {
+                        return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
+                    }
+                }
             }
 
-            if (Character.isLetterOrDigit(c)) {
-                return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
-            } else switch (sb.toString()) {
-                case "\t":
-                    return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
-
-            }
+//            StringBuilder sb = new StringBuilder();
+//            sb.append(c);
+//            c = scanner.peek();
+//
+//            while (c != '\'') {
+//                scanner.next();
+//                sb.append(c);
+//                c = scanner.peek();
+//            }
+//
+//            if (Character.isLetterOrDigit(c)) {
+//                return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
+//            } else switch (sb.toString()) {
+//                case "\t":
+//                    return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
+//
+//            }
 
 //            if (Character.isLetterOrDigit(c) && scanner.peek() == '\'') {
 //                return new Token(TokenClass.CHAR_LITERAL, (String) c, line, column);
