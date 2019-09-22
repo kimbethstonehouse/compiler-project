@@ -62,24 +62,24 @@ public class Tokeniser {
         // single line
         if (c == '/' && scanner.peek() == '/') {
             scanner.next();
-            c = scanner.peek();
+            c = scanner.next();
 
             while (c != '\n') {
-                scanner.next();
-                c = scanner.peek();
+                c = scanner.next();
             }
 
             return next();
         }
         // multiline
         if (c == '/' && scanner.peek() == '*') {
+            scanner.next();
             c = scanner.next();
 
             while (!(c == '*' && scanner.peek() == '/')) {
                 c = scanner.next();
             }
 
-            c = scanner.next();
+            scanner.next();
             return next();
         }
 
@@ -229,10 +229,14 @@ public class Tokeniser {
         }
 
         // logical operators
-        if (c == '&' && scanner.peek() == '&')
+        if (c == '&' && scanner.peek() == '&') {
+            scanner.next();
             return new Token(TokenClass.AND, line, column);
-        if (c == '|' && scanner.peek() == '|')
+        }
+        if (c == '|' && scanner.peek() == '|') {
+            scanner.next();
             return new Token(TokenClass.OR, line, column);
+        }
 
         // comparisons
         // = and ==
