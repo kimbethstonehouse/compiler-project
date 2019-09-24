@@ -1,7 +1,22 @@
-'c';
-'9';
-'_';
-'A';
+'' // gcc says invalid
+"" // gcc says ok
+
+// strings
+"\t";
+"\b"
+"\n"
+"\r"
+"\f"
+"\'"
+"\""
+"\\"
+"\0"
+"String \\hello \\"
+"String with naughty characters in \n"
+"\" hi dear\" she said"
+
+// char literals
+// allowed
 '\t';
 '\b';
 '\n';
@@ -12,9 +27,13 @@
 '\\';
 '\0';
 'A';
-'AB'; // should give an error
-'\np'; // error
+'c';
+'9';
+'_';
+'A';
 
-"hi \"hello\""
-"this is a string"
-"newline \n"
+// errors
+'xxx';
+'AB';
+'\np';
+

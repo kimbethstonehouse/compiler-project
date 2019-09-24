@@ -5,6 +5,7 @@ import lexer.Token.TokenClass;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author cdubach
@@ -14,8 +15,9 @@ public class Tokeniser {
     private Scanner scanner;
 
     private int error = 0;
+
     public int getErrorCount() {
-	return this.error;
+        return this.error;
     }
 
     public Tokeniser(Scanner scanner) {
@@ -23,15 +25,15 @@ public class Tokeniser {
     }
 
     private void error(char c, int line, int col) {
-        System.out.println("Lexing error: unrecognised character ("+c+") at "+line+":"+col);
-	error++;
+        System.out.println("Lexing error: unrecognised character (" + c + ") at " + line + ":" + col);
+        error++;
     }
 
 
     public Token nextToken() {
         Token result;
         try {
-             result = next();
+            result = next();
         } catch (EOFException eof) {
             // end of file, nothing to worry about, just return EOF token
             return new Token(TokenClass.EOF, scanner.getLine(), scanner.getColumn());
@@ -171,27 +173,32 @@ public class Tokeniser {
         // string literal
         if (c == '\"') {
             StringBuilder sb = new StringBuilder();
+            // skip first "
             c = scanner.next();
 
             while (c != '\"') {
-                if (c == '\\' && scanner.peek() == '\"') {
-                    // skip the escape char
-                    // and append the char to the string
-                    c = scanner.next();
-                    sb.append(c);
-                    c = scanner.next();
-                } else {
+                // escape character is always paired with the
+                // character to escape - deal with them both
+                // at the same time to avoid complications
+                if (c == '\\') {
+                    // skip escape character
                     sb.append(c);
                     c = scanner.next();
                 }
+
+                sb.append(c);
+                c = scanner.next();
             }
 
+            // skip final '
+            scanner.next();
             return new Token(TokenClass.STRING_LITERAL, sb.toString(), line, column);
         }
 
-        // int literal
+        // int literal - exactly as in slides
         if (Character.isDigit(c)) {
             StringBuilder sb = new StringBuilder();
+
             sb.append(c);
             c = scanner.peek();
 
@@ -206,25 +213,36 @@ public class Tokeniser {
 
         // char literal
         if (c == '\'') {
+            StringBuilder sb = new StringBuilder();
+            // skip first '
             c = scanner.next();
-            if (c == '\\') {
-                StringBuilder sb = new StringBuilder();
-                sb.append(c);
-                // skip over escape character
-                c = scanner.next();
-                sb.append(c);
 
-                String[] escapes = {"\\t", "\\b", "\\n", "\\r", "\\f", "\\'", "\\\"", "\\\\", "\\0"};
-                for (String escapeChar : escapes) {
-                    if (sb.toString().equals(escapeChar) && scanner.peek() == '\'') {
-                        scanner.next();
-                        return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
-                    }
+            while (c != '\'') {
+                // escape character is always paired with the
+                // character to escape - deal with them both
+                // at the same time to avoid complications
+                if (c == '\\') {
+                    // skip escape character
+                    sb.append(c);
+                    c = scanner.next();
                 }
-            } else if (Character.isDefined(c) && scanner.peek() == '\'') {
-                scanner.next();
-                return new Token(TokenClass.CHAR_LITERAL, Character.toString(c), line, column);
+
+                sb.append(c);
+                c = scanner.next();
             }
+
+            // skip final '
+            scanner.next();
+
+            // handle special characters first
+            List<String> specialChars = Arrays.asList("\\t", "\\b", "\\n", "\\r", "\\f", "\\'", "\\\"", "\\\\", "\\0");
+            if (specialChars.contains(sb.toString()))
+                return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
+                // then regular characters
+            else if (sb.toString().length() == 1)
+                return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
+                // then errors
+            else return new Token(TokenClass.INVALID, "'" + sb.toString() + "'", line, column);
         }
 
         // logical operators
@@ -289,6 +307,4 @@ public class Tokeniser {
         error(c, line, column);
         return new Token(TokenClass.INVALID, line, column);
     }
-
-
 }
