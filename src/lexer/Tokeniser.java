@@ -73,6 +73,7 @@ public class Tokeniser {
 
             return next();
         }
+
         // multiline
         if (c == '/' && scanner.peek() == '*') {
             scanner.next();
@@ -89,7 +90,6 @@ public class Tokeniser {
         // identifier, types and keywords
         if (Character.isLetter(c) || c == '_') {
             StringBuilder sb = new StringBuilder();
-            Token token;
             sb.append(c);
             c = scanner.peek();
 
@@ -101,57 +101,37 @@ public class Tokeniser {
 
             switch (sb.toString()) {
                 case "int":
-                    token = new Token(TokenClass.INT, line, column);
-                    break;
+                    return new Token(TokenClass.INT, line, column);
                 case "void":
-                    token = new Token(TokenClass.VOID, line, column);
-                    break;
+                    return new Token(TokenClass.VOID, line, column);
                 case "char":
-                    token = new Token(TokenClass.CHAR, line, column);
-                    break;
+                    return new Token(TokenClass.CHAR, line, column);
                 case "if":
-                    token = new Token(TokenClass.IF, line, column);
-                    break;
+                    return new Token(TokenClass.IF, line, column);
                 case "else":
-                    token = new Token(TokenClass.ELSE, line, column);
-                    break;
+                    return new Token(TokenClass.ELSE, line, column);
                 case "while":
-                    token = new Token(TokenClass.WHILE, line, column);
-                    break;
+                    return new Token(TokenClass.WHILE, line, column);
                 case "return":
-                    token = new Token(TokenClass.RETURN, line, column);
-                    break;
+                    return new Token(TokenClass.RETURN, line, column);
                 case "struct":
-                    token = new Token(TokenClass.STRUCT, line, column);
-                    break;
+                    return new Token(TokenClass.STRUCT, line, column);
                 case "sizeof":
-                    token = new Token(TokenClass.SIZEOF, line, column);
-                    break;
+                    return new Token(TokenClass.SIZEOF, line, column);
                 default:
-                    token = new Token(TokenClass.IDENTIFIER, sb.toString(), line, column);
-                    break;
+                    return new Token(TokenClass.IDENTIFIER, sb.toString(), line, column);
             }
-
-            return token;
         }
 
         // delimiters
-        if (c == '{')
-            return new Token(TokenClass.LBRA, line, column);
-        if (c == '}')
-            return new Token(TokenClass.RBRA, line, column);
-        if (c == '(')
-            return new Token(TokenClass.LPAR, line, column);
-        if (c == ')')
-            return new Token(TokenClass.RPAR, line, column);
-        if (c == '[')
-            return new Token(TokenClass.LSBR, line, column);
-        if (c == ']')
-            return new Token(TokenClass.RSBR, line, column);
-        if (c == ';')
-            return new Token(TokenClass.SC, line, column);
-        if (c == ',')
-            return new Token(TokenClass.COMMA, line, column);
+        if (c == '{') return new Token(TokenClass.LBRA, line, column);
+        if (c == '}') return new Token(TokenClass.RBRA, line, column);
+        if (c == '(') return new Token(TokenClass.LPAR, line, column);
+        if (c == ')') return new Token(TokenClass.RPAR, line, column);
+        if (c == '[') return new Token(TokenClass.LSBR, line, column);
+        if (c == ']') return new Token(TokenClass.RSBR, line, column);
+        if (c == ';') return new Token(TokenClass.SC, line, column);
+        if (c == ',') return new Token(TokenClass.COMMA, line, column);
 
         // include
         if (c == '#') {
@@ -163,6 +143,7 @@ public class Tokeniser {
                     scanner.next();
                 } else {
                     error(c, line, column);
+                    return new Token(TokenClass.INVALID, line, column);
                 }
             }
 
@@ -190,8 +171,6 @@ public class Tokeniser {
                 c = scanner.next();
             }
 
-            // skip final '
-            scanner.next();
             return new Token(TokenClass.STRING_LITERAL, sb.toString(), line, column);
         }
 
@@ -231,9 +210,6 @@ public class Tokeniser {
                 c = scanner.next();
             }
 
-            // skip final '
-            scanner.next();
-
             // handle special characters first
             List<String> specialChars = Arrays.asList("\\t", "\\b", "\\n", "\\r", "\\f", "\\'", "\\\"", "\\\\", "\\0");
             if (specialChars.contains(sb.toString()))
@@ -242,7 +218,10 @@ public class Tokeniser {
             else if (sb.toString().length() == 1)
                 return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
                 // then errors
-            else return new Token(TokenClass.INVALID, "'" + sb.toString() + "'", line, column);
+            else {
+                error(c, line, column);
+                return new Token(TokenClass.INVALID, "'" + sb.toString() + "'", line, column);
+            }
         }
 
         // logical operators
@@ -288,20 +267,14 @@ public class Tokeniser {
 
 
         // operators
-        if (c == '+')
-            return new Token(TokenClass.PLUS, line, column);
-        if (c == '-')
-            return new Token(TokenClass.MINUS, line, column);
-        if (c == '*')
-            return new Token(TokenClass.ASTERIX, line, column);
-        if (c == '/')
-            return new Token(TokenClass.DIV, line, column);
-        if (c == '%')
-            return new Token(TokenClass.REM, line, column);
+        if (c == '+') return new Token(TokenClass.PLUS, line, column);
+        if (c == '-') return new Token(TokenClass.MINUS, line, column);
+        if (c == '*') return new Token(TokenClass.ASTERIX, line, column);
+        if (c == '/') return new Token(TokenClass.DIV, line, column);
+        if (c == '%') return new Token(TokenClass.REM, line, column);
 
         // struct member access
-        if (c == '.')
-            return new Token(TokenClass.DOT, line, column);
+        if (c == '.') return new Token(TokenClass.DOT, line, column);
 
         // if we reach this point, it means we did not recognise a valid token
         error(c, line, column);
