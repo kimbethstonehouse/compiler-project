@@ -16,9 +16,9 @@
 "\" hi dear\" she said"
 
 // int literals
-0
-12093
-721
+0;
+12093;
+721;
 00127
 
 // char literals

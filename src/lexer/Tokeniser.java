@@ -154,7 +154,7 @@ public class Tokeniser {
         // string literal
         if (c == '\"') {
             StringBuilder sb = new StringBuilder();
-            // skip first "
+            sb.append(c);
             c = scanner.next();
 
             while (c != '\"') {
@@ -171,6 +171,7 @@ public class Tokeniser {
                 c = scanner.next();
             }
 
+            sb.append(c);
             return new Token(TokenClass.STRING_LITERAL, sb.toString(), line, column);
         }
 
@@ -193,7 +194,7 @@ public class Tokeniser {
         // char literal
         if (c == '\'') {
             StringBuilder sb = new StringBuilder();
-            // skip first '
+            sb.append(c);
             c = scanner.next();
 
             while (c != '\'') {
@@ -211,16 +212,22 @@ public class Tokeniser {
             }
 
             // handle special characters first
-            List<String> specialChars = Arrays.asList("\\t", "\\b", "\\n", "\\r", "\\f", "\\'", "\\\"", "\\\\", "\\0");
-            if (specialChars.contains(sb.toString()))
+            List<String> specialChars = Arrays.asList("\'\\t", "\'\\b", "\'\\n", "\'\\r", "\'\\f",
+                    "\'\\'", "\'\\\"", "\'\\\\", "\'\\0");
+            if (specialChars.contains(sb.toString())) {
+                sb.append(c);
                 return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
+            }
                 // then regular characters
-            else if (sb.toString().length() == 1)
+            else if (sb.toString().length() == 2) {
+                sb.append(c);
                 return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
+            }
                 // then errors
             else {
                 error(c, line, column);
-                return new Token(TokenClass.INVALID, "'" + sb.toString() + "'", line, column);
+                sb.append(c);
+                return new Token(TokenClass.INVALID, sb.toString(), line, column);
             }
         }
 
