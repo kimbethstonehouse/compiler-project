@@ -43,3 +43,4 @@
 'AB';
 '\np';
 
+"unclosed string

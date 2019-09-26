@@ -135,19 +135,22 @@ public class Tokeniser {
 
         // include
         if (c == '#') {
-            char[] include = {'#', 'i', 'n', 'c', 'l', 'u', 'd', 'e'};
+            StringBuilder sb = new StringBuilder();
+            sb.append(c);
+            c = scanner.peek();
 
-            for (int i = 1; i < include.length; i++) {
+            while (Character.isLetter(c)) {
+                sb.append(c);
+                scanner.next();
                 c = scanner.peek();
-                if (c == include[i]) {
-                    scanner.next();
-                } else {
-                    error(c, line, column);
-                    return new Token(TokenClass.INVALID, line, column);
-                }
             }
 
-            return new Token(TokenClass.INCLUDE, line, column);
+            if (sb.toString().equals("#include")) {
+                return new Token(TokenClass.INCLUDE, line, column);
+            } else {
+                error(c, line, column);
+                return new Token(TokenClass.INVALID, sb.toString(), line, column);
+            }
         }
 
         // literals
@@ -155,7 +158,11 @@ public class Tokeniser {
         if (c == '\"') {
             StringBuilder sb = new StringBuilder();
             sb.append(c);
-            c = scanner.next();
+            try { c = scanner.next(); }
+            catch (EOFException e) {
+                error(c, line, column);
+                return new Token(TokenClass.INVALID, sb.toString(), line, column);
+            }
 
             while (c != '\"') {
                 // escape character is always paired with the
@@ -164,11 +171,19 @@ public class Tokeniser {
                 if (c == '\\') {
                     // skip escape character
                     sb.append(c);
-                    c = scanner.next();
+                    try { c = scanner.next(); }
+                    catch (EOFException e) {
+                        error(c, line, column);
+                        return new Token(TokenClass.INVALID, sb.toString(), line, column);
+                    }
                 }
 
                 sb.append(c);
-                c = scanner.next();
+                try { c = scanner.next(); }
+                catch (EOFException e) {
+                    error(c, line, column);
+                    return new Token(TokenClass.INVALID, sb.toString(), line, column);
+                }
             }
 
             sb.append(c);
@@ -178,7 +193,6 @@ public class Tokeniser {
         // int literal - exactly as in slides
         if (Character.isDigit(c)) {
             StringBuilder sb = new StringBuilder();
-
             sb.append(c);
             c = scanner.peek();
 
@@ -195,7 +209,11 @@ public class Tokeniser {
         if (c == '\'') {
             StringBuilder sb = new StringBuilder();
             sb.append(c);
-            c = scanner.next();
+            try { c = scanner.next(); }
+            catch (EOFException e) {
+                error(c, line, column);
+                return new Token(TokenClass.INVALID, sb.toString(), line, column);
+            }
 
             while (c != '\'') {
                 // escape character is always paired with the
@@ -204,11 +222,19 @@ public class Tokeniser {
                 if (c == '\\') {
                     // skip escape character
                     sb.append(c);
-                    c = scanner.next();
+                    try { c = scanner.next(); }
+                    catch (EOFException e) {
+                        error(c, line, column);
+                        return new Token(TokenClass.INVALID, sb.toString(), line, column);
+                    }
                 }
 
                 sb.append(c);
-                c = scanner.next();
+                try { c = scanner.next(); }
+                catch (EOFException e) {
+                    error(c, line, column);
+                    return new Token(TokenClass.INVALID, sb.toString(), line, column);
+                }
             }
 
             // handle special characters first
