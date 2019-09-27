@@ -2,10 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6e608816-35a9-44f8-a5c1-33cda070843c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/tests/lone_assign.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_asterix.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_char.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_div.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_equal.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_ge.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_gt.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_identifier.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_include.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_int.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_keyword.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_le.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_lt.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_minus.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_plus.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_rem.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lone_string.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/lexer/Scanner.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/lexer/Scanner.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/lexer/Tokeniser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/lexer/Tokeniser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lexer/Scanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Scanner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lexer/Tokeniser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Tokeniser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/include.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/include.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/keywords.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/keywords.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/literals.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/literals.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.c" afterDir="false" />
     </list>
@@ -97,73 +117,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>208</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>209</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>210</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>211</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>231</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>221</line>
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>222</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>223</line>
-          <option name="timeStamp" value="37" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>224</line>
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>225</line>
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>226</line>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>227</line>
-          <option name="timeStamp" value="42" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>228</line>
-          <option name="timeStamp" value="44" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>229</line>
-          <option name="timeStamp" value="45" />
+          <line>147</line>
+          <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

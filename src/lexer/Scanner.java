@@ -38,6 +38,11 @@ public class Scanner {
         return (char) r;
     }
 
+    public char safePeek() throws IOException {
+        try { return peek(); }
+        catch (EOFException e) { return '\0'; }
+    }
+
 
     public char next() throws IOException {
         char r;

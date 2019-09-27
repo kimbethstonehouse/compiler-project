@@ -1,8 +1,9 @@
+"\t";
+
 '' // gcc says invalid
 "" // gcc says ok
 
 // string literals
-"\t";
 "\b";
 "\n";
 "\r";
@@ -14,6 +15,7 @@
 "String \\hello \\"
 "String with naughty characters in \n"
 "\" hi dear\" she said"
+"string with invalid \a escape chars"
 
 // int literals
 0;
