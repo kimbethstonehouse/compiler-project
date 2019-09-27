@@ -125,22 +125,19 @@ public class Tokeniser {
 
         // include
         if (c == '#') {
-            StringBuilder sb = new StringBuilder();
-            sb.append(c);
-            c = scanner.safePeek();
+            char[] include = {'#', 'i', 'n', 'c', 'l', 'u', 'd', 'e'};
 
-            while (Character.isLetter(c)) {
-                sb.append(c);
-                scanner.next();
-                c = scanner.safePeek();
+            for (int i = 1; i < include.length; i++) {
+                c = scanner.peek();
+                if (c == include[i]) {
+                    scanner.next();
+                } else {
+                    error(c, line, column);
+                    return new Token(TokenClass.INVALID, line, column);
+                }
             }
 
-            if (sb.toString().equals("#include")) {
-                return new Token(TokenClass.INCLUDE, line, column);
-            } else {
-                error(c, line, column);
-                return new Token(TokenClass.INVALID, sb.toString(), line, column);
-            }
+            return new Token(TokenClass.INCLUDE, line, column);
         }
 
         // literals
