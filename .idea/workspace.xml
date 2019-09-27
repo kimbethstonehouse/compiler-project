@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6e608816-35a9-44f8-a5c1-33cda070843c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lexer/Scanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Scanner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lexer/Tokeniser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Tokeniser.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,6 +18,7 @@
   <component name="ProjectId" id="1R3kCEbsPDUxSdOYTkTwzYN7TcB" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
@@ -87,16 +89,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/lexer/Tokeniser.java</url>
-          <line>144</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

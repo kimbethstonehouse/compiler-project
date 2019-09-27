@@ -32,17 +32,11 @@ public class Scanner {
 
         int r = input.read();
         if (r == -1)
-            throw new EOFException();
+            return '\0';
 
         peeked = r;
         return (char) r;
     }
-
-    public char safePeek() throws IOException {
-        try { return peek(); }
-        catch (EOFException e) { return '\0'; }
-    }
-
 
     public char next() throws IOException {
         char r;
