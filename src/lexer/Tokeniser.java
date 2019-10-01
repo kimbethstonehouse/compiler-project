@@ -63,7 +63,7 @@ public class Tokeniser {
 
         // skip comments
         // single line
-        if (c == '/' && scanner.safePeek() == '/') {
+        if (c == '/' && scanner.peek() == '/') {
             scanner.next();
             c = scanner.next();
 
@@ -75,12 +75,17 @@ public class Tokeniser {
         }
 
         // multiline
-        if (c == '/' && scanner.safePeek() == '*') {
+        if (c == '/' && scanner.peek() == '*') {
             scanner.next();
             c = scanner.next();
 
-            while (!(c == '*' && scanner.safePeek() == '/')) {
-                c = scanner.next();
+            while (!(c == '*' && scanner.peek() == '/')) {
+                try { c = scanner.next(); }
+                catch (EOFException e) {
+                    // unterminated comment
+                    error(c, line, column);
+                    return new Token(TokenClass.INVALID, line, column);
+                }
             }
 
             scanner.next();
@@ -91,12 +96,12 @@ public class Tokeniser {
         if (Character.isLetter(c) || c == '_') {
             StringBuilder sb = new StringBuilder();
             sb.append(c);
-            c = scanner.safePeek();
+            c = scanner.peek();
 
             while (Character.isLetterOrDigit(c) || c == '_') {
                 sb.append(c);
                 scanner.next();
-                c = scanner.safePeek();
+                c = scanner.peek();
             }
 
             switch (sb.toString()) {
@@ -145,6 +150,9 @@ public class Tokeniser {
         if (c == '\"') {
             StringBuilder sb = new StringBuilder();
             sb.append(c);
+
+            // if there is no next character,
+            // throw unterminated string error
             try { c = scanner.next(); }
             catch (EOFException e) {
                 error(c, line, column);
@@ -152,20 +160,21 @@ public class Tokeniser {
             }
 
             while (c != '\"') {
-                // escape character is always paired with the
-                // character to escape - deal with them both
-                // at the same time to avoid complications
+                // escape character is paired with the character to escape, so
+                // deal with them both at the same time to avoid complications
                 if (c == '\\') {
-                    List<String> specialChars = Arrays.asList("\\t", "\\b", "\\n", "\\r", "\\f",
-                            "\\\'", "\\\"", "\\\\", "\\0");
-                    char next = scanner.safePeek();
-                    StringBuilder escapeChar = new StringBuilder();
-                    escapeChar.append(c);
-                    escapeChar.append(next);
-                    if (specialChars.contains(escapeChar.toString())) {
+                    List<Character> specialChars = Arrays.asList('t', 'b', 'n', 'r', 'f', '\'', '\"', '\\', '0');
+
+                    try {
                         sb.append(c);
                         c = scanner.next();
-                    } else {
+                        if (!specialChars.contains(c)) {
+                            // illegal escape character
+                            error(c, line, column);
+                            return new Token(TokenClass.INVALID, sb.toString(), line, column);
+                        }
+                    } catch (EOFException e) {
+                        // unterminated string, return immediately
                         error(c, line, column);
                         return new Token(TokenClass.INVALID, sb.toString(), line, column);
                     }
@@ -174,6 +183,7 @@ public class Tokeniser {
                 sb.append(c);
                 try { c = scanner.next(); }
                 catch (EOFException e) {
+                    // unterminated string, return immediately
                     error(c, line, column);
                     return new Token(TokenClass.INVALID, sb.toString(), line, column);
                 }
@@ -187,12 +197,12 @@ public class Tokeniser {
         if (Character.isDigit(c)) {
             StringBuilder sb = new StringBuilder();
             sb.append(c);
-            c = scanner.safePeek();
+            c = scanner.peek();
 
             while (Character.isDigit(c)) {
                 sb.append(c);
                 scanner.next();
-                c = scanner.safePeek();
+                c = scanner.peek();
             }
 
             return new Token(TokenClass.INT_LITERAL, sb.toString(), line, column);
@@ -231,31 +241,25 @@ public class Tokeniser {
             }
 
             // handle special characters first
-            List<String> specialChars = Arrays.asList("\'\\t", "\'\\b", "\'\\n", "\'\\r", "\'\\f",
-                    "\'\\'", "\'\\\"", "\'\\\\", "\'\\0");
-            if (specialChars.contains(sb.toString())) {
-                sb.append(c);
-                return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
-            }
+            sb.append(c);
+            List<String> specialChars = Arrays.asList("\'\\t\'", "\'\\b\'", "\'\\n\'", "\'\\r\'", "\'\\f\'",
+                    "\'\\'\'", "\'\\\"\'", "\'\\\\\'", "\'\\0\'");
+            if (specialChars.contains(sb.toString())) { return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column); }
                 // then regular characters
-            else if (sb.toString().length() == 2) {
-                sb.append(c);
-                return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column);
-            }
+            else if (sb.toString().length() == 3) { return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column); }
                 // then errors
             else {
                 error(c, line, column);
-                sb.append(c);
                 return new Token(TokenClass.INVALID, sb.toString(), line, column);
             }
         }
 
         // logical operators
-        if (c == '&' && scanner.safePeek() == '&') {
+        if (c == '&' && scanner.peek() == '&') {
             scanner.next();
             return new Token(TokenClass.AND, line, column);
         }
-        if (c == '|' && scanner.safePeek() == '|') {
+        if (c == '|' && scanner.peek() == '|') {
             scanner.next();
             return new Token(TokenClass.OR, line, column);
         }
@@ -263,21 +267,21 @@ public class Tokeniser {
         // comparisons
         // = and ==
         if (c == '=')
-            if (scanner.safePeek() == '=') {
+            if (scanner.peek() == '=') {
                 scanner.next();
                 return new Token(TokenClass.EQ, line, column);
             } else
                 return new Token(TokenClass.ASSIGN, line, column);
 
         // !=
-        if (c == '!' && scanner.safePeek() == '=') {
+        if (c == '!' && scanner.peek() == '=') {
             scanner.next();
             return new Token(TokenClass.NE, line, column);
         }
 
         // < and <=
         if (c == '<')
-            if (scanner.safePeek() == '=') {
+            if (scanner.peek() == '=') {
                 scanner.next();
                 return new Token(TokenClass.LE, line, column);
             } else
@@ -285,7 +289,7 @@ public class Tokeniser {
 
         // > and >=
         if (c == '>')
-            if (scanner.safePeek() == '=') {
+            if (scanner.peek() == '=') {
                 scanner.next();
                 return new Token(TokenClass.GE, line, column);
             } else
