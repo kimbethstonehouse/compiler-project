@@ -1,0 +1,80 @@
+# #  comment
+# () grouping
+# [] optional
+# *  zero or more
+# +  one or more
+# |  alternative
+
+
+program    ::= includeRep structdeclRep vardeclRep (fundecl)* EOF
+
+include    ::= "#include" STRING_LITERAL
+includeRep ::= include includeRep | epsilon
+
+structdecl ::= structtype "{" (vardecl)+ "}" ";"    # structure declaration
+structdeclRep ::= structdecl structdeclRep
+
+vardecl    ::= type IDENT ";"                       # normal declaration, e.g. int a;
+             | type IDENT "[" INT_LITERAL "]" ";"   # array declaration, e.g. int a[2];
+vardeclRep ::= vardecl vardeclRep
+
+fundecl    ::= type IDENT "(" params ")" block    # function declaration
+fundeclRep ::= fundecl fundeclRep
+
+type       ::= ("int" | "char" | "void" | structtype) ["*"]
+structtype ::= "struct" IDENT
+
+params     ::= [ type IDENT ("," type IDENT)* ]
+
+stmt       ::= block
+             | "while" "(" exp ")" stmt              # while loop
+             | "if" "(" exp ")" stmt ["else" stmt]   # if then else
+             | "return" [exp] ";"                    # return
+             | exp "=" exp ";"                      # assignment
+             | exp ";"                               # expression statement, e.g. a function call
+
+block      ::= "{" (vardecl)* (stmt)* "}"
+
+exp ::= expA opsA
+opsA ::= epsilon | "||" expA opsA
+
+expA ::= expB opsB
+opsB :: = epsilon | "&&" expB opsB
+
+expB ::= expC opsC
+opsC ::= epsilon | "==" expC opsC | "!=" expC opsC
+
+expC ::= expD opsD
+opsD ::= epsilon | "<" expD opsD | "<=" expD opsD | ">" expD opsD | ">=" expD opsD
+
+expD ::= expE opsE
+opsE ::= epsilon | "+" expE | "-" expE
+
+expE ::= expF opsF
+opsF ::= epsilon | "*" expE | "/" expE | "%" expE
+
+expF ::= expG | "-" expF
+
+expG ::= "(" exp ")" | IDENT | INT_LITERAL | arrayaccess | fieldaccess | valueat | funcall | sizeof | typecast | CHAR_LITERAL | STRING_LITERAL
+
+funcall      ::= IDENT "(" [ exp ("," exp)* ] ")"
+arrayaccess  ::= expG "[" expG "]"                  # array access
+fieldaccess  ::= expG "." IDENT                    # structure field member access
+valueat      ::= "*" exp                          # Value at operator (pointer indirection)
+sizeof       ::= "sizeof" "(" type ")"            # size of type
+typecast     ::= "(" type ")" exp                 # type casting
+
+
+
+
+
+
+
+exp        -> "(" exp ")"  exp'
+             | (IDENT | INT_LITERAL) exp'
+             | "-" exp exp'
+             | CHAR_LITERAL exp'
+             | STRING_LITERAL exp'
+             | arrayaccess exp' | fieldaccess exp' | valueat exp' | funcall exp' | sizeof exp' | typecast exp' .
+
+exp' -> (">" | "<" | ">=" | "<=" | "!=" | "==" | "+" | "-" | "/" | "*" | "%" | "||" | "&&") exp exp' | ε .
