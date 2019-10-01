@@ -1,0 +1,69 @@
+# #  comment
+# () grouping
+# [] optional
+# *  zero or more
+# +  one or more
+# |  alternative
+
+Qs: remove left recursion??
+Operator precedence done correctly in exp??
+what about INT_LITERAL and IDENT?? why separate??
+
+
+program    -> (include)* (structdecl)* (vardecl)* (fundecl)* EOF .
+
+include    -> "#include" STRING_LITERAL .
+
+structdecl -> structtype "{" (vardecl)+ "}" ";" .
+
+vardecl    -> type IDENT .
+vardeclRest  -> ";" | "LBRA" INT_LITERAL "RBRA" ";" .
+
+fundecl    -> type IDENT "(" params ")" block . # not sure here
+
+type       -> ("int" | "char" | "void" | structtype) starOpt .
+starOpt -> "*" | epsilon
+
+structtype -> "struct" IDENT .
+
+params     -> [ type IDENT ("," type IDENT)* ] .
+
+stmt       -> block
+             | "while" "(" exp ")" stmt
+             | "if" "(" exp ")" stmt ["else" stmt]
+             | "return" [exp] ";"
+             | exp "=" exp ";"
+             | exp ";" .
+
+block      -> "{" (vardecl)* (stmt)* "}" .
+
+exp -> expA opsA .
+opsA -> epsilon | "||" expA opsA .
+
+expA -> expB opsB .
+opsB -> epsilon | "&&" expB OpsB .
+
+expB -> expC opsC .
+opsC -> epsilon | "==" expC OpsC | "!=" expC OpsC .
+
+expC -> expD opsD .
+opsD -> epsilon | "<" expD OpsD | "<=" expD OpsD
+              | ">" expD OpsD | ">=" expD OpsD .
+
+expD -> expE opsE .
+opsE -> epsilon | "+" expE OpsE | "-" expE OpsE .
+
+expE -> expF opsF .
+opsF -> epsilon | "*" expF opsF | "/" expF opsF | "%" expF opsF .
+
+expF -> expG | "-" expF .
+
+expG -> "(" exp ")" | IDENT | INT_LITERAL | CHAR_LITERAL | STRING_LITERAL |
+            arrayaccess | fieldaccess | valueat | funcall | sizeof | typecast .
+
+funcall      -> IDENT "(" [ exp ("," exp)* ] ")" .
+arrayaccess  -> exp ""LBRA"" exp "RBRA" .
+fieldaccess  -> exp "DOT" IDENT .
+valueat      -> "*" exp .
+sizeof       -> "sizeof" "(" type ")" .
+typecast     -> "(" type ")" exp .
