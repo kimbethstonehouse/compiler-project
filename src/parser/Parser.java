@@ -149,7 +149,9 @@ public class Parser {
     }
 
     private void parseVarDecls() {
-        if (accept(TokenClass.INT,TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {
+        if (accept(TokenClass.INT,TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)
+                && (lookAhead(2).tokenClass == TokenClass.SC || lookAhead(3).tokenClass == TokenClass.RSBR
+                || lookAhead(3).tokenClass == TokenClass.SC || lookAhead(4).tokenClass == TokenClass.RSBR)) {
             parseType();
             expect(TokenClass.IDENTIFIER);
             parseVarDeclRest();
@@ -210,7 +212,7 @@ public class Parser {
 
     private void parseStructType() {
         if (accept(TokenClass.STRUCT)) {
-            expect(TokenClass.STRUCT);
+            nextToken();
             expect(TokenClass.IDENTIFIER);
         }
     }
