@@ -209,8 +209,10 @@ public class Parser {
     }
 
     private void parseStructType() {
-        expect(TokenClass.STRUCT);
-        expect(TokenClass.IDENTIFIER);
+        if (accept(TokenClass.STRUCT)) {
+            expect(TokenClass.STRUCT);
+            expect(TokenClass.IDENTIFIER);
+        }
     }
 
     private void parseParams() {
@@ -445,10 +447,12 @@ public class Parser {
     }
 
     public void parseFunCall() {
-        expect(TokenClass.IDENTIFIER);
-        expect(TokenClass.LPAR);
-        parseArgList();
-        expect(TokenClass.RPAR);
+        if (accept(TokenClass.IDENTIFIER)) {
+            nextToken();
+            expect(TokenClass.LPAR);
+            parseArgList();
+            expect(TokenClass.RPAR);
+        }
     }
 
     public void parseArgList() {
