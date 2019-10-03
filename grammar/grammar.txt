@@ -6,20 +6,20 @@
 # |  alternative
 
 
-program    ::= includeRep structdeclRep vardeclRep (fundecl)* EOF
+program    ::= includeRep structdeclRep vardeclRep fundeclRep EOF
 
 include    ::= "#include" STRING_LITERAL
 includeRep ::= include includeRep | epsilon
 
-structdecl ::= structtype "{" (vardecl)+ "}" ";"    # structure declaration
-structdeclRep ::= structdecl structdeclRep
+structdecl ::= structtype "{" (vardecl)+ "}" ";"
+structdeclRep ::= structdecl structdeclRep | epsilon
 
-vardecl    ::= type IDENT ";"                       # normal declaration, e.g. int a;
-             | type IDENT "[" INT_LITERAL "]" ";"   # array declaration, e.g. int a[2];
-vardeclRep ::= vardecl vardeclRep
+vardecl    ::= type IDENT ";"        
+             | type IDENT "[" INT_LITERAL "]" ";" 
+vardeclRep ::= vardecl vardeclRep | epsilon
 
 fundecl    ::= type IDENT "(" params ")" block    # function declaration
-fundeclRep ::= fundecl fundeclRep
+fundeclRep ::= fundecl fundeclRep | epsilon
 
 type       ::= ("int" | "char" | "void" | structtype) ["*"]
 structtype ::= "struct" IDENT
@@ -55,26 +55,12 @@ opsF ::= epsilon | "*" expE | "/" expE | "%" expE
 
 expF ::= expG | "-" expF
 
-expG ::= "(" exp ")" | IDENT | INT_LITERAL | arrayaccess | fieldaccess | valueat | funcall | sizeof | typecast | CHAR_LITERAL | STRING_LITERAL
+expG ::= expH | "[" expH "]" | "." IDENT
+
+expH ::= "(" exp ")" | IDENT | INT_LITERAL | valueat | funcall | sizeof | typecast | CHAR_LITERAL | STRING_LITERAL
 
 funcall      ::= IDENT "(" [ exp ("," exp)* ] ")"
-arrayaccess  ::= expG "[" expG "]"                  # array access
-fieldaccess  ::= expG "." IDENT                    # structure field member access
 valueat      ::= "*" exp                          # Value at operator (pointer indirection)
 sizeof       ::= "sizeof" "(" type ")"            # size of type
 typecast     ::= "(" type ")" exp                 # type casting
 
-
-
-
-
-
-
-exp        -> "(" exp ")"  exp'
-             | (IDENT | INT_LITERAL) exp'
-             | "-" exp exp'
-             | CHAR_LITERAL exp'
-             | STRING_LITERAL exp'
-             | arrayaccess exp' | fieldaccess exp' | valueat exp' | funcall exp' | sizeof exp' | typecast exp' .
-
-exp' -> (">" | "<" | ">=" | "<=" | "!=" | "==" | "+" | "-" | "/" | "*" | "%" | "||" | "&&") exp exp' | ε .

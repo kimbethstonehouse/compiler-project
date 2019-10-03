@@ -138,14 +138,33 @@ public class Parser {
     }
 
     private void parseStructDecls() {
-        // to be completed ...
+        if (accept(TokenClass.STRUCT)) {
+            parseStructType();
+            expect(TokenClass.LBRA);
+            parseVarDeclPosClosure();
+            expect(TokenClass.RBRA);
+            expect(TokenClass.SC);
+            parseStructDecls();
+        }
     }
 
     private void parseVarDecls() {
         // to be completed ...
     }
 
+    private void parseVarDeclPosClosure() {
+        // to be completed ...
+    }
+
     private void parseFunDecls() {
+        // to be completed ...
+    }
+
+    private void parseFunDeclRep() {
+        // to be completed ...
+    }
+
+    private void parseStructType() {
         // to be completed ...
     }
 

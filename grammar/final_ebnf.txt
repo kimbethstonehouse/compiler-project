@@ -1,0 +1,71 @@
+program    ::= includeRep structdeclRep vardeclRep1 fundeclRep EOF
+
+include    ::= "#include" STRING_LITERAL
+includeRep ::= include includeRep | ε
+
+structdecl ::= structtype "{" vardeclRep2 "}" ";" 
+structdeclRep ::= structdecl structdeclRep | ε 
+
+vardecl    ::= type IDENT vardeclRest 
+vardeclRest ::= ";" | type IDENT "[" INT_LITERAL "]" ";" 
+vardeclRep1 ::= vardecl vardeclRep1 | ε
+vardeclRep2 ::= vardecl vardeclRep2 | else
+
+fundecl    ::= type IDENT "(" params ")" block 
+fundeclRep ::= fundecl fundeclRep | ε 
+
+type       ::= ("int" | "char" | "void" | structtype) typeOpt
+typeOpt    ::= "*" | ε 
+
+structtype ::= struct IDENT 
+
+params     ::= type IDENT paramsRep | ε 
+paramsRep ::= "," type IDENT paramsRep | ε 
+
+stmt       ::= block
+             | while "(" exp ")" stmt 
+             | if "(" exp ")" stmt stmtOpt1 
+             | return stmtOpt2 ";"
+             | exp stmtRest 
+
+stmtRest ::= = exp ";" | ";" 
+stmtOpt1 ::= else stmt | ε 
+stmtOpt2 ::= exp | ε 
+
+block     ::= "{" blockRep1 blockRep2 "}" 
+blockRep1 ::= vardecl blockRep1 | ε 
+blockRep2 ::= stmt blockRep2 | ε 
+
+exp  ::= expA opsA 
+opsA ::= ε | "||" expA opsA 
+
+expA ::= expB opsB 
+opsB ::= ε | "&&" expB opsB 
+
+expB ::= expC opsC 
+opsC ::= ε | "==" expC opsC | "!=" expC opsC 
+
+expC ::= expD opsD 
+opsD ::= ε | "<" expD opsD | "<=" expD opsD | ">" expD opsD | ">=" expD opsD 
+
+expD ::= expE opsE 
+opsE ::= ε | "+" expE | "-" expE 
+
+expE ::= expF opsF 
+opsF ::= ε | "*" expE | "/" expE | "%" expE 
+
+expF ::= expG | "-" expF | sizeof | valueat | typecast
+
+expG ::= expH | "[" expH "]" | "." IDENT | funcall
+
+expH ::= "(" exporType | IDENT | INT_LITERAL | CHAR_LITERAL | STRING_LITERAL 
+exporType ::= exp ")" | type ")" exp
+
+
+funcall ::= IDENT "(" arglist ")" 
+arglist ::= exp argrep | ε
+argrep ::= "," exp argrep | ε
+
+valueat      ::= "*" exp 
+sizeof       ::= sizeof "(" type ")" 
+typecast     ::= "(" type ")" exp

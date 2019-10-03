@@ -37,7 +37,9 @@ exp        ::= "(" exp ")"
              | CHAR_LITERAL
              | STRING_LITERAL
              | exp (">" | "<" | ">=" | "<=" | "!=" | "==" | "+" | "-" | "/" | "*" | "%" | "||" | "&&") exp  # binary operators
-             | arrayaccess | fieldaccess | valueat | funcall | sizeof | typecast
+             | exp "[" exp "]" 
+			 | exp "." IDENT 
+			 | valueat | funcall | sizeof | typecast
 
 funcall      ::= IDENT "(" [ exp ("," exp)* ] ")"
 arrayaccess  ::= exp "[" exp "]"                  # array access
