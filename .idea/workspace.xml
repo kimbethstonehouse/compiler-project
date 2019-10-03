@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6e608816-35a9-44f8-a5c1-33cda070843c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$Mode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lexer/Scanner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lexer/Token$TokenClass.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lexer/Token.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lexer/Tokeniser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/parser/Parser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/util/Position.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/grammar/final_ebnf.txt" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/final_ebnf.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
     </list>

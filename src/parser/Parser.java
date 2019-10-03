@@ -158,7 +158,7 @@ public class Parser {
     }
 
     private void parseVarDeclPosClosure() {
-=
+
     }
 
     private void parseVarDeclRest() {
@@ -297,20 +297,174 @@ public class Parser {
         }
     }
 
-
     private void parseExp() {
-        // to be completed ...
+        parseExpA();
+        parseOpsA();
     }
 
+    private void parseOpsA() {
+        if (accept(TokenClass.OR)) {
+            nextToken();
+            parseExpA();
+            parseOpsA();
+        }
+    }
 
+    private void parseExpA() {
+        parseExpB();
+        parseOpsB();
+    }
 
+    private void parseOpsB() {
+        if (accept(TokenClass.AND)) {
+            nextToken();
+            parseExpB();
+            parseOpsB();
+        }
+    }
 
+    private void parseExpB() {
+        parseExpC();
+        parseOpsC();
+    }
 
+    private void parseOpsC() {
+        if (accept(TokenClass.EQ, TokenClass.NE)) {
+            nextToken();
+            parseExpC();
+            parseOpsC();
+        }
+    }
 
+    private void parseExpC() {
+        parseExpD();
+        parseOpsD();
+    }
 
+    private void parseOpsD() {
+        if (accept(TokenClass.LT, TokenClass.LE, TokenClass.GT, TokenClass.GE)) {
+            nextToken();
+            parseExpD();
+            parseOpsD();
+        }
+    }
 
+    private void parseExpD() {
+        parseExpE();
+        parseOpsE();
+    }
 
+    private void parseOpsE() {
+        if (accept(TokenClass.PLUS, TokenClass.MINUS)) {
+            nextToken();
+            parseExpE();
+            parseOpsE();
+        }
+    }
 
+    private void parseExpE() {
+        parseExpF();
+        parseOpsF();
+    }
 
-    // to be completed ...
+    private void parseOpsF() {
+        if (accept(TokenClass.ASTERIX, TokenClass.DIV, TokenClass.REM)) {
+            nextToken();
+            parseExpF();
+            parseOpsF();
+        }
+    }
+
+    private void parseExpF() {
+        if (accept(TokenClass.MINUS)) {
+            nextToken();
+            parseExpF();
+        } else if (accept(TokenClass.SIZEOF)) {
+            parseSizeOf();
+        } else if (accept(TokenClass.ASTERIX)) {
+            parseValueAt();
+        } else if (accept(TokenClass.LPAR)) {
+            parseTypeCast();
+        } else {
+            parseExpG();
+        }
+    }
+
+    public void parseExpG() {
+        if (accept(TokenClass.LSBR)) {
+            nextToken();
+            parseExpH();
+            expect(TokenClass.RSBR);
+        } else if (accept(TokenClass.DOT)) {
+            nextToken();
+            expect(TokenClass.IDENTIFIER);
+        } else if (accept(TokenClass.IDENTIFIER)) {
+            parseFunCall();
+        } else {
+            parseExpH();
+        }
+    }
+
+    public void parseExpH() {
+        if (accept(TokenClass.LPAR)) {
+            nextToken();
+            parseExpOrType();
+        } else {
+            nextToken();
+        }
+    }
+
+    public void parseExpOrType() {
+        if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {
+            parseType();
+            expect(TokenClass.RPAR);
+            parseExp();
+        } else {
+            parseExp();
+            expect(TokenClass.RPAR);
+        }
+    }
+
+    public void parseValueAt() {
+        expect(TokenClass.ASTERIX);
+        parseExp();
+    }
+
+    public void parseSizeOf() {
+        expect(TokenClass.SIZEOF);
+        expect(TokenClass.LPAR);
+        parseType();
+        expect(TokenClass.RPAR);
+    }
+
+    public void parseTypeCast() {
+        expect(TokenClass.LPAR);
+        parseType();
+        expect(TokenClass.RPAR);
+        parseExp();
+    }
+
+    public void parseFunCall() {
+        expect(TokenClass.IDENTIFIER);
+        expect(TokenClass.LPAR);
+        parseArgList();
+        expect(TokenClass.RPAR);
+    }
+
+    public void parseArgList() {
+        if (accept(TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX,
+                TokenClass.LPAR, TokenClass.LSBR, TokenClass.DOT, TokenClass.IDENTIFIER,
+                TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
+            parseExp();
+            parseArgRep();
+        }
+    }
+
+    public void parseArgRep() {
+        if (accept(TokenClass.COMMA)) {
+            nextToken();
+            parseExp();
+            parseArgRep();
+        }
+    }
 }

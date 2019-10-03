@@ -44,10 +44,10 @@ expC ::= expD opsD
 opsD ::= ε | "<" expD opsD | "<=" expD opsD | ">" expD opsD | ">=" expD opsD 
 
 expD ::= expE opsE 
-opsE ::= ε | "+" expE | "-" expE 
+opsE ::= ε | "+" expE opsE | "-" expE opsE
 
 expE ::= expF opsF 
-opsF ::= ε | "*" expE | "/" expE | "%" expE 
+opsF ::= ε | "*" expE opsF | "/" expE opsF | "%" expE opsF
 
 expF ::= expG | "-" expF | sizeof | valueat | typecast
 
