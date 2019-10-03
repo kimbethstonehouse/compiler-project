@@ -164,15 +164,13 @@ public class Parser {
     private void parseVarDeclRest() {
         if (accept(TokenClass.SC)) {
             nextToken();
-        } else if (accept(TokenClass.INT,TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {
+        } else {
             parseType();
             expect(TokenClass.IDENTIFIER);
             expect(TokenClass.LSBR);
             expect(TokenClass.INT_LITERAL);
             expect(TokenClass.RSBR);
             expect(TokenClass.SC);
-        } else {
-            error(TokenClass.SC, TokenClass.INT,TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT);
         }
     }
 
@@ -213,12 +211,8 @@ public class Parser {
     }
 
     private void parseStructType() {
-        if (accept(TokenClass.STRUCT)) {
-            nextToken();
-            expect(TokenClass.IDENTIFIER);
-        } else {
-            error(TokenClass.STRUCT);
-        }
+        expect(TokenClass.STRUCT);
+        expect(TokenClass.IDENTIFIER);
     }
 
     private void parseParams() {
@@ -227,7 +221,6 @@ public class Parser {
             expect(TokenClass.IDENTIFIER);
             parseParamsRep();
         }
-
     }
 
     private void parseParamsRep() {
@@ -235,12 +228,52 @@ public class Parser {
             nextToken();
             parseType();
             expect(TokenClass.IDENTIFIER);
+            parseParamsRep();
         }
     }
 
     private void parseStmt() {
-
+        if (accept(TokenClass.LBRA)) {
+            parseBlock();
+        } else if (accept(TokenClass.WHILE)) {
+            nextToken();
+            expect(TokenClass.LPAR);
+            parseExp();
+            expect(TokenClass.RPAR);
+            parseStmt();
+        } else if (accept(TokenClass.IF)) {
+            nextToken();
+            expect(TokenClass.LPAR);
+            parseExp();
+            expect(TokenClass.RPAR);
+            parseStmt();
+            parseStmtOpt1();
+        } else if (accept(TokenClass.RETURN)) {
+            nextToken();
+            parseStmtOpt2();
+            expect(TokenClass.SC);
+        } else {
+            nextToken();
+            parseStmtRest();
+        }
     }
+
+    private void parseStmtRest() {
+        // to be completed ...
+    }
+
+    private void parseExp() {
+        // to be completed ...
+    }
+
+    private void parseStmtOpt1() {
+        // to be completed ...
+    }
+
+    private void parseStmtOpt2() {
+        // to be completed ...
+    }
+
 
     private void parseBlock() {
         // to be completed ...
