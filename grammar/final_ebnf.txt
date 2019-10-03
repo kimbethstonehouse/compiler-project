@@ -2,7 +2,7 @@ program    ::= include structdecl vardecl fundecl EOF
 
 include    ::= "#include" STRING_LITERAL include | ε
 
-structdecl ::= structtype "{" vardeclRep2 "}" ";" structdecl | ε 
+structdecl ::= structtype "{" vardeclPosClosure "}" ";" structdecl | ε 
 
 vardecl    ::= type IDENT vardeclRest vardeclPosClosure | e 
 vardeclRest ::= ";" | type IDENT "[" INT_LITERAL "]" ";" 
@@ -28,9 +28,8 @@ stmtRest ::= = exp ";" | ";"
 stmtOpt1 ::= else stmt | ε 
 stmtOpt2 ::= exp | ε 
 
-block     ::= "{" blockRep1 blockRep2 "}" 
-blockRep1 ::= vardecl blockRep1 | ε 
-blockRep2 ::= stmt blockRep2 | ε 
+block     ::= "{" vardecl stmtRep "}" 
+stmtRep ::= stmt stmtRep | ε 
 
 exp  ::= expA opsA 
 opsA ::= ε | "||" expA opsA 

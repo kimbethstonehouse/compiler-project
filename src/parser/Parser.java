@@ -196,11 +196,9 @@ public class Parser {
         } else if (accept(TokenClass.VOID)) {
             nextToken();
             parseTypeOpt();
-        } else if (accept(TokenClass.STRUCT)) {
+        } else {
             parseStructType();
             parseTypeOpt();
-        } else {
-            error(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)
         }
     }
 
@@ -259,25 +257,55 @@ public class Parser {
     }
 
     private void parseStmtRest() {
-        // to be completed ...
+        if (accept(TokenClass.SC)) {
+            nextToken();
+        } else {
+            parseExp();
+            expect(TokenClass.SC);
+        }
     }
+
+    private void parseStmtOpt1() {
+        if (accept(TokenClass.ELSE)) {
+            nextToken();
+            parseStmt();
+        }
+    }
+
+    private void parseStmtOpt2() {
+        if (accept(TokenClass.LBRA, TokenClass.WHILE, TokenClass.IF, TokenClass.RETURN,
+                TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX,
+                TokenClass.LPAR, TokenClass.LSBR, TokenClass.DOT, TokenClass.IDENTIFIER,
+                TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
+            parseExp();
+        }
+    }
+
+    private void parseBlock() {
+        expect(TokenClass.LBRA);
+        parseVarDecls();
+        parseStmtRep();
+        expect(TokenClass.RBRA);
+    }
+
+    private void parseStmtRep() {
+        if (accept(TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX,
+                TokenClass.LPAR, TokenClass.LSBR, TokenClass.DOT, TokenClass.IDENTIFIER,
+                TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
+            parseStmt();
+            parseStmtRep();
+        }
+    }
+
 
     private void parseExp() {
         // to be completed ...
     }
 
-    private void parseStmtOpt1() {
-        // to be completed ...
-    }
-
-    private void parseStmtOpt2() {
-        // to be completed ...
-    }
 
 
-    private void parseBlock() {
-        // to be completed ...
-    }
+
+
 
 
 
