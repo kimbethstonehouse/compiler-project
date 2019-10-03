@@ -149,24 +149,107 @@ public class Parser {
     }
 
     private void parseVarDecls() {
-        // to be completed ...
+        if (accept(TokenClass.INT,TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {
+            parseType();
+            expect(TokenClass.IDENTIFIER);
+            parseVarDeclRest();
+            parseVarDecls();
+        }
     }
 
     private void parseVarDeclPosClosure() {
-        // to be completed ...
+=
+    }
+
+    private void parseVarDeclRest() {
+        if (accept(TokenClass.SC)) {
+            nextToken();
+        } else if (accept(TokenClass.INT,TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {
+            parseType();
+            expect(TokenClass.IDENTIFIER);
+            expect(TokenClass.LSBR);
+            expect(TokenClass.INT_LITERAL);
+            expect(TokenClass.RSBR);
+            expect(TokenClass.SC);
+        } else {
+            error(TokenClass.SC, TokenClass.INT,TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT);
+        }
     }
 
     private void parseFunDecls() {
-        // to be completed ...
+        if (accept(TokenClass.INT,TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {
+            parseType();
+            expect(TokenClass.IDENTIFIER);
+            expect(TokenClass.LPAR);
+            parseParams();
+            expect(TokenClass.RPAR);
+            parseBlock();
+            parseFunDecls();
+        }
     }
 
-    private void parseFunDeclRep() {
-        // to be completed ...
+    private void parseType() {
+        if (accept(TokenClass.INT)) {
+            nextToken();
+            parseTypeOpt();
+        } else if (accept(TokenClass.CHAR)) {
+            nextToken();
+            parseTypeOpt();
+        } else if (accept(TokenClass.VOID)) {
+            nextToken();
+            parseTypeOpt();
+        } else if (accept(TokenClass.STRUCT)) {
+            parseStructType();
+            parseTypeOpt();
+        } else {
+            error(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)
+        }
+    }
+
+    private void parseTypeOpt() {
+        if (accept(TokenClass.ASTERIX)) {
+            nextToken();
+        }
     }
 
     private void parseStructType() {
+        if (accept(TokenClass.STRUCT)) {
+            nextToken();
+            expect(TokenClass.IDENTIFIER);
+        } else {
+            error(TokenClass.STRUCT);
+        }
+    }
+
+    private void parseParams() {
+        if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {
+            parseType();
+            expect(TokenClass.IDENTIFIER);
+            parseParamsRep();
+        }
+
+    }
+
+    private void parseParamsRep() {
+        if (accept(TokenClass.COMMA)) {
+            nextToken();
+            parseType();
+            expect(TokenClass.IDENTIFIER);
+        }
+    }
+
+    private void parseStmt() {
+
+    }
+
+    private void parseBlock() {
         // to be completed ...
     }
+
+
+
+
+
 
     // to be completed ...
 }

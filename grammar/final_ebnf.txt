@@ -1,18 +1,14 @@
-program    ::= includeRep structdeclRep vardeclRep1 fundeclRep EOF
+program    ::= include structdecl vardecl fundecl EOF
 
-include    ::= "#include" STRING_LITERAL
-includeRep ::= include includeRep | ε
+include    ::= "#include" STRING_LITERAL include | ε
 
-structdecl ::= structtype "{" vardeclRep2 "}" ";" 
-structdeclRep ::= structdecl structdeclRep | ε 
+structdecl ::= structtype "{" vardeclRep2 "}" ";" structdecl | ε 
 
-vardecl    ::= type IDENT vardeclRest 
+vardecl    ::= type IDENT vardeclRest vardeclPosClosure | e 
 vardeclRest ::= ";" | type IDENT "[" INT_LITERAL "]" ";" 
-vardeclRep1 ::= vardecl vardeclRep1 | ε
-vardeclRep2 ::= vardecl vardeclRep2 | else
+vardeclPosClosure ::= vardecl vardeclPosClosure | vardecl
 
-fundecl    ::= type IDENT "(" params ")" block 
-fundeclRep ::= fundecl fundeclRep | ε 
+fundecl    ::= type IDENT "(" params ")" block fundecl | ε 
 
 type       ::= ("int" | "char" | "void" | structtype) typeOpt
 typeOpt    ::= "*" | ε 
