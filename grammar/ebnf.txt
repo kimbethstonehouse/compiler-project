@@ -37,9 +37,7 @@ exp        ::= "(" exp ")"
              | CHAR_LITERAL
              | STRING_LITERAL
              | exp (">" | "<" | ">=" | "<=" | "!=" | "==" | "+" | "-" | "/" | "*" | "%" | "||" | "&&") exp  # binary operators
-             | exp "[" exp "]" 
-			 | exp "." IDENT 
-			 | valueat | funcall | sizeof | typecast
+             | arrayaccess | fieldaccess | valueat | funcall | sizeof | typecast
 
 funcall      ::= IDENT "(" [ exp ("," exp)* ] ")"
 arrayaccess  ::= exp "[" exp "]"                  # array access
@@ -47,5 +45,4 @@ fieldaccess  ::= exp "." IDENT                    # structure field member acces
 valueat      ::= "*" exp                          # Value at operator (pointer indirection)
 sizeof       ::= "sizeof" "(" type ")"            # size of type
 typecast     ::= "(" type ")" exp                 # type casting
-
 
