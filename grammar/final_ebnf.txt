@@ -24,7 +24,7 @@ stmt       ::= block
              | "return" stmtOpt2 ";"
              | exp stmtRest
 
-stmtRest ::= "=" exp ";" | ";"
+stmtRest ::
 stmtOpt1 ::= "else" stmt | ε
 stmtOpt2 ::= exp | ε
 

@@ -2,8 +2,43 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6e608816-35a9-44f8-a5c1-33cda070843c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/tests/parser/struct_decl.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/grammar/final_ebnf.txt" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/final_ebnf.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/comparisons.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/delimiters.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/fibonacci.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/identifiers.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/include.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/keywords.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/literals.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/logical.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_assign.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_asterix.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_char.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_div.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_equal.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_ge.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_gt.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_identifier.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_include.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_int.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_keyword.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_le.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_lt.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_minus.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_plus.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_rem.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lone_string.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/minic-stdlib.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/multi_line_comments.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/operators.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/single_line_comments.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/tictactoe.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/types.c" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,12 +51,13 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="ProjectId" id="1R3kCEbsPDUxSdOYTkTwzYN7TcB" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -35,7 +71,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.p fibonacci">
+  <component name="RunManager" selected="Application.p test">
     <configuration name="include" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
@@ -55,7 +91,7 @@
     <configuration name="p test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
-      <option name="PROGRAM_PARAMETERS" value="-parser tests/test.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-parser tests/parser/test.c dummy.out" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
