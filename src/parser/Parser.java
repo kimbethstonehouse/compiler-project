@@ -160,7 +160,11 @@ public class Parser {
     }
 
     private void parseVarDeclPosClosure() {
+        parseType();
+        expect(TokenClass.IDENTIFIER);
+        parseVarDeclRest();
 
+        parseVarDecls();
     }
 
     private void parseVarDeclRest() {
