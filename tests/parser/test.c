@@ -1,7 +1,7 @@
-void man() {
-    int c;
-    c = 1 + 1 + 1/100;
-}
+//void man() {
+//    int c;
+//    c = 1 + 1 + 1/100;
+//}
 
 
 //void main() {

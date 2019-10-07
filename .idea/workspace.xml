@@ -2,43 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6e608816-35a9-44f8-a5c1-33cda070843c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/parser/struct_decl.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/grammar/final_ebnf.txt" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/final_ebnf.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/comparisons.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/delimiters.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/fibonacci.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/identifiers.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/include.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/keywords.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/literals.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/logical.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_assign.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_asterix.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_char.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_div.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_equal.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_ge.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_gt.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_identifier.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_include.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_int.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_keyword.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_le.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_lt.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_minus.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_plus.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_rem.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lone_string.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/minic-stdlib.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/multi_line_comments.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/operators.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/single_line_comments.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/struct.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/tictactoe.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/types.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/parser/struct_decl.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/struct_decl.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/parser/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/test.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +40,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.p test">
+  <component name="RunManager" selected="Application.p struct">
     <configuration name="include" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
@@ -84,6 +53,14 @@
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
       <option name="PROGRAM_PARAMETERS" value="-parser tests/fibonacci.c dummy.out" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="p struct" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ct-19-20" />
+      <option name="PROGRAM_PARAMETERS" value="-parser tests/parser/struct_decl.c dummy.out" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -107,6 +84,7 @@
     <list>
       <item itemvalue="Application.test" />
       <item itemvalue="Application.p test" />
+      <item itemvalue="Application.p struct" />
       <item itemvalue="Application.p fibonacci" />
       <item itemvalue="Application.include" />
     </list>
@@ -122,6 +100,21 @@
       <option name="presentableId" value="Default" />
       <updated>1568903038658</updated>
     </task>
+    <task id="LOCAL-00001" summary="refactor, added tests">
+      <created>1570209394181</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1570209394181</updated>
+    </task>
+    <task id="LOCAL-00002" summary="tests disappeared">
+      <created>1570440147655</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1570440147655</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -137,6 +130,11 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="refactor, added tests" />
+    <MESSAGE value="tests disappeared" />
+    <option name="LAST_COMMIT_MESSAGE" value="tests disappeared" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -150,7 +148,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>180</line>
+          <line>181</line>
           <properties class="parser.Parser" method="parseFunDecls">
             <option name="EMULATED" value="true" />
           </properties>
@@ -158,7 +156,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>300</line>
+          <line>301</line>
           <properties class="parser.Parser" method="parseExp">
             <option name="EMULATED" value="true" />
           </properties>
@@ -166,7 +164,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>208</line>
+          <line>209</line>
           <properties class="parser.Parser" method="parseStructType">
             <option name="EMULATED" value="true" />
           </properties>
@@ -174,7 +172,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>215</line>
+          <line>216</line>
           <properties class="parser.Parser" method="parseParams">
             <option name="EMULATED" value="true" />
           </properties>
@@ -182,7 +180,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>202</line>
+          <line>203</line>
           <properties class="parser.Parser" method="parseTypeOpt">
             <option name="EMULATED" value="true" />
           </properties>
@@ -190,7 +188,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>192</line>
+          <line>193</line>
           <properties class="parser.Parser" method="parseType">
             <option name="EMULATED" value="true" />
           </properties>
@@ -198,7 +196,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>169</line>
+          <line>170</line>
           <properties class="parser.Parser" method="parseVarDeclRest">
             <option name="EMULATED" value="true" />
           </properties>
@@ -206,7 +204,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>161</line>
+          <line>162</line>
           <properties class="parser.Parser" method="parseVarDeclPosClosure">
             <option name="EMULATED" value="true" />
           </properties>
@@ -238,7 +236,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>223</line>
+          <line>224</line>
           <properties class="parser.Parser" method="parseParamsRep">
             <option name="EMULATED" value="true" />
           </properties>
@@ -246,7 +244,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>232</line>
+          <line>233</line>
           <properties class="parser.Parser" method="parseStmt">
             <option name="EMULATED" value="true" />
           </properties>
@@ -254,7 +252,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>258</line>
+          <line>259</line>
           <properties class="parser.Parser" method="parseStmtRest">
             <option name="EMULATED" value="true" />
           </properties>
@@ -262,7 +260,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>268</line>
+          <line>269</line>
           <properties class="parser.Parser" method="parseStmtOpt1">
             <option name="EMULATED" value="true" />
           </properties>
@@ -270,7 +268,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>275</line>
+          <line>276</line>
           <properties class="parser.Parser" method="parseStmtOpt2">
             <option name="EMULATED" value="true" />
           </properties>
@@ -278,7 +276,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>283</line>
+          <line>284</line>
           <properties class="parser.Parser" method="parseBlock">
             <option name="EMULATED" value="true" />
           </properties>
@@ -286,7 +284,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>290</line>
+          <line>291</line>
           <properties class="parser.Parser" method="parseStmtRep">
             <option name="EMULATED" value="true" />
           </properties>
@@ -294,7 +292,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>305</line>
+          <line>306</line>
           <properties class="parser.Parser" method="parseOpsA">
             <option name="EMULATED" value="true" />
           </properties>
@@ -302,7 +300,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>313</line>
+          <line>314</line>
           <properties class="parser.Parser" method="parseExpA">
             <option name="EMULATED" value="true" />
           </properties>
@@ -310,7 +308,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>318</line>
+          <line>319</line>
           <properties class="parser.Parser" method="parseOpsB">
             <option name="EMULATED" value="true" />
           </properties>
@@ -318,7 +316,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>326</line>
+          <line>327</line>
           <properties class="parser.Parser" method="parseExpB">
             <option name="EMULATED" value="true" />
           </properties>
@@ -326,7 +324,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>331</line>
+          <line>332</line>
           <properties class="parser.Parser" method="parseOpsC">
             <option name="EMULATED" value="true" />
           </properties>
@@ -334,7 +332,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>339</line>
+          <line>340</line>
           <properties class="parser.Parser" method="parseExpC">
             <option name="EMULATED" value="true" />
           </properties>
@@ -342,7 +340,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>344</line>
+          <line>345</line>
           <properties class="parser.Parser" method="parseOpsD">
             <option name="EMULATED" value="true" />
           </properties>
@@ -350,7 +348,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>352</line>
+          <line>353</line>
           <properties class="parser.Parser" method="parseExpD">
             <option name="EMULATED" value="true" />
           </properties>
@@ -358,7 +356,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>357</line>
+          <line>358</line>
           <properties class="parser.Parser" method="parseOpsE">
             <option name="EMULATED" value="true" />
           </properties>
@@ -366,7 +364,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>365</line>
+          <line>366</line>
           <properties class="parser.Parser" method="parseExpE">
             <option name="EMULATED" value="true" />
           </properties>
@@ -374,7 +372,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>370</line>
+          <line>371</line>
           <properties class="parser.Parser" method="parseOpsF">
             <option name="EMULATED" value="true" />
           </properties>
@@ -382,23 +380,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>378</line>
-          <properties class="parser.Parser" method="parseExpF">
+          <line>421</line>
+          <properties class="parser.Parser">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>394</line>
-          <properties class="parser.Parser" method="parseExpG">
+          <line>437</line>
+          <properties class="parser.Parser">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="49" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>410</line>
+          <line>453</line>
           <properties class="parser.Parser" method="parseExpOrType">
             <option name="EMULATED" value="true" />
           </properties>
@@ -406,7 +404,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>429</line>
+          <line>472</line>
           <properties class="parser.Parser" method="parseValueAt">
             <option name="EMULATED" value="true" />
           </properties>
@@ -414,7 +412,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>434</line>
+          <line>477</line>
           <properties class="parser.Parser" method="parseSizeOf">
             <option name="EMULATED" value="true" />
           </properties>
@@ -422,7 +420,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>441</line>
+          <line>484</line>
           <properties class="parser.Parser" method="parseArgList">
             <option name="EMULATED" value="true" />
           </properties>
@@ -430,7 +428,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
-          <line>450</line>
+          <line>493</line>
           <properties class="parser.Parser" method="parseArgRep">
             <option name="EMULATED" value="true" />
           </properties>

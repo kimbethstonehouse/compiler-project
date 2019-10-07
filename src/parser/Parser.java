@@ -150,8 +150,9 @@ public class Parser {
 
     private void parseVarDecls() {
         if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)
-                && (lookAhead(2).tokenClass == TokenClass.SC || lookAhead(3).tokenClass == TokenClass.RSBR
-                || lookAhead(3).tokenClass == TokenClass.SC || lookAhead(4).tokenClass == TokenClass.RSBR)) {
+                && (lookAhead(2).tokenClass == TokenClass.SC || lookAhead(2).tokenClass == TokenClass.LSBR
+                || lookAhead(3).tokenClass == TokenClass.SC || lookAhead(3).tokenClass == TokenClass.LSBR
+                || lookAhead(4).tokenClass == TokenClass.SC || lookAhead(4).tokenClass == TokenClass.LSBR)) {
             parseType();
             expect(TokenClass.IDENTIFIER);
             parseVarDeclRest();
@@ -376,10 +377,27 @@ public class Parser {
         }
     }
 
+
     private void parseExpF() {
+        parseExpG();
+        parseOpsG();
+    }
+
+    private void parseOpsG() {
+        if (accept(TokenClass.LSBR)) {
+            nextToken();
+            parseExp();
+            expect(TokenClass.RSBR);
+        } else if (accept(TokenClass.DOT)) {
+            nextToken();
+            expect(TokenClass.IDENTIFIER);
+        }
+    }
+
+    private void parseExpG() {
         if (accept(TokenClass.MINUS)) {
             nextToken();
-            parseExpF();
+            parseExpG();
         } else if (accept(TokenClass.SIZEOF)) {
             parseSizeOf();
         } else if (accept(TokenClass.ASTERIX)) {
@@ -388,25 +406,50 @@ public class Parser {
             nextToken();
             parseExpOrType();
         } else {
-            parseExpG();
+            parseExpH();
         }
     }
 
-    private void parseExpG() {
-        if (accept(TokenClass.LSBR)) {
-            nextToken();
-            parseExp();
-            expect(TokenClass.RSBR);
-        } else if (accept(TokenClass.DOT)) {
-            nextToken();
-            expect(TokenClass.IDENTIFIER);
-        } else if (accept(TokenClass.IDENTIFIER)) {
+    private void parseExpH() {
+        if (accept(TokenClass.IDENTIFIER)) {
             nextToken();
             parseFunCallOrIdent();
         } else {
             nextToken();
         }
     }
+
+//    private void parseExpF() {
+//        if (accept(TokenClass.MINUS)) {
+//            nextToken();
+//            parseExpF();
+//        } else if (accept(TokenClass.SIZEOF)) {
+//            parseSizeOf();
+//        } else if (accept(TokenClass.ASTERIX)) {
+//            parseValueAt();
+//        } else if (accept(TokenClass.LPAR)) {
+//            nextToken();
+//            parseExpOrType();
+//        } else {
+//            parseExpG();
+//        }
+//    }
+//
+//    private void parseExpG() {
+//        if (accept(TokenClass.LSBR)) {
+//            nextToken();
+//            parseExp();
+//            expect(TokenClass.RSBR);
+//        } else if (accept(TokenClass.DOT)) {
+//            nextToken();
+//            expect(TokenClass.IDENTIFIER);
+//        } else if (accept(TokenClass.IDENTIFIER)) {
+//            nextToken();
+//            parseFunCallOrIdent();
+//        } else {
+//            nextToken();
+//        }
+//    }
 
     private void parseExpOrType() {
         if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {

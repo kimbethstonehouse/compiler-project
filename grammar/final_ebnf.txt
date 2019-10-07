@@ -24,7 +24,7 @@ stmt       ::= block
              | "return" stmtOpt2 ";"
              | exp stmtRest
 
-stmtRest ::
+stmtRest :: "=" exp ";" | ";"
 stmtOpt1 ::= "else" stmt | ε
 stmtOpt2 ::= exp | ε
 
@@ -49,10 +49,12 @@ opsE ::= ε | "+" expE opsE | "-" expE opsE
 expE ::= expF opsF
 opsF ::= ε | "*" expF opsF | "/" expF opsF | "%" expF opsF
 
-expF ::= expG | "-" expF | sizeof | valueat | "(" exporType
+expF ::= expG opsG
+opsG ::= ε | "[" exp "]" | "." IDENT
 
-expG ::= "[" exp "]" | "." IDENT | IDENT funcallOrIdent
-                | INT_LITERAL | CHAR_LITERAL | STRING_LITERAL
+expG ::= expH | "-" expG | sizeof | valueat | "(" exporType
+
+expH ::= IDENT funcallOrIdent | INT_LITERAL | CHAR_LITERAL | STRING_LITERAL
 
 exporType ::= exp ")" | type ")" exp
 funcallOrIdent ::= e | "(" arglist ")"
