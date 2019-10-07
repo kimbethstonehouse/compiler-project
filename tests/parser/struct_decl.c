@@ -41,7 +41,6 @@ void main() {
     x = s.field;
 }
 
-
 // nested struct decl, should fail
 //struct str {
 //  char c;
