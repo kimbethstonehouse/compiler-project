@@ -2,9 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6e608816-35a9-44f8-a5c1-33cda070843c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/parser/include.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lexer/lone_unterminated_char.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/lexer/lone_unterminated_string.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/parser/block.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/parser/exp.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/parser/fundecl.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/parser/program.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/parser/stmt.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/parser/vardecl.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/parser/include.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/include.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/parser/struct_decl.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/struct_decl.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/parser/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/test.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -118,7 +127,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570444400602</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added include tests">
+      <created>1570444917118</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1570444917118</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -138,7 +154,8 @@
     <MESSAGE value="refactor, added tests" />
     <MESSAGE value="tests disappeared" />
     <MESSAGE value="fixed struct decl" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed struct decl" />
+    <MESSAGE value="added include tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="added include tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

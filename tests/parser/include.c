@@ -1,27 +1,15 @@
+// EXPECTED PASS
 #include "file"
 
-// should fail, no string literal following
-////#include
-////
-////// should fail, int literal following
-////#include123
-//
-//// should fail, identifier following
-//#includeinclude
+// EXPECTED FAIL
+// no string literal following
+#include
 
-// structdecl
-struct s {
-};
+// int literal following
+#include123
 
-// vardecl
-int x;
+// identifier following
+#includeinclude
 
-// should fail, expecting fundecl
-#include "file"
-
-// fundecl
-void main() {
-}
-
-// should fail, expecting EOF
-#include "file"
+// spelling error
+#inclufe

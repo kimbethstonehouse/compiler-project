@@ -40,3 +40,20 @@
 //void main() {
 //    n + ;
 //}
+
+
+// vardecl
+int x;
+int y;
+
+//fundecl
+void main() {
+    struct str s;
+
+    x = 0;
+    y = 1;
+
+
+    i = x[11];
+    x = s.field;
+}

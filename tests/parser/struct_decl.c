@@ -1,21 +1,16 @@
-#include "minic.studio.h"
+// EXPECTED PASS
+// one vardecl
+struct str {
+  int x;
+};
 
-// no var decl, should fail
-//struct z {
-//};
+// two vardecl
+struct str {
+  int x;
+  char y[10];
+};
 
-//// one var decl
-//struct str {
-//  int x;
-//};
-//
-//// two var decl
-//struct str {
-//  int x;
-//  char y[10];
-//};
-
-// nested struct decl, should pass
+// nested struct decl
 struct str {
   char c;
 
@@ -25,29 +20,23 @@ struct str {
   struct str* s[12];
 };
 
-// vardecl
-int x;
-int y;
+// EXPECTED FAIL
+// no vardecl
+struct str {
+};
 
-//fundecl
-void main() {
-    struct str s;
+// nested struct decl
+struct str {
+  char c;
 
-    x = 0;
-    y = 1;
+  struct n {
+    char d;
+  };
+};
 
-
-    i = x[11];
-    x = s.field;
-}
-
-// nested struct decl, should fail
-//struct str {
-//  char c;
-//
-//  struct n n1 {
-//    char d;
-//  };
-//};
+// stmt instead of vardecl
+struct str {
+    x = 1;
+};
 
 
