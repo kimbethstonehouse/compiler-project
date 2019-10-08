@@ -142,11 +142,11 @@ public class Parser {
             parseStructType();
             expect(TokenClass.LBRA);
 
-            // var decl pos closure - must have one, then call kleene closure
+            // vardecl positive closure
+            // must have one, then call kleene closure
             parseType();
             expect(TokenClass.IDENTIFIER);
             parseVarDeclRest();
-
             parseVarDecls();
 
             expect(TokenClass.RBRA);
@@ -179,7 +179,7 @@ public class Parser {
     }
 
     private void parseFunDecls() {
-        if (accept(TokenClass.INT,TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {
+        if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {
             parseType();
             expect(TokenClass.IDENTIFIER);
             expect(TokenClass.LPAR);
@@ -243,10 +243,10 @@ public class Parser {
             parseExp();
             expect(TokenClass.RPAR);
             parseStmt();
-            parseStmtOpt1();
+            parseElseOpt();
         } else if (accept(TokenClass.RETURN)) {
             nextToken();
-            parseStmtOpt2();
+            parseExpOpt();
             expect(TokenClass.SC);
         } else {
             parseExp();
@@ -264,14 +264,14 @@ public class Parser {
         }
     }
 
-    private void parseStmtOpt1() {
+    private void parseElseOpt() {
         if (accept(TokenClass.ELSE)) {
             nextToken();
             parseStmt();
         }
     }
 
-    private void parseStmtOpt2() {
+    private void parseExpOpt() {
         if (accept(TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX, TokenClass.LPAR,
                 TokenClass.IDENTIFIER, TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
             parseExp();
@@ -372,7 +372,6 @@ public class Parser {
         }
     }
 
-
     private void parseExpF() {
         if (accept(TokenClass.MINUS)) {
             nextToken();
@@ -389,6 +388,11 @@ public class Parser {
         }
     }
 
+    private void parseExpG() {
+        parseExpH();
+        parseOpsH();
+    }
+
     private void parseOpsH() {
         if (accept(TokenClass.LSBR)) {
             nextToken();
@@ -398,11 +402,6 @@ public class Parser {
             nextToken();
             expect(TokenClass.IDENTIFIER);
         }
-    }
-
-    private void parseExpG() {
-        parseExpH();
-        parseOpsH();
     }
 
     private void parseExpH() {
@@ -433,22 +432,9 @@ public class Parser {
         }
     }
 
-    private void parseValueAt() {
-        expect(TokenClass.ASTERIX);
-        parseExp();
-    }
-
-    private void parseSizeOf() {
-        expect(TokenClass.SIZEOF);
-        expect(TokenClass.LPAR);
-        parseType();
-        expect(TokenClass.RPAR);
-    }
-
     private void parseArgList() {
-        if (accept(TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX,
-                TokenClass.LPAR, TokenClass.LSBR, TokenClass.DOT, TokenClass.IDENTIFIER,
-                TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
+        if (accept(TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX, TokenClass.LPAR,
+                TokenClass.IDENTIFIER, TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
             parseExp();
             parseArgRep();
         }
@@ -460,5 +446,17 @@ public class Parser {
             parseExp();
             parseArgRep();
         }
+    }
+
+    private void parseValueAt() {
+        expect(TokenClass.ASTERIX);
+        parseExp();
+    }
+
+    private void parseSizeOf() {
+        expect(TokenClass.SIZEOF);
+        expect(TokenClass.LPAR);
+        parseType();
+        expect(TokenClass.RPAR);
     }
 }

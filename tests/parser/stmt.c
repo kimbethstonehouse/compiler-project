@@ -1,24 +1,18 @@
 // EXPECTED PASS
-// nested block
-void main() {
-    {}
-}
-
-// nested block with vardecl and stmt
-void main() {
-    {
-        int x;
-        x = 4;
-    }
-}
-
 // while
 void main() {
     while (1) {}
     // exp + exp
     while(x+5) {}
     // string literal
-    while("string") {}
+    while("string") {
+        // nested while
+        while (1) {
+        }
+    }
+
+    // while while
+    while (1) while (1) {}
 }
 
 // if
@@ -27,6 +21,8 @@ void main() {
     if (1) {}
     // with else
     if (1) {} else {}
+    // if if
+    if (1) if (1) {} else {}
 }
 
 // return
@@ -54,7 +50,7 @@ void main() {
 }
 
 // EXPECTED FAIL
-// vardecl instead of exp
+ vardecl instead of exp
 void main() {
     while (char c) {}
 }

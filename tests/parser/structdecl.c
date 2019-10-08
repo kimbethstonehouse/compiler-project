@@ -21,6 +21,10 @@ struct str {
 };
 
 // EXPECTED FAIL
+// no braces
+struct str
+    int x;
+
 // no vardecl
 struct str {
 };
@@ -38,5 +42,15 @@ struct str {
 struct str {
     x = 1;
 };
+
+// no ident
+struct {
+    int x;
+};
+
+// no terminating sc
+struct {
+    int x;
+}
 
 

@@ -30,6 +30,19 @@ int main() {
     s = "string";
 }
 
+// nested block
+void main() {
+    {}
+}
+
+// nested block with vardecl and stmt
+void main() {
+    {
+        int x;
+        x = 4;
+    }
+}
+
 // EXPECTED FAIL
 // stmt then vardecl
 int main() {
