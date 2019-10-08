@@ -208,10 +208,8 @@ public class Parser {
     }
 
     private void parseStructType() {
-//        if (accept(TokenClass.STRUCT)) {
-            expect(TokenClass.STRUCT);
-            expect(TokenClass.IDENTIFIER);
-//        }
+        expect(TokenClass.STRUCT);
+        expect(TokenClass.IDENTIFIER);
     }
 
     private void parseParams() {
@@ -275,9 +273,8 @@ public class Parser {
     }
 
     private void parseStmtOpt2() {
-        if (accept(TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX,
-                TokenClass.LPAR, TokenClass.LSBR, TokenClass.DOT, TokenClass.IDENTIFIER,
-                TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
+        if (accept(TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX, TokenClass.LPAR,
+                TokenClass.IDENTIFIER, TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
             parseExp();
         }
     }
@@ -291,9 +288,8 @@ public class Parser {
 
     private void parseStmtRep() {
         if (accept(TokenClass.LBRA, TokenClass.WHILE, TokenClass.IF, TokenClass.RETURN,
-                TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX,
-                TokenClass.LPAR, TokenClass.LSBR, TokenClass.DOT, TokenClass.IDENTIFIER,
-                TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
+                TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX, TokenClass.LPAR,
+                TokenClass.IDENTIFIER, TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
             parseStmt();
             parseStmtRep();
         }
@@ -379,11 +375,22 @@ public class Parser {
 
 
     private void parseExpF() {
-        parseExpG();
-        parseOpsG();
+        if (accept(TokenClass.MINUS)) {
+            nextToken();
+            parseExpF();
+        } else if (accept(TokenClass.SIZEOF)) {
+            parseSizeOf();
+        } else if (accept(TokenClass.ASTERIX)) {
+            parseValueAt();
+        } else if (accept(TokenClass.LPAR)) {
+            nextToken();
+            parseExpOrType();
+        } else {
+            parseExpG();
+        }
     }
 
-    private void parseOpsG() {
+    private void parseOpsH() {
         if (accept(TokenClass.LSBR)) {
             nextToken();
             parseExp();
@@ -395,19 +402,8 @@ public class Parser {
     }
 
     private void parseExpG() {
-        if (accept(TokenClass.MINUS)) {
-            nextToken();
-            parseExpG();
-        } else if (accept(TokenClass.SIZEOF)) {
-            parseSizeOf();
-        } else if (accept(TokenClass.ASTERIX)) {
-            parseValueAt();
-        } else if (accept(TokenClass.LPAR)) {
-            nextToken();
-            parseExpOrType();
-        } else {
-            parseExpH();
-        }
+        parseExpH();
+        parseOpsH();
     }
 
     private void parseExpH() {
@@ -418,38 +414,6 @@ public class Parser {
             nextToken();
         }
     }
-
-//    private void parseExpF() {
-//        if (accept(TokenClass.MINUS)) {
-//            nextToken();
-//            parseExpF();
-//        } else if (accept(TokenClass.SIZEOF)) {
-//            parseSizeOf();
-//        } else if (accept(TokenClass.ASTERIX)) {
-//            parseValueAt();
-//        } else if (accept(TokenClass.LPAR)) {
-//            nextToken();
-//            parseExpOrType();
-//        } else {
-//            parseExpG();
-//        }
-//    }
-//
-//    private void parseExpG() {
-//        if (accept(TokenClass.LSBR)) {
-//            nextToken();
-//            parseExp();
-//            expect(TokenClass.RSBR);
-//        } else if (accept(TokenClass.DOT)) {
-//            nextToken();
-//            expect(TokenClass.IDENTIFIER);
-//        } else if (accept(TokenClass.IDENTIFIER)) {
-//            nextToken();
-//            parseFunCallOrIdent();
-//        } else {
-//            nextToken();
-//        }
-//    }
 
     private void parseExpOrType() {
         if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {

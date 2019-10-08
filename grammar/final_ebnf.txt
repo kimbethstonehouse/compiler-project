@@ -49,10 +49,10 @@ opsE ::= ε | "+" expE opsE | "-" expE opsE
 expE ::= expF opsF
 opsF ::= ε | "*" expF opsF | "/" expF opsF | "%" expF opsF
 
-expF ::= expG opsG
-opsG ::= ε | "[" exp "]" | "." IDENT
+expF ::= expG | "-" expF | sizeof | valueat | "(" exporType
 
-expG ::= expH | "-" expG | sizeof | valueat | "(" exporType
+expG ::= expH opsH
+opsH ::= ε | "[" exp "]" | "." IDENT
 
 expH ::= IDENT funcallOrIdent | INT_LITERAL | CHAR_LITERAL | STRING_LITERAL
 
