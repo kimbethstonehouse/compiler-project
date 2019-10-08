@@ -1,66 +1,66 @@
-# #  comment
-# () grouping
-# [] optional
-# *  zero or more
-# +  one or more
-# |  alternative
+program    ::= include structdecl vardecl fundecl EOF
 
+include    ::= "#include" STRING_LITERAL include | ε
 
-program    ::= includeRep structdeclRep vardeclRep fundeclRep EOF
+structdecl ::= structtype "{" type IDENT vardeclRest vardecl "}" ";" structdecl | ε
 
-include    ::= "#include" STRING_LITERAL
-includeRep ::= include includeRep | epsilon
+vardecl    ::= type IDENT vardeclrest vardecl | e
+vardeclrest ::= ";" | "[" INT_LITERAL "]" ";"
 
-structdecl ::= structtype "{" (vardecl)+ "}" ";"
-structdeclRep ::= structdecl structdeclRep | epsilon
+fundecl    ::= type IDENT "(" params ")" block fundecl | ε
 
-vardecl    ::= type IDENT ";"        
-             | type IDENT "[" INT_LITERAL "]" ";" 
-vardeclRep ::= vardecl vardeclRep | epsilon
+type       ::= ("int" | "char" | "void" | structtype) typeopt
+typeopt    ::= "*" | ε
 
-fundecl    ::= type IDENT "(" params ")" block    # function declaration
-fundeclRep ::= fundecl fundeclRep | epsilon
-
-type       ::= ("int" | "char" | "void" | structtype) ["*"]
 structtype ::= "struct" IDENT
 
-params     ::= [ type IDENT ("," type IDENT)* ]
+params     ::= type IDENT paramsrep | ε
+paramsrep ::= "," type IDENT paramsrep | ε
 
 stmt       ::= block
-             | "while" "(" exp ")" stmt              # while loop
-             | "if" "(" exp ")" stmt ["else" stmt]   # if then else
-             | "return" [exp] ";"                    # return
-             | exp "=" exp ";"                      # assignment
-             | exp ";"                               # expression statement, e.g. a function call
+             | "while" "(" exp ")" stmt
+             | "if" "(" exp ")" stmt elseopt
+             | "return" expopt ";"
+             | exp stmtrest
 
-block      ::= "{" (vardecl)* (stmt)* "}"
+stmtrest :: "=" exp ";" | ";"
+elseopt ::= "else" stmt | ε
+expopt ::= exp | ε
 
-exp ::= expA opsA
-opsA ::= epsilon | "||" expA opsA
+block     ::= "{" vardecl stmtrep "}"
+stmtrep ::= stmt stmtrep | ε
+
+exp  ::= expA opsA
+opsA ::= ε | "||" expA opsA
 
 expA ::= expB opsB
-opsB :: = epsilon | "&&" expB opsB
+opsB ::= ε | "&&" expB opsB
 
 expB ::= expC opsC
-opsC ::= epsilon | "==" expC opsC | "!=" expC opsC
+opsC ::= ε | "==" expC opsC | "!=" expC opsC
 
 expC ::= expD opsD
-opsD ::= epsilon | "<" expD opsD | "<=" expD opsD | ">" expD opsD | ">=" expD opsD
+opsD ::= ε | "<" expD opsD | "<=" expD opsD | ">" expD opsD | ">=" expD opsD
 
 expD ::= expE opsE
-opsE ::= epsilon | "+" expE | "-" expE
+opsE ::= ε | "+" expE opsE | "-" expE opsE
 
 expE ::= expF opsF
-opsF ::= epsilon | "*" expE | "/" expE | "%" expE
+opsF ::= ε | "*" expF opsF | "/" expF opsF | "%" expF opsF
 
-expF ::= expG | "-" expF
+expF ::= expG | "-" expF | sizeof | valueat | "(" exporType
 
-expG ::= expH | "[" expH "]" | "." IDENT
+expG ::= expH opsH
+opsH ::= ε | "[" exp "]" | "." IDENT
 
-expH ::= "(" exp ")" | IDENT | INT_LITERAL | valueat | funcall | sizeof | typecast | CHAR_LITERAL | STRING_LITERAL
+expH ::= IDENT funcallOrIdent | INT_LITERAL | CHAR_LITERAL | STRING_LITERAL
 
-funcall      ::= IDENT "(" [ exp ("," exp)* ] ")"
-valueat      ::= "*" exp                          # Value at operator (pointer indirection)
-sizeof       ::= "sizeof" "(" type ")"            # size of type
-typecast     ::= "(" type ")" exp                 # type casting
+exporType ::= exp ")" | type ")" exp
+funcallOrIdent ::= e | "(" arglist ")"
 
+arglist ::= exp argrep | ε
+argrep ::= "," exp argrep | ε
+
+valueat      ::= "*" exp
+sizeof       ::= "sizeof" "(" type ")"
+typecast     ::= "(" type ")" exp

@@ -141,7 +141,14 @@ public class Parser {
         if (accept(TokenClass.STRUCT)) {
             parseStructType();
             expect(TokenClass.LBRA);
-            parseVarDeclPosClosure();
+
+            // var decl pos closure - must have one, then call kleene closure
+            parseType();
+            expect(TokenClass.IDENTIFIER);
+            parseVarDeclRest();
+
+            parseVarDecls();
+
             expect(TokenClass.RBRA);
             expect(TokenClass.SC);
             parseStructDecls();
@@ -158,14 +165,6 @@ public class Parser {
             parseVarDeclRest();
             parseVarDecls();
         }
-    }
-
-    private void parseVarDeclPosClosure() {
-        parseType();
-        expect(TokenClass.IDENTIFIER);
-        parseVarDeclRest();
-
-        parseVarDecls();
     }
 
     private void parseVarDeclRest() {
