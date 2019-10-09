@@ -46,6 +46,8 @@ void main() {
 
      // valueat
      *p;
+     // pointer pointer
+     ***p;
 
      // funcall
      x();
