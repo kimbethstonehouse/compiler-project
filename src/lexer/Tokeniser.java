@@ -193,7 +193,7 @@ public class Tokeniser {
             return new Token(TokenClass.STRING_LITERAL, sb.toString(), line, column);
         }
 
-        // int literal - exactly as in slides
+        // int literal
         if (Character.isDigit(c)) {
             StringBuilder sb = new StringBuilder();
             sb.append(c);
