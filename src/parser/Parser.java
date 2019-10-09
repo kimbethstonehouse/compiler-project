@@ -179,7 +179,10 @@ public class Parser {
     }
 
     private void parseFunDecls() {
-        if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {
+        if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)
+                && (lookAhead(2).tokenClass == TokenClass.LPAR ||
+                    lookAhead(3).tokenClass == TokenClass.LPAR ||
+                    lookAhead(4).tokenClass == TokenClass.LPAR)) {
             parseType();
             expect(TokenClass.IDENTIFIER);
             expect(TokenClass.LPAR);
