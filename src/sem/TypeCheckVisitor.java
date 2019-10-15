@@ -47,6 +47,30 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		return null;
 	}
 
+	@Override
+	public Type visitBinOp(BinOp bo) {
+		// To be completed...
+		return null;
+	}
+
+	@Override
+	public Type visitIntLiteral(IntLiteral il) {
+		// To be completed...
+		return null;
+	}
+
+	@Override
+	public Type visitStrLiteral(StrLiteral sl) {
+		// To be completed...
+		return null;
+	}
+
+	@Override
+	public Type visitChrLiteral(ChrLiteral cl) {
+		// To be completed...
+		return null;
+	}
+
 	// To be completed...
 
 

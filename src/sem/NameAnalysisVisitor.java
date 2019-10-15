@@ -47,6 +47,30 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		return null;
 	}
 
+	@Override
+	public Void visitBinOp(BinOp bo) {
+		// To be completed...
+		return null;
+	}
+
+	@Override
+	public Void visitIntLiteral(IntLiteral il) {
+		// To be completed...
+		return null;
+	}
+
+	@Override
+	public Void visitStrLiteral(StrLiteral sl) {
+		// To be completed...
+		return null;
+	}
+
+	@Override
+	public Void visitChrLiteral(ChrLiteral cl) {
+		// To be completed...
+		return null;
+	}
+
 	// To be completed...
 
 

@@ -11,28 +11,6 @@ public class ASTPrinter implements ASTVisitor<Void> {
     }
 
     @Override
-    public Void visitBlock(Block b) {
-        writer.print("Block(");
-        // to complete
-        writer.print(")");
-        return null;
-    }
-
-    @Override
-    public Void visitFunDecl(FunDecl fd) {
-        writer.print("FunDecl(");
-        fd.type.accept(this);
-        writer.print(","+fd.name+",");
-        for (VarDecl vd : fd.params) {
-            vd.accept(this);
-            writer.print(",");
-        }
-        fd.block.accept(this);
-        writer.print(")");
-        return null;
-    }
-
-    @Override
     public Void visitProgram(Program p) {
         writer.print("Program(");
         String delimiter = "";
@@ -52,7 +30,23 @@ public class ASTPrinter implements ASTVisitor<Void> {
             fd.accept(this);
         }
         writer.print(")");
-	    writer.flush();
+        writer.flush();
+        return null;
+    }
+
+    @Override
+    public Void visitStructTypeDecl(StructTypeDecl std) {
+        writer.print("StructTypeDecl(");
+        std.st.accept(this);
+
+        String delimiter = "";
+        for (VarDecl vd : std.varDecls) {
+            writer.print(delimiter);
+            delimiter = ",";
+            vd.accept(this);
+        }
+
+        writer.print(")");
         return null;
     }
 
@@ -66,34 +60,54 @@ public class ASTPrinter implements ASTVisitor<Void> {
     }
 
     @Override
-    public Void visitVarExpr(VarExpr v) {
-        writer.print("VarExpr(");
-        writer.print(v.name);
+    public Void visitFunDecl(FunDecl fd) {
+        writer.print("FunDecl(");
+        fd.type.accept(this);
+        writer.print(","+fd.name+",");
+        for (VarDecl vd : fd.params) {
+            vd.accept(this);
+            writer.print(",");
+        }
+        fd.block.accept(this);
+        writer.print(")");
+        return null;
+    }
+
+    // Type
+    @Override
+    public Void visitBaseType(BaseType bt) {
+        writer.print("BaseType(");
+        writer.print(bt.name());
         writer.print(")");
         return null;
     }
 
     @Override
-    public Void visitBaseType(BaseType bt) {
-        // to complete ...
+    public Void visitPointerType(PointerType pt) {
+        writer.print("PointerType(");
+        pt.type.accept(this);
+        writer.print(")");
         return null;
     }
 
     @Override
-    public Void visitStructTypeDecl(StructTypeDecl st) {
-        // to complete ...
+    public Void visitStructType(StructType st) {
+        writer.print("StructType(");
+        writer.print(st.str);
+        writer.print(")");
         return null;
     }
 
     @Override
-    public Void visitBinOp(BinOp bo) {
-        writer.print("BinOp(");
-        bo.lhs.accept(this);
-        bo.op.name();
-        bo.rhs.accept(this);
+    public Void visitArrayType(ArrayType at) {
+        writer.print("ArrayType(");
+        at.type.accept(this);
+        writer.print(","+at.i);
+        writer.print(")");
         return null;
     }
 
+    // Expr
     @Override
     public Void visitIntLiteral(IntLiteral il) {
         writer.print("IntLiteral(");
@@ -117,6 +131,171 @@ public class ASTPrinter implements ASTVisitor<Void> {
         writer.print(")");
         return null;
     }
+
+    @Override
+    public Void visitVarExpr(VarExpr v) {
+        writer.print("VarExpr(");
+        writer.print(v.name);
+        writer.print(")");
+        return null;
+    }
+
+    @Override
+    public Void visitFunCallExpr(FunCallExpr fce) {
+        writer.print("FunCallExpr(");
+        writer.print(fce.str);
+        for (Expr e : fce.exprList) {
+            writer.print(",");
+            e.accept(this);
+        }
+        writer.print(")");
+        return null;
+    }
+
+    @Override
+    public Void visitBinOp(BinOp bo) {
+        writer.print("BinOp(");
+        bo.lhs.accept(this);
+        writer.print(","+ bo.op.name());
+        bo.rhs.accept(this);
+        writer.print(")");
+        return null;
+    }
+
+    @Override
+    public Void visitArrayAccessExpr(ArrayAccessExpr aae) {
+        writer.print("ArrayAccessExpr(");
+        aae.arr.accept(this);
+        writer.print(",");
+        aae.idx.accept(this);
+        writer.print(")");
+        return null;
+    }
+
+    @Override
+    public Void visitFieldAccessExpr(FieldAccessExpr fae) {
+        writer.print("FieldAccessExpr(");
+        fae.structure.accept(this);
+        writer.print(","+fae.name);
+        writer.print(")");
+        return null;
+    }
+
+    @Override
+    public Void visitValueAtExpr(ValueAtExpr vae) {
+        writer.print("ValueAtExpr(");
+        vae.expr.accept(this);
+        writer.print(")");
+        return null;
+    }
+
+    @Override
+    public Void visitSizeOfExpr(SizeOfExpr soe) {
+        writer.print("SizeOfExpr(");
+        soe.type.accept(this);
+        writer.print(")");
+        return null;
+    }
+
+    @Override
+    public Void visitTypecastExpr(TypecastExpr tce) {
+        writer.print("TypecastExpr(");
+        tce.type.accept(this);
+        writer.print(",");
+        tce.expr.accept(this);
+        writer.print(")");
+        return null;
+    }
+
+    // Stmt
+    @Override
+    public Void visitBlock(Block b) {
+        writer.print("Block(");
+        String delimiter = "";
+        for (VarDecl vd : b.varDeclList) {
+            writer.print(delimiter);
+            delimiter = ",";
+            vd.accept(this);
+        }
+        for (Stmt s : b.stmtList) {
+            writer.print(delimiter);
+            delimiter = ",";
+            s.accept(this);
+        }
+        writer.print(")");
+        return null;
+    }
+
+    @Override
+    public Void visitWhile(While w) {
+        writer.print("While(");
+        w.expr.accept(this);
+        writer.print(",");
+        w.stmt.accept(this);
+        writer.print(")");
+        return null;
+    }
+
+    @Override
+    public Void visitIf(If i) {
+        writer.print("If(");
+        i.expr.accept(this);
+        writer.print(",");
+        i.stmt1.accept(this);
+        writer.print(")");
+
+        if (i.stmt2 != null) {
+            writer.print(",");
+            i.stmt2.accept(this);
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visitAssign(Assign a) {
+        writer.print("Assign(");
+        a.lhs.accept(this);
+        a.rhs.accept(this);
+        writer.print(")");
+        return null;
+    }
+
+    @Override
+    public Void visitReturn(Return r) {
+        writer.print("Return(");
+
+        if (r.expr != null) {
+            r.expr.accept(this);
+        }
+
+        writer.print(")");
+        return null;
+    }
+
+    @Override
+    public Void visitExprStmt(ExprStmt es) {
+        writer.print("ExprStmt(");
+        es.expr.accept(this);
+        writer.print(")");
+        return null;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // to complete ...
     

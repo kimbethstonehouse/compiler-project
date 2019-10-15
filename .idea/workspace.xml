@@ -2,113 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03ad8db7-5a6e-4a29-930b-4a63d66f8b58" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/desc/part2/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desc/part2/fibonacci.c-ast-dump" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desc/part2/typing-rules/Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desc/part2/typing-rules/rules.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desc/part2/typing-rules/rules.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/grammar/abstract_grammar.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/alpaca_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/ape_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/badger_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/bald_eagle_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/bat_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/bear_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/blue_crab_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/budgerigar_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/burro_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/camel_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/capybara_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/cat_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/chamois_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/chimpanzee_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/civet_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/coati_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/colt_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/cougar_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/crocodile_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/crow_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/donkey_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/dromedary_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/duckbill_platypus_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/elk_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/finch_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/gemsbok_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/gila_monster_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/gnu_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/goat_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/gopher_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/impala_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/kangaroo_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/koala_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/lion_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/lovebird_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/lynx_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/mongoose_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/mule_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/mustang_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/mynah_bird_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/newt_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/ocelot_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/opossum_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/orangutan_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/parakeet_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/pig_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/polar_bear_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/porcupine_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/pronghorn_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/puma_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/puppy_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/rabbit_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/ram_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/rat_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/rooster_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/salamander_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/scoreboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/sheep_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/sloth_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/starfish_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/tiger_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/warthog_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/waterbuck_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/weasel_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/wildcat_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/wombat_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/woodchuck_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/yak_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoreboard/zebu_results.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MainPart1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/ASTNode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/ASTPrinter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/ASTVisitor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/BaseType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/BinOp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/Block.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/ChrLiteral.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/DotPrinter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/Expr.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/FunDecl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/IntLiteral.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/Op.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/Program.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/Stmt.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/StrLiteral.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/StructTypeDecl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/Type.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/VarDecl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ast/VarExpr.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/parser/ParserPart1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sem/BaseSemanticVisitor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sem/Scope.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sem/SemanticAnalyzer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sem/SemanticVisitor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sem/Symbol.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/ArrayAccessExpr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/ArrayType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/Assign.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/ExprStmt.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/FieldAccessExpr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/FunCallExpr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/If.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/PointerType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/Return.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/SizeOfExpr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/StructType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/TypecastExpr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/ValueAtExpr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/While.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/ASTPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/ASTVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Block.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/ChrLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ChrLiteral.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/IntLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/IntLiteral.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Program.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/StrLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/StrLiteral.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/StructTypeDecl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/StructTypeDecl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

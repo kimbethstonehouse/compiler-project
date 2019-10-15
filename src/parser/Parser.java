@@ -317,10 +317,9 @@ public class Parser {
 
     private Expr parseOpsA(Expr lhs) {
         if (accept(TokenClass.OR)) {
-            Op op = Op.OR;
             nextToken();
             Expr rhs = parseExpA();
-            parseOpsA(new BinOp(op, lhs, rhs));
+            parseOpsA(new BinOp(Op.OR, lhs, rhs));
         }
 
         return lhs;
@@ -333,10 +332,9 @@ public class Parser {
 
     private Expr parseOpsB(Expr lhs) {
         if (accept(TokenClass.AND)) {
-            Op op = Op.AND;
             nextToken();
             Expr rhs = parseExpB();
-            parseOpsB(new BinOp(op, lhs, rhs));
+            parseOpsB(new BinOp(Op.AND, lhs, rhs));
         }
 
         return lhs;
@@ -430,9 +428,11 @@ public class Parser {
     }
 
     // how is -exp represented?
+    // 0-exp
     private Expr parseExpF() {
         if (accept(TokenClass.MINUS)) {
             nextToken();
+            Expr rhs = parseExpF();
             parseExpF();
         } else if (accept(TokenClass.SIZEOF)) {
             parseSizeOf();

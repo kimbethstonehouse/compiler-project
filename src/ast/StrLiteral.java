@@ -3,7 +3,7 @@ package ast;
 public class StrLiteral extends Expr {
     String s;
 
-    StrLiteral(String s) {
+    public StrLiteral(String s) {
         this.s = s;
     }
 

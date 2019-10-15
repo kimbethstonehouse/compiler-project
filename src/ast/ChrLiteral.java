@@ -3,7 +3,7 @@ package ast;
 public class ChrLiteral extends Expr {
     char c;
 
-    ChrLiteral(char c) {
+    public ChrLiteral(char c) {
         this.c = c;
     }
 

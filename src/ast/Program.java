@@ -17,4 +17,5 @@ public class Program implements ASTNode {
     public <T> T accept(ASTVisitor<T> v) {
 	return v.visitProgram(this);
     }
+
 }
