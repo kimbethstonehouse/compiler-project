@@ -1,9 +1,10 @@
 package ast;
 
 public class Return extends Stmt {
+
     public final Expr expr;
 
-    // expr is optional
+    // expr is optional, so we explicitly set to null if not supplied
     public Return() {
         this.expr = null;
     }

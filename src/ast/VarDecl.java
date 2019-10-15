@@ -1,6 +1,7 @@
 package ast;
 
 public class VarDecl implements ASTNode {
+
     public final Type type;
     public final String varName;
 
@@ -12,4 +13,5 @@ public class VarDecl implements ASTNode {
      public <T> T accept(ASTVisitor<T> v) {
 	return v.visitVarDecl(this);
     }
+
 }

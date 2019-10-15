@@ -1,12 +1,13 @@
 package ast;
 
 public class FieldAccessExpr extends Expr {
-    public final Expr structure;
-    public final String name;
 
-    public FieldAccessExpr(Expr structure, String name) {
-        this.structure = structure;
-        this.name = name;
+    public final Expr struct;
+    public final String fieldName;
+
+    public FieldAccessExpr(Expr struct, String fieldName) {
+        this.struct = struct;
+        this.fieldName = fieldName;
     }
 
     public <T> T accept(ASTVisitor<T> v) {

@@ -1,9 +1,10 @@
 package ast;
 
 public class BinOp extends Expr {
-    Op op;
-    Expr lhs;
-    Expr rhs;
+
+    public final Op op;
+    public final Expr lhs;
+    public final Expr rhs;
 
     public BinOp(Op op, Expr lhs, Expr rhs) {
         this.op = op;
@@ -11,7 +12,6 @@ public class BinOp extends Expr {
         this.rhs = rhs;
     }
 
-    public <T> T accept(ASTVisitor<T> v) {
-        return v.visitBinOp(this);
-    }
+    public <T> T accept(ASTVisitor<T> v) { return v.visitBinOp(this); }
+
 }

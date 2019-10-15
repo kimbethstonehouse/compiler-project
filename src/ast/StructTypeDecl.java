@@ -3,11 +3,11 @@ package ast;
 import java.util.List;
 
 public class StructTypeDecl implements ASTNode {
-    public StructType st;
+    public final StructType structType;
     public final List<VarDecl> varDecls;
 
-    public StructTypeDecl(StructType st, List<VarDecl> varDecls) {
-        this.st = st;
+    public StructTypeDecl(StructType structType, List<VarDecl> varDecls) {
+        this.structType = structType;
         this.varDecls = varDecls;
     }
 

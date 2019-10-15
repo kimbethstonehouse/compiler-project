@@ -1,6 +1,7 @@
 package ast;
 
 public class Assign extends Stmt {
+
     public final Expr lhs;
     public final Expr rhs;
 

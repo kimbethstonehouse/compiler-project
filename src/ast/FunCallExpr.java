@@ -3,15 +3,15 @@ package ast;
 import java.util.List;
 
 public class FunCallExpr extends Expr {
-    public final String str;
-    public final List<Expr> exprList;
 
-    public FunCallExpr(String str, List<Expr> exprList) {
-        this.str = str;
-        this.exprList = exprList;
+    public final String name;
+    public final List<Expr> args;
+
+    public FunCallExpr(String name, List<Expr> args) {
+        this.name = name;
+        this.args = args;
     }
 
-    public <T> T accept(ASTVisitor<T> v) {
-        return v.visitFunCallExpr(this);
-    }
+    public <T> T accept(ASTVisitor<T> v) { return v.visitFunCallExpr(this); }
+
 }

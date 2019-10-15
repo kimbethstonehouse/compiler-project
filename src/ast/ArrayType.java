@@ -3,15 +3,13 @@ package ast;
 public class ArrayType implements Type {
 
     public final Type type;
-    public final int i;
+    public final int size;
 
-    public ArrayType(Type type, int i) {
+    public ArrayType(Type type, int size) {
         this.type = type;
-        this.i = i;
+        this.size = size;
     }
 
-    public <T> T accept(ASTVisitor<T> v) {
-        return v.visitArrayType(this);
-    }
+    public <T> T accept(ASTVisitor<T> v) { return v.visitArrayType(this); }
 
 }

@@ -1,6 +1,7 @@
 package ast;
 
 public class ArrayAccessExpr extends Expr {
+
     public final Expr arr;
     public final Expr idx;
 

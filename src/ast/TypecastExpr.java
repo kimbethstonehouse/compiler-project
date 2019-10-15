@@ -1,6 +1,7 @@
 package ast;
 
 public class TypecastExpr extends Expr {
+
     public final Type type;
     public final Expr expr;
 
@@ -12,4 +13,5 @@ public class TypecastExpr extends Expr {
     public <T> T accept(ASTVisitor<T> v) {
         return v.visitTypecastExpr(this);
     }
+
 }
