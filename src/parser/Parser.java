@@ -143,39 +143,42 @@ public class Parser {
     }
 
     private List<StructTypeDecl> parseStructDecls() {
+        List<StructTypeDecl> structTypeDecls = new ArrayList<>();
         if (accept(TokenClass.STRUCT)) {
-            parseStructType();
+            StructType structType = parseStructType();
             expect(TokenClass.LBRA);
 
             // vardecl positive closure
             // must have one, then call kleene closure
-            parseType();
-            expect(TokenClass.IDENTIFIER);
+            Type type = parseType();
+            Token t = expect(TokenClass.IDENTIFIER);
             parseVarDeclRest();
-            parseVarDecls();
+            List<VarDecl> varDecls = parseVarDecls();
+            varDecls.add(new VarDecl(type, t.data));
 
             expect(TokenClass.RBRA);
             expect(TokenClass.SC);
+            structTypeDecls.add(new StructTypeDecl(structType, varDecls));
             parseStructDecls();
         }
 
-        // default
-        return null;
+        return structTypeDecls;
     }
 
     private List<VarDecl> parseVarDecls() {
+        List<VarDecl> varDecls = new ArrayList<>();
         if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)
                 && (lookAhead(2).tokenClass == TokenClass.SC || lookAhead(2).tokenClass == TokenClass.LSBR
                 || lookAhead(3).tokenClass == TokenClass.SC || lookAhead(3).tokenClass == TokenClass.LSBR
                 || lookAhead(4).tokenClass == TokenClass.SC || lookAhead(4).tokenClass == TokenClass.LSBR)) {
-            parseType();
-            expect(TokenClass.IDENTIFIER);
+            Type type = parseType();
+            Token t = expect(TokenClass.IDENTIFIER);
             parseVarDeclRest();
+            varDecls.add(new VarDecl(type, t.data));
             parseVarDecls();
         }
 
-        // default
-        return null;
+        return varDecls;
     }
 
     private void parseVarDeclRest() {
@@ -190,21 +193,23 @@ public class Parser {
     }
 
     private List<FunDecl> parseFunDecls() {
+        List<FunDecl> funDecls = new ArrayList<>();
+
         if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)
                 && (lookAhead(2).tokenClass == TokenClass.LPAR ||
                     lookAhead(3).tokenClass == TokenClass.LPAR ||
                     lookAhead(4).tokenClass == TokenClass.LPAR)) {
-            parseType();
-            expect(TokenClass.IDENTIFIER);
+            Type type = parseType();
+            Token t = expect(TokenClass.IDENTIFIER);
             expect(TokenClass.LPAR);
-            parseParams();
+            List<VarDecl> params = parseParams();
             expect(TokenClass.RPAR);
-            parseBlock();
+            Block block = parseBlock();
+            funDecls.add(new FunDecl(type, t.data, params, block));
             parseFunDecls();
         }
 
-        // default
-        return null;
+        return funDecls;
     }
 
     private Type parseType() {
@@ -234,18 +239,21 @@ public class Parser {
         return type;
     }
 
-    private Type parseStructType() {
+    private StructType parseStructType() {
         expect(TokenClass.STRUCT);
         Token t = expect(TokenClass.IDENTIFIER);
         return new StructType(t.data);
     }
 
-    private void parseParams() {
+    private List<VarDecl> parseParams() {
+        List<VarDecl> params = new ArrayList<>();
         if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {
-            parseType();
-            expect(TokenClass.IDENTIFIER);
+            Type type = parseType();
+            Token t = expect(TokenClass.IDENTIFIER);
+            params.add(new VarDecl(type, t.data));
             parseParamsRep();
         }
+        return params;
     }
 
     private void parseParamsRep() {
@@ -257,70 +265,83 @@ public class Parser {
         }
     }
 
-    private void parseStmt() {
+    private Stmt parseStmt() {
         if (accept(TokenClass.LBRA)) {
-            parseBlock();
+            return parseBlock();
         } else if (accept(TokenClass.WHILE)) {
             nextToken();
             expect(TokenClass.LPAR);
-            parseExp();
+            Expr exp = parseExp();
             expect(TokenClass.RPAR);
-            parseStmt();
+            Stmt stmt = parseStmt();
+            return new While(exp, stmt);
         } else if (accept(TokenClass.IF)) {
             nextToken();
             expect(TokenClass.LPAR);
-            parseExp();
+            Expr exp = parseExp();
             expect(TokenClass.RPAR);
-            parseStmt();
-            parseElseOpt();
+            Stmt stmt1 = parseStmt();
+            Stmt stmt2 = parseElseOpt();
+            return new If(exp, stmt1, stmt2);
         } else if (accept(TokenClass.RETURN)) {
             nextToken();
-            parseExpOpt();
+            Expr exp = parseExpOpt();
             expect(TokenClass.SC);
+            return new Return(exp);
         } else {
-            parseExp();
-            parseStmtRest();
+            Expr lhs = parseExp();
+            return parseStmtRest(lhs);
         }
     }
 
-    private void parseStmtRest() {
+    private Stmt parseStmtRest(Expr lhs) {
         if (accept(TokenClass.SC)) {
             nextToken();
+            return new ExprStmt(lhs);
         } else {
             expect(TokenClass.ASSIGN);
-            parseExp();
+            Expr rhs = parseExp();
             expect(TokenClass.SC);
+            return new Assign(lhs, rhs);
         }
     }
 
-    private void parseElseOpt() {
+    private Stmt parseElseOpt() {
         if (accept(TokenClass.ELSE)) {
             nextToken();
-            parseStmt();
+            return parseStmt();
         }
+
+        return null;
     }
 
-    private void parseExpOpt() {
+    private Expr parseExpOpt() {
         if (accept(TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX, TokenClass.LPAR,
                 TokenClass.IDENTIFIER, TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
-            parseExp();
+            return parseExp();
         }
+
+        return null;
     }
 
-    private void parseBlock() {
+    private Block parseBlock() {
         expect(TokenClass.LBRA);
-        parseVarDecls();
-        parseStmtRep();
+        List<VarDecl> varDecls = parseVarDecls();
+        List<Stmt> stmts = parseStmtRep();
         expect(TokenClass.RBRA);
+        return new Block(varDecls, stmts);
     }
 
-    private void parseStmtRep() {
+    private List<Stmt> parseStmtRep() {
+        List<Stmt> stmts = new ArrayList<>();
         if (accept(TokenClass.LBRA, TokenClass.WHILE, TokenClass.IF, TokenClass.RETURN,
                 TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX, TokenClass.LPAR,
                 TokenClass.IDENTIFIER, TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
-            parseStmt();
+            stmts.add(parseStmt());
             parseStmtRep();
         }
+
+        return stmts;
     }
 
     private Expr parseExp() {
