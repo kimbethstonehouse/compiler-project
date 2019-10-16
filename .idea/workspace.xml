@@ -2,7 +2,48 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03ad8db7-5a6e-4a29-930b-4a63d66f8b58" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$Mode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/MainPart1$Mode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/MainPart1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ASTNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ASTPrinter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ASTVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/BaseType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/BinOp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Block.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ChrLiteral.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/DotPrinter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Expr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/FunDecl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/IntLiteral.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Op.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Program.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Stmt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/StrLiteral.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/StructTypeDecl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Type.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/VarDecl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/VarExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lexer/Scanner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lexer/Token$TokenClass.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lexer/Token.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lexer/Tokeniser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/parser/Parser$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/parser/Parser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/parser/ParserPart1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/BaseSemanticVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/NameAnalysisVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/Scope.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/SemanticAnalyzer$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/SemanticAnalyzer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/SemanticVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/Symbol.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/TypeCheckVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/util/Position.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/DotPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/DotPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
