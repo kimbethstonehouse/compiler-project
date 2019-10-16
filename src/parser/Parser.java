@@ -207,25 +207,37 @@ public class Parser {
         return null;
     }
 
-    private void parseType() {
-        if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID)) {
+    private Type parseType() {
+        if (accept(TokenClass.INT)) {
             nextToken();
-            parseTypeOpt();
+            return parseTypeOpt(BaseType.INT);
+        } else if (accept(TokenClass.CHAR)) {
+            nextToken();
+            return parseTypeOpt(BaseType.CHAR);
+        } else if (accept(TokenClass.VOID)) {
+            nextToken();
+            return parseTypeOpt(BaseType.VOID);
         } else {
-            parseStructType();
-            parseTypeOpt();
+            return parseTypeOpt(parseStructType());
         }
     }
 
-    private void parseTypeOpt() {
+    // * or e
+    private Type parseTypeOpt(Type type) {
+        // returns a pointer type with the base type
         if (accept(TokenClass.ASTERIX)) {
             nextToken();
+            return new PointerType(type);
         }
+
+        // just returns the base type if no pointer
+        return type;
     }
 
-    private void parseStructType() {
+    private Type parseStructType() {
         expect(TokenClass.STRUCT);
-        expect(TokenClass.IDENTIFIER);
+        Token t = expect(TokenClass.IDENTIFIER);
+        return new StructType(t.data);
     }
 
     private void parseParams() {
@@ -534,12 +546,12 @@ public class Parser {
         }
     }
 
-    private Expr parseValueAt() {
+    private ValueAtExpr parseValueAt() {
         expect(TokenClass.ASTERIX);
         return new ValueAtExpr(parseExp());
     }
 
-    private Expr parseSizeOf() {
+    private SizeOfExpr parseSizeOf() {
         expect(TokenClass.SIZEOF);
         expect(TokenClass.LPAR);
         Type type = parseType();
