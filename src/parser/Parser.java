@@ -6,6 +6,7 @@ import lexer.Token;
 import lexer.Tokeniser;
 import lexer.Token.TokenClass;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -514,33 +515,35 @@ public class Parser {
     }
 
     private List<Expr> parseArgList() {
+        List<Expr> args = new ArrayList<>();
+
         if (accept(TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX, TokenClass.LPAR,
                 TokenClass.IDENTIFIER, TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
-            parseExp();
-            parseArgRep();
+            args.add(parseExp());
+            parseArgRep(args);
         }
 
-        // return to this
-        return null;
+        return args;
     }
 
-    private void parseArgRep() {
+    private void parseArgRep(List<Expr> args) {
         if (accept(TokenClass.COMMA)) {
             nextToken();
-            parseExp();
-            parseArgRep();
+            args.add(parseExp());
+            parseArgRep(args);
         }
     }
 
-    private void parseValueAt() {
+    private Expr parseValueAt() {
         expect(TokenClass.ASTERIX);
-        parseExp();
+        return new ValueAtExpr(parseExp());
     }
 
-    private void parseSizeOf() {
+    private Expr parseSizeOf() {
         expect(TokenClass.SIZEOF);
         expect(TokenClass.LPAR);
-        parseType();
+        Type type = parseType();
         expect(TokenClass.RPAR);
+        return new SizeOfExpr(type);
     }
 }
