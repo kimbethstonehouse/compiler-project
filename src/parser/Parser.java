@@ -327,18 +327,17 @@ public class Parser {
     private Block parseBlock() {
         expect(TokenClass.LBRA);
         List<VarDecl> varDecls = parseVarDecls();
-        List<Stmt> stmts = parseStmtRep();
+        List<Stmt> stmts = parseStmtRep(new ArrayList<>());
         expect(TokenClass.RBRA);
         return new Block(varDecls, stmts);
     }
 
-    private List<Stmt> parseStmtRep() {
-        List<Stmt> stmts = new ArrayList<>();
+    private List<Stmt> parseStmtRep(List<Stmt> stmts) {
         if (accept(TokenClass.LBRA, TokenClass.WHILE, TokenClass.IF, TokenClass.RETURN,
                 TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX, TokenClass.LPAR,
                 TokenClass.IDENTIFIER, TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
             stmts.add(parseStmt());
-            parseStmtRep();
+            parseStmtRep(stmts);
         }
 
         return stmts;
@@ -404,10 +403,17 @@ public class Parser {
         if (accept(TokenClass.LT, TokenClass.LE, TokenClass.GT, TokenClass.GE)) {
             Op op;
             switch(token.tokenClass) {
-                case LT: op = Op.LT;
-                case LE: op = Op.LE;
-                case GT: op = Op.GT;
-                default: op = Op.GE;
+                case LT:
+                    op = Op.LT;
+                    break;
+                case LE:
+                    op = Op.LE;
+                    break;
+                case GT:
+                    op = Op.GT;
+                    break;
+                default:
+                    op = Op.GE;
             }
             nextToken();
 
