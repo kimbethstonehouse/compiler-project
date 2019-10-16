@@ -427,83 +427,101 @@ public class Parser {
         return lhs;
     }
 
-    // how is -exp represented?
-    // 0-exp
     private Expr parseExpF() {
+        // unary minus
         if (accept(TokenClass.MINUS)) {
             nextToken();
             Expr rhs = parseExpF();
-            parseExpF();
+            return new BinOp(Op.SUB, new IntLiteral(0), rhs);
         } else if (accept(TokenClass.SIZEOF)) {
-            parseSizeOf();
+            return parseSizeOf();
         } else if (accept(TokenClass.ASTERIX)) {
-            parseValueAt();
+            return parseValueAt();
         } else if (accept(TokenClass.LPAR)) {
+            // (exp) or typecast (type) exp
             nextToken();
-            parseExpOrType();
+            return parseExpOrType();
         } else {
-            parseExpG();
+            return parseExpG();
         }
-
-        return null;
-
     }
 
     private Expr parseExpG() {
         Expr lhs = parseExpH();
-        parseOpsH();
-
-        return null;
-
+        return parseOpsH(lhs);
     }
 
-    private void parseOpsH() {
+    private Expr parseOpsH(Expr lhs) {
+        // array access [exp]
         if (accept(TokenClass.LSBR)) {
             nextToken();
-            parseExp();
+            Expr idx = parseExp();
             expect(TokenClass.RSBR);
+            return new ArrayAccessExpr(lhs, idx);
+        // field access . IDENT
         } else if (accept(TokenClass.DOT)) {
             nextToken();
-            expect(TokenClass.IDENTIFIER);
+            Token t = expect(TokenClass.IDENTIFIER);
+            return new FieldAccessExpr(lhs, t.data);
         }
+
+        return lhs;
     }
 
     private Expr parseExpH() {
+        // identifier or funcall IDENT ( arglist )
         if (accept(TokenClass.IDENTIFIER)) {
-            nextToken();
-            parseFunCallOrIdent();
+            Token t = expect(TokenClass.IDENTIFIER);
+            return parseFunCallOrIdent(t.data);
+        } else if (accept(TokenClass.INT_LITERAL)) {
+            Token t = expect(TokenClass.INT_LITERAL);
+            return new IntLiteral(Integer.valueOf(t.data));
+        } else if (accept(TokenClass.STRING_LITERAL)) {
+            Token t = expect(TokenClass.STRING_LITERAL);
+            return new StrLiteral(t.data);
         } else {
-            nextToken();
+            Token t = expect(TokenClass.CHAR_LITERAL);
+            return new ChrLiteral(t.data.charAt(0));
         }
-
-        return null;
     }
 
-    private void parseExpOrType() {
+    private Expr parseExpOrType() {
+        // typecast (type) exp
         if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {
-            parseType();
+            Type type = parseType();
             expect(TokenClass.RPAR);
-            parseExp();
+            Expr exp = parseExp();
+            return new TypecastExpr(type, exp);
+        // (exp)
         } else {
-            parseExp();
+            Expr exp = parseExp();
             expect(TokenClass.RPAR);
+            return exp;
         }
     }
 
-    private void parseFunCallOrIdent() {
+    private Expr parseFunCallOrIdent(String name) {
+        // function call
         if (accept(TokenClass.LPAR)) {
             nextToken();
-            parseArgList();
+            List<Expr> args = parseArgList();
             expect(TokenClass.RPAR);
+            return new FunCallExpr(name, args);
         }
+
+        // or identifier
+        return new VarExpr(name);
     }
 
-    private void parseArgList() {
+    private List<Expr> parseArgList() {
         if (accept(TokenClass.MINUS, TokenClass.SIZEOF, TokenClass.ASTERIX, TokenClass.LPAR,
                 TokenClass.IDENTIFIER, TokenClass.INT_LITERAL, TokenClass.CHAR_LITERAL, TokenClass.STRING_LITERAL)) {
             parseExp();
             parseArgRep();
         }
+
+        // return to this
+        return null;
     }
 
     private void parseArgRep() {

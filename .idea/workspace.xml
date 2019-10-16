@@ -3,31 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="03ad8db7-5a6e-4a29-930b-4a63d66f8b58" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ASTPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTPrinter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ArrayAccessExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ArrayAccessExpr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ArrayType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ArrayType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/Assign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Assign.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/BinOp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/BinOp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Block.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ChrLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ChrLiteral.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/Expr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Expr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ExprStmt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ExprStmt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/FieldAccessExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/FieldAccessExpr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/FunCallExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/FunCallExpr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/FunDecl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/FunDecl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/If.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/If.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/IntLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/IntLiteral.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/Return.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Return.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/SizeOfExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/SizeOfExpr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/Stmt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Stmt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/StrLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/StrLiteral.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/StructType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/StructType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/StructTypeDecl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/StructTypeDecl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/TypecastExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/TypecastExpr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ValueAtExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ValueAtExpr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/VarDecl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/VarDecl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/VarExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/VarExpr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/While.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/While.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
