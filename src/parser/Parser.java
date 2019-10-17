@@ -151,9 +151,9 @@ public class Parser {
 
             // vardecl positive closure
             // must have one, then call kleene closure
-            Type type = parseType();
+            Type baseType = parseType();
             Token t = expect(TokenClass.IDENTIFIER);
-            parseVarDeclRest();
+            Type type = parseVarDeclRest(baseType);
             List<VarDecl> varDecls = new ArrayList<>();
             varDecls.add(new VarDecl(type, t.data));
             parseVarDecls(varDecls);
@@ -172,9 +172,9 @@ public class Parser {
                 && (lookAhead(2).tokenClass == TokenClass.SC || lookAhead(2).tokenClass == TokenClass.LSBR
                 || lookAhead(3).tokenClass == TokenClass.SC || lookAhead(3).tokenClass == TokenClass.LSBR
                 || lookAhead(4).tokenClass == TokenClass.SC || lookAhead(4).tokenClass == TokenClass.LSBR)) {
-            Type type = parseType();
+            Type baseType = parseType();
             Token t = expect(TokenClass.IDENTIFIER);
-            parseVarDeclRest();
+            Type type = parseVarDeclRest(baseType);
             varDecls.add(new VarDecl(type, t.data));
             parseVarDecls(varDecls);
         }
@@ -182,14 +182,16 @@ public class Parser {
         return varDecls;
     }
 
-    private void parseVarDeclRest() {
+    private Type parseVarDeclRest(Type baseType) {
         if (accept(TokenClass.SC)) {
             nextToken();
+            return baseType;
         } else {
             expect(TokenClass.LSBR);
-            expect(TokenClass.INT_LITERAL);
+            Token t = expect(TokenClass.INT_LITERAL);
             expect(TokenClass.RSBR);
             expect(TokenClass.SC);
+            return new ArrayType(baseType, Integer.valueOf(t.data));
         }
     }
 
