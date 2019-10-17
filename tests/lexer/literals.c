@@ -1,6 +1,5 @@
 "\t";
 
-'' // gcc says invalid
 "" // gcc says ok
 
 // string literals
@@ -46,3 +45,4 @@
 //
 //"string with invalid \a escape chars"
 //"unclosed string
+//'' // gcc says invalid
