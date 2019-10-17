@@ -15,7 +15,6 @@
 "String \\hello \\"
 "String with naughty characters in \n"
 "\" hi dear\" she said"
-"string with invalid \a escape chars"
 
 // int literals
 0;
@@ -41,8 +40,9 @@
 'A';
 
 // errors
-'xxx';
-'AB';
-'\np';
-
-"unclosed string
+//'xxx';
+//'AB';
+//'\np';
+//
+//"string with invalid \a escape chars"
+//"unclosed string

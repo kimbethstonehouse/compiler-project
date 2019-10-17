@@ -149,7 +149,6 @@ public class Tokeniser {
         // string literal
         if (c == '\"') {
             StringBuilder sb = new StringBuilder();
-            sb.append(c);
 
             // if there is no next character,
             // throw unterminated string error
@@ -189,7 +188,6 @@ public class Tokeniser {
                 }
             }
 
-            sb.append(c);
             return new Token(TokenClass.STRING_LITERAL, sb.toString(), line, column);
         }
 
@@ -211,7 +209,6 @@ public class Tokeniser {
         // char literal
         if (c == '\'') {
             StringBuilder sb = new StringBuilder();
-            sb.append(c);
             try { c = scanner.next(); }
             catch (EOFException e) {
                 error(c, line, column);
@@ -241,12 +238,11 @@ public class Tokeniser {
             }
 
             // handle special characters first
-            sb.append(c);
-            List<String> specialChars = Arrays.asList("\'\\t\'", "\'\\b\'", "\'\\n\'", "\'\\r\'", "\'\\f\'",
-                    "\'\\'\'", "\'\\\"\'", "\'\\\\\'", "\'\\0\'");
+            List<String> specialChars = Arrays.asList("\\t", "\\b", "\\n", "\\r", "\\f",
+                    "\\'", "\\\"", "\\\\", "\\0");
             if (specialChars.contains(sb.toString())) { return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column); }
                 // then regular characters
-            else if (sb.toString().length() == 3) { return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column); }
+            else if (sb.toString().length() == 1) { return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column); }
                 // then errors
             else {
                 error(c, line, column);
