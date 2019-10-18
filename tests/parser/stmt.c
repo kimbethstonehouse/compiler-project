@@ -8,6 +8,10 @@ void main() {
     while("string") {
         // nested while
         while (1) {
+            while (1)  {
+                while (1) {
+                }
+            }
         }
     }
 
@@ -50,22 +54,22 @@ void main() {
 }
 
 // EXPECTED FAIL
- vardecl instead of exp
-void main() {
-    while (char c) {}
-}
-
-// double else
-void main() {
-    if (1) {} else {} else {}
-}
-
-// return no semicolon
-void main() {
-    return
-}
-
-// exp no semicolon
-void main() {
-    1 + 2
-}
+// vardecl instead of exp
+//void main() {
+//    while (char c) {}
+//}
+//
+//// double else
+//void main() {
+//    if (1) {} else {} else {}
+//}
+//
+//// return no semicolon
+//void main() {
+//    return
+//}
+//
+//// exp no semicolon
+//void main() {
+//    1 + 2
+//}

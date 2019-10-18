@@ -1,6 +1,11 @@
 void main() {
-    s = "hell\no";
+    int while;
 }
+
+
+//void main() {
+//    s = "hell\no";
+//}
 
 //void main() {
 //    int* arr[10];

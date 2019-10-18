@@ -111,7 +111,7 @@ public class Parser {
         }
 
         error(expected);
-        return null;
+        return new Token(TokenClass.INVALID, 0, 0);
     }
 
     /*
@@ -191,7 +191,10 @@ public class Parser {
             Token t = expect(TokenClass.INT_LITERAL);
             expect(TokenClass.RSBR);
             expect(TokenClass.SC);
-            return new ArrayType(baseType, Integer.valueOf(t.data));
+
+            // if expect threw an error, t will be an invalid token with empty data field
+            if (t.tokenClass == TokenClass.INVALID) return new ArrayType(baseType, 0);
+            else return new ArrayType(baseType, Integer.valueOf(t.data));
         }
     }
 
@@ -510,13 +513,18 @@ public class Parser {
             return parseFunCallOrIdent(t.data);
         } else if (accept(TokenClass.INT_LITERAL)) {
             Token t = expect(TokenClass.INT_LITERAL);
-            return new IntLiteral(Integer.valueOf(t.data));
+            // if expect threw an error, t will be an invalid token with empty data field
+            if (t.tokenClass == TokenClass.INVALID) return new IntLiteral(0);
+            else return new IntLiteral((Integer.valueOf(t.data)));
         } else if (accept(TokenClass.STRING_LITERAL)) {
             Token t = expect(TokenClass.STRING_LITERAL);
             return new StrLiteral(t.data);
         } else {
             Token t = expect(TokenClass.CHAR_LITERAL);
-            return new ChrLiteral(t.data.charAt(0));
+
+            // if expect threw an error, t will be an invalid token with empty data field
+            if (t.tokenClass == TokenClass.INVALID) return new ChrLiteral(' ');
+            else return new ChrLiteral(t.data.charAt(0));
         }
     }
 
