@@ -6,7 +6,6 @@ import lexer.Token;
 import lexer.Tokeniser;
 import lexer.Token.TokenClass;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -145,7 +144,8 @@ public class Parser {
     }
 
     private List<StructTypeDecl> parseStructDecls(List<StructTypeDecl> structTypeDecls) {
-        if (accept(TokenClass.STRUCT)) {
+        if (accept(TokenClass.STRUCT) &&
+                lookAhead(2).tokenClass == TokenClass.LBRA) {
             StructType structType = parseStructType();
             expect(TokenClass.LBRA);
 
