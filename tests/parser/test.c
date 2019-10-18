@@ -1,7 +1,11 @@
 void main() {
-    (int) 5;
-    (3+4);
+    int hello[3];
 }
+
+//void main() {
+//    (int) 5;
+//    (3+4);
+//}
 
 //void main() {
 //    (3+4)[0];

@@ -386,10 +386,8 @@ public class Parser {
     private Expr parseOpsC(Expr lhs) {
         if (accept(TokenClass.EQ, TokenClass.NE)) {
             Op op;
-
             if (token.tokenClass == TokenClass.EQ) op = Op.EQ;
             else op = Op.NE;
-
             nextToken();
 
             Expr rhs = parseExpC();
@@ -407,12 +405,10 @@ public class Parser {
     private Expr parseOpsD(Expr lhs) {
         if (accept(TokenClass.LT, TokenClass.LE, TokenClass.GT, TokenClass.GE)) {
             Op op;
-
             if (token.tokenClass == TokenClass.LT) op = Op.LT;
             else if (token.tokenClass == TokenClass.LE) op = Op.LE;
             else if (token.tokenClass == TokenClass.GT) op = Op.GT;
             else op = Op.GE;
-
             nextToken();
 
             Expr rhs = parseExpD();
@@ -430,10 +426,8 @@ public class Parser {
     private Expr parseOpsE(Expr lhs) {
         if (accept(TokenClass.PLUS, TokenClass.MINUS)) {
             Op op;
-
             if (token.tokenClass == TokenClass.PLUS) op = Op.ADD;
             else op = Op.SUB;
-
             nextToken();
 
             Expr rhs = parseExpE();
@@ -451,11 +445,9 @@ public class Parser {
     private Expr parseOpsF(Expr lhs) {
         if (accept(TokenClass.ASTERIX, TokenClass.DIV, TokenClass.REM)) {
             Op op;
-
             if (token.tokenClass == TokenClass.ASTERIX) op = Op.MUL;
             else if (token.tokenClass == TokenClass.DIV) op = Op.DIV;
             else op = Op.MOD;
-
             nextToken();
 
             Expr rhs = parseExpF();
@@ -469,28 +461,33 @@ public class Parser {
         // unary minus
         if (accept(TokenClass.MINUS)) {
             nextToken();
-            Expr rhs = parseExpF();
+            Expr rhs = parseExpG();
             return new BinOp(Op.SUB, new IntLiteral(0), rhs);
         } else if (accept(TokenClass.SIZEOF)) {
-            Expr e = parseSizeOf();
-            return parseOpsH(e);
+            return parseSizeOf();
         } else if (accept(TokenClass.ASTERIX)) {
-            Expr e = parseValueAt();
-            return parseOpsH(e);
-        } else if (accept(TokenClass.LPAR)) {
-            // (exp) or typecast (type) exp
+            return parseValueAt();
+        // lookahead to see if (type) exp or (exp)
+        } else if (accept(TokenClass.LPAR) && (lookAhead(1).tokenClass == TokenClass.INT
+                                            || lookAhead(1).tokenClass == TokenClass.CHAR
+                                            || lookAhead(1).tokenClass == TokenClass.VOID
+                                            || lookAhead(1).tokenClass == TokenClass.STRUCT)) {
             nextToken();
-            Expr e = parseExpOrType();
-            return parseOpsH(e);
+            return parseTypecast();
         } else {
-            Expr e = parseExpG();
-            return parseOpsH(e);
+            return parseExpG();
         }
     }
 
     private Expr parseExpG() {
-        Expr lhs = parseExpH();
-        return parseOpsH(lhs);
+        // funcall
+        if (accept(TokenClass.IDENTIFIER) && lookAhead(1).tokenClass == TokenClass.LPAR) {
+            Expr lhs = parseFuncall();
+            return parseOpsH(lhs);
+        } else {
+            Expr lhs = parseExpH();
+            return parseOpsH(lhs);
+        }
     }
 
     private Expr parseOpsH(Expr lhs) {
@@ -511,53 +508,40 @@ public class Parser {
     }
 
     private Expr parseExpH() {
-        // identifier or funcall IDENT ( arglist )
         if (accept(TokenClass.IDENTIFIER)) {
             Token t = expect(TokenClass.IDENTIFIER);
-            return parseFunCallOrIdent(t.data);
+            // identifier
+            return new VarExpr(t.data);
         } else if (accept(TokenClass.INT_LITERAL)) {
             Token t = expect(TokenClass.INT_LITERAL);
+
             // if expect threw an error, t will be an invalid token with empty data field
             if (t.tokenClass == TokenClass.INVALID) return new IntLiteral(0);
             else return new IntLiteral((Integer.valueOf(t.data)));
         } else if (accept(TokenClass.STRING_LITERAL)) {
             Token t = expect(TokenClass.STRING_LITERAL);
             return new StrLiteral(t.data);
-        } else {
+        } else if (accept(TokenClass.CHAR_LITERAL)) {
             Token t = expect(TokenClass.CHAR_LITERAL);
 
             // if expect threw an error, t will be an invalid token with empty data field
             if (t.tokenClass == TokenClass.INVALID) return new ChrLiteral(' ');
             else return new ChrLiteral(t.data.charAt(0));
-        }
-    }
-
-    private Expr parseExpOrType() {
-        // typecast (type) exp
-        if (accept(TokenClass.INT, TokenClass.CHAR, TokenClass.VOID, TokenClass.STRUCT)) {
-            Type type = parseType();
-            expect(TokenClass.RPAR);
-            Expr exp = parseExp();
-            return new TypecastExpr(type, exp);
-        // (exp)
         } else {
+            // (exp)
+            expect(TokenClass.LPAR);
             Expr exp = parseExp();
             expect(TokenClass.RPAR);
             return exp;
         }
     }
 
-    private Expr parseFunCallOrIdent(String name) {
-        // function call
-        if (accept(TokenClass.LPAR)) {
-            nextToken();
-            List<Expr> args = parseArgList();
-            expect(TokenClass.RPAR);
-            return new FunCallExpr(name, args);
-        }
-
-        // or identifier
-        return new VarExpr(name);
+    private FunCallExpr parseFuncall() {
+        Token t = expect(TokenClass.IDENTIFIER);
+        expect(TokenClass.LPAR);
+        List<Expr> args = parseArgList();
+        expect(TokenClass.RPAR);
+        return new FunCallExpr(t.data, args);
     }
 
     private List<Expr> parseArgList() {
@@ -591,5 +575,13 @@ public class Parser {
         Type type = parseType();
         expect(TokenClass.RPAR);
         return new SizeOfExpr(type);
+    }
+
+    private TypecastExpr parseTypecast() {
+        expect(TokenClass.LPAR);
+        Type type = parseType();
+        expect(TokenClass.RPAR);
+        Expr exp = parseExp();
+        return new TypecastExpr(type, exp);
     }
 }
