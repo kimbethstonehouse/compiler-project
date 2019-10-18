@@ -4,6 +4,7 @@
     <list default="true" id="03ad8db7-5a6e-4a29-930b-4a63d66f8b58" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/parser/exp.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/exp.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/parser/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/test.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,10 +41,18 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.ast test">
+  <component name="RunManager" selected="Application.ast exp">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ast exp" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ct-19-20" />
+      <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/exp.c exp.c-ast-dump" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -67,6 +76,7 @@
     <list>
       <item itemvalue="Application.ast fibonacci" />
       <item itemvalue="Application.ast test" />
+      <item itemvalue="Application.ast exp" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -117,6 +127,22 @@
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
+          <line>578</line>
+          <properties class="parser.Parser" method="parseTypecast">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
+          <line>491</line>
+          <properties class="parser.Parser" method="parseOpsH">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

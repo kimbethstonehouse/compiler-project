@@ -59,8 +59,10 @@ void main() {
 
      // typecast
      (int) 4;
-}
 
-// EXPECTED FAIL
-// nested field access
-x.field.field;
+     // nested field access
+     x.field.field;
+
+     // nested array access
+     a[x][x];
+}

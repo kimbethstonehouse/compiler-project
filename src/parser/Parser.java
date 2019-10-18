@@ -472,7 +472,6 @@ public class Parser {
                                             || lookAhead(1).tokenClass == TokenClass.CHAR
                                             || lookAhead(1).tokenClass == TokenClass.VOID
                                             || lookAhead(1).tokenClass == TokenClass.STRUCT)) {
-            nextToken();
             return parseTypecast();
         } else {
             return parseExpG();

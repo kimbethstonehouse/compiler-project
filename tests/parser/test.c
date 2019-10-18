@@ -1,6 +1,6 @@
-void main() {
-    int hello[3];
-}
+//void main() {
+//    int hello[3];
+//}
 
 //void main() {
 //    (int) 5;
