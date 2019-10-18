@@ -140,31 +140,31 @@ public class DotPrinter implements ASTVisitor<String> {
         return null;
     }
 
-    public static void main(String args[]) {
-        //File f = new File("C://afs/inf.ed.ac.uk/user/s16/s1615906/ast.txt");
-        //DotPrinter dp = new DotPrinter("C://afs/inf.ed.ac.uk/user/s16/s1615906/ast.txt");
-
-        File inputFile = new File(args[0]);
-        File outputFile = new File(args[1]);
-
-        Scanner scanner;
-        try {
-            scanner = new Scanner(inputFile);
-        } catch (FileNotFoundException e) {
-            System.out.println("File " + inputFile.toString() + " does not exist.");
-            return;
-        }
-
-        Tokeniser tokeniser = new Tokeniser(scanner);
-
-        Parser parser = new Parser(tokeniser);
-        Program programAst = parser.parse();
-        if (parser.getErrorCount() == 0) {
-            try {
-                programAst.accept(new DotPrinter(outputFile));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    public static void main(String args[]) {
+//        //File f = new File("C://afs/inf.ed.ac.uk/user/s16/s1615906/ast.txt");
+//        //DotPrinter dp = new DotPrinter("C://afs/inf.ed.ac.uk/user/s16/s1615906/ast.txt");
+//
+//        File inputFile = new File(args[0]);
+//        File outputFile = new File(args[1]);
+//
+//        Scanner scanner;
+//        try {
+//            scanner = new Scanner(inputFile);
+//        } catch (FileNotFoundException e) {
+//            System.out.println("File " + inputFile.toString() + " does not exist.");
+//            return;
+//        }
+//
+//        Tokeniser tokeniser = new Tokeniser(scanner);
+//
+//        Parser parser = new Parser(tokeniser);
+//        Program programAst = parser.parse();
+//        if (parser.getErrorCount() == 0) {
+//            try {
+//                programAst.accept(new DotPrinter(outputFile));
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 }

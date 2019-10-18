@@ -1,3 +1,16 @@
+void main() {
+    (int) 5;
+    (3+4);
+}
+
+//void main() {
+//    (3+4)[0];
+//}
+
+//void main() {
+//    main().a[5];
+//}
+
 //
 //
 //struct c{
@@ -21,9 +34,9 @@
 //    struct r n[3];
 //};
 
-struct s {
-
-};
+//struct s {
+//
+//};
 
 //struct node_t n;
 

@@ -472,15 +472,19 @@ public class Parser {
             Expr rhs = parseExpF();
             return new BinOp(Op.SUB, new IntLiteral(0), rhs);
         } else if (accept(TokenClass.SIZEOF)) {
-            return parseSizeOf();
+            Expr e = parseSizeOf();
+            return parseOpsH(e);
         } else if (accept(TokenClass.ASTERIX)) {
-            return parseValueAt();
+            Expr e = parseValueAt();
+            return parseOpsH(e);
         } else if (accept(TokenClass.LPAR)) {
             // (exp) or typecast (type) exp
             nextToken();
-            return parseExpOrType();
+            Expr e = parseExpOrType();
+            return parseOpsH(e);
         } else {
-            return parseExpG();
+            Expr e = parseExpG();
+            return parseOpsH(e);
         }
     }
 
@@ -495,12 +499,12 @@ public class Parser {
             nextToken();
             Expr idx = parseExp();
             expect(TokenClass.RSBR);
-            return new ArrayAccessExpr(lhs, idx);
+            lhs = parseOpsH(new ArrayAccessExpr(lhs, idx));
         // field access . IDENT
         } else if (accept(TokenClass.DOT)) {
             nextToken();
             Token t = expect(TokenClass.IDENTIFIER);
-            return new FieldAccessExpr(lhs, t.data);
+            lhs = parseOpsH(new FieldAccessExpr(lhs, t.data));
         }
 
         return lhs;

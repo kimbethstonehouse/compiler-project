@@ -31,35 +31,34 @@ block     ::= "{" vardecl stmtrep "}"
 stmtrep ::= stmt stmtrep | ε
 
 exp  ::= expA opsA
-opsA ::= ε | "||" expA opsA
+opsA ::= "||" expA opsA | ε
 
 expA ::= expB opsB
-opsB ::= ε | "&&" expB opsB
+opsB ::= "&&" expB opsB | ε
 
 expB ::= expC opsC
-opsC ::= ε | "==" expC opsC | "!=" expC opsC
+opsC ::= ("=="|"!=") expC opsC | ε
 
 expC ::= expD opsD
-opsD ::= ε | "<" expD opsD | "<=" expD opsD | ">" expD opsD | ">=" expD opsD
+opsD ::= ("<"|">"|"<="|">=") expD opsD | ε
 
 expD ::= expE opsE
-opsE ::= ε | "+" expE opsE | "-" expE opsE
+opsE ::= ("+"|"-") expE opsE | ε
 
 expE ::= expF opsF
-opsF ::= ε | "*" expF opsF | "/" expF opsF | "%" expF opsF
+opsF ::= ("*"|"/"|"%") expF opsF | ε
 
-expF ::= expG | "-" expF | sizeof | valueat | "(" exportype
+expF ::= expG | "-" expG | sizeof | valueat | typecast         # need lookahead here!
 
-expG ::= expH opsH
-opsH ::= ε | "[" exp "]" | "." IDENT
+expG ::= expH opsH | funcall opsH                              # need lookahead here!
+opsH ::= "[" exp "]" opsH | "." IDENT opsH | ε
 
-expH ::= IDENT funcallorident | INT_LITERAL | CHAR_LITERAL | STRING_LITERAL
+expH ::= IDENT | INT_LITERAL | CHAR_LITERAL | STRING_LITERAL | "(" exp ")"
 
-exportype ::= exp ")" | type ")" exp
-funcallorident ::= e | "(" arglist ")"
-
+funcall ::= IDENT "(" arglist ")"
 arglist ::= exp argrep | ε
 argrep ::= "," exp argrep | ε
 
 valueat      ::= "*" exp
 sizeof       ::= "sizeof" "(" type ")"
+typecast     ::= "(" type ")" exp
