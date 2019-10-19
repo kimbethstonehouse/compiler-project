@@ -1,3 +1,4 @@
+
 //void main() {
 //    int hello[3];
 //}
@@ -6,7 +7,7 @@
 //    (int) 5;
 //    (3+4);
 //}
-
+//
 //void main() {
 //    (3+4)[0];
 //}
@@ -44,7 +45,7 @@
 
 //struct node_t n;
 
-
+//
 //void main() {
 //    3 + 4 * 5 * 6;
 //}
@@ -61,7 +62,6 @@
 //void main() {
 //    char int;
 //}
-
 
 //void main() {
 //    s = "hell\no";

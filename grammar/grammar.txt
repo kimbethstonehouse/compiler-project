@@ -48,7 +48,7 @@ opsE ::= ("+"|"-") expE opsE | ε
 expE ::= expF opsF
 opsF ::= ("*"|"/"|"%") expF opsF | ε
 
-expF ::= expG | "-" expG | sizeof | valueat | typecast         # need lookahead here!
+expF ::= expG | "-" expF | sizeof | valueat | typecast         # need lookahead here!
 
 expG ::= expH opsH | funcall opsH                              # need lookahead here!
 opsH ::= "[" exp "]" opsH | "." IDENT opsH | ε

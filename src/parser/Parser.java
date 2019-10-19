@@ -461,7 +461,7 @@ public class Parser {
         // unary minus
         if (accept(TokenClass.MINUS)) {
             nextToken();
-            Expr rhs = parseExpG();
+            Expr rhs = parseExpF();
             return new BinOp(Op.SUB, new IntLiteral(0), rhs);
         } else if (accept(TokenClass.SIZEOF)) {
             return parseSizeOf();
@@ -511,6 +511,12 @@ public class Parser {
             Token t = expect(TokenClass.IDENTIFIER);
             // identifier
             return new VarExpr(t.data);
+        } else if (accept(TokenClass.LPAR)) {
+            // (exp)
+            expect(TokenClass.LPAR);
+            Expr exp = parseExp();
+            expect(TokenClass.RPAR);
+            return exp;
         } else if (accept(TokenClass.INT_LITERAL)) {
             Token t = expect(TokenClass.INT_LITERAL);
 
@@ -520,18 +526,12 @@ public class Parser {
         } else if (accept(TokenClass.STRING_LITERAL)) {
             Token t = expect(TokenClass.STRING_LITERAL);
             return new StrLiteral(t.data);
-        } else if (accept(TokenClass.CHAR_LITERAL)) {
+        } else {
             Token t = expect(TokenClass.CHAR_LITERAL);
 
             // if expect threw an error, t will be an invalid token with empty data field
             if (t.tokenClass == TokenClass.INVALID) return new ChrLiteral(' ');
             else return new ChrLiteral(t.data.charAt(0));
-        } else {
-            // (exp)
-            expect(TokenClass.LPAR);
-            Expr exp = parseExp();
-            expect(TokenClass.RPAR);
-            return exp;
         }
     }
 
