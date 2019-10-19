@@ -1,3 +1,6 @@
+void main() {
+    x.y.z;
+}
 
 //void main() {
 //    int hello[3];

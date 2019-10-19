@@ -2,6 +2,9 @@ package sem;
 
 import ast.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	Scope scope;
@@ -11,6 +14,8 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	public Void visitProgram(Program p) {
 		for (StructTypeDecl std : p.structTypeDecls) std.accept(this);
 		for (VarDecl vd : p.varDecls) vd.accept(this);
+
+		addLibraryFunctions();
 		for (FunDecl fd : p.funDecls) fd.accept(this);
 		return null;
 	}
@@ -132,6 +137,9 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		// record funcdecl in funcall ast node
 		else fce.fd = ((FuncSymbol) fs).fd;
 
+		// check the parameters to the funcall exist
+		for (Expr e : fce.args) e.accept(this);
+
 		return null;
 	}
 
@@ -155,7 +163,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitValueAtExpr(ValueAtExpr vae) {
-		// To be completed...
+		vae.expr.accept(this);
 		return null;
 	}
 
@@ -167,7 +175,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitTypecastExpr(TypecastExpr tce) {
-		// To be completed...
+		tce.expr.accept(this);
 		return null;
 	}
 
@@ -187,31 +195,84 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitWhile(While w) {
-		// To be completed...
+		w.expr.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visitIf(If i) {
-		// To be completed...
+		i.expr.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visitAssign(Assign a) {
-		// To be completed...
+		a.lhs.accept(this);
+		a.rhs.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visitReturn(Return r) {
-		// To be completed...
+		r.expr.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visitExprStmt(ExprStmt es) {
-		// To be completed...
+		es.expr.accept(this);
 		return null;
+	}
+
+	// HELPER FUNCTIONS
+
+	private void addLibraryFunctions() {
+		// void print_s(char* s);
+		scope.put(new FuncSymbol(
+				new FunDecl(
+						BaseType.VOID,
+						"print_s",
+						Arrays.asList(new VarDecl(new PointerType(BaseType.CHAR), "s")),
+						new Block(new ArrayList<>(), new ArrayList<>()))));
+
+		// void print_i(int i);
+		scope.put(new FuncSymbol(
+				new FunDecl(
+						BaseType.VOID,
+						"print_i",
+						Arrays.asList(new VarDecl(BaseType.INT, "i")),
+						new Block(new ArrayList<>(), new ArrayList<>()))));
+
+		// void print_c(char c);
+		scope.put(new FuncSymbol(
+				new FunDecl(
+						BaseType.VOID,
+						"print_c",
+						Arrays.asList(new VarDecl(BaseType.CHAR, "c")),
+						new Block(new ArrayList<>(), new ArrayList<>()))));
+
+		// char read_c();
+		scope.put(new FuncSymbol(
+				new FunDecl(
+						BaseType.CHAR,
+						"read_c",
+						new ArrayList<>(),
+						new Block(new ArrayList<>(), new ArrayList<>()))));
+
+		// int read_i();
+		scope.put(new FuncSymbol(
+				new FunDecl(
+						BaseType.INT,
+						"read_i",
+						new ArrayList<>(),
+						new Block(new ArrayList<>(), new ArrayList<>()))));
+
+		// void* mcmalloc(int size);
+		scope.put(new FuncSymbol(
+				new FunDecl(
+						new PointerType(BaseType.VOID),
+						"mcmalloc",
+						Arrays.asList(new VarDecl(BaseType.INT, "size")),
+						new Block(new ArrayList<>(), new ArrayList<>()))));
 	}
 }
