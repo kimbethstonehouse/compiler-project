@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03ad8db7-5a6e-4a29-930b-4a63d66f8b58" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/sem/FuncSymbol.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sem/VarSymbol.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grammar/grammar.txt" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/grammar.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/parser/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/test.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/Scope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/Scope.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/Symbol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/Symbol.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
