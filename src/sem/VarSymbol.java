@@ -10,4 +10,6 @@ public class VarSymbol extends Symbol {
         this.vd = vd;
     }
 
+    public boolean isVar() { return true; }
+    public boolean isFunc() { return false; }
 }

@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Program implements ASTNode {

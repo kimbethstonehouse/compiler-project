@@ -1,5 +1,6 @@
 package sem;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Scope {
@@ -7,8 +8,9 @@ public class Scope {
 	// map identifier x to symbol which is either procedure or funciton
 	private Map<String, Symbol> symbolTable;
 	
-	public Scope(Scope outer) { 
-		this.outer = outer; 
+	public Scope(Scope outer) {
+		this.outer = outer;
+		symbolTable = new HashMap<>();
 	}
 	
 	public Scope() { this(null); }
