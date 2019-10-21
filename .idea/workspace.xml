@@ -2,13 +2,89 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03ad8db7-5a6e-4a29-930b-4a63d66f8b58" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ast/ErrorType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/fail_char_add_int.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/test.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/a.out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main$Mode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/MainPart1$Mode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/MainPart1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ASTNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ASTPrinter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ASTVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ArrayAccessExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ArrayType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Assign.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/BaseType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/BinOp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Block.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ChrLiteral.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/DotPrinter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Expr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ExprStmt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/FieldAccessExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/FunCallExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/FunDecl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/If.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/IntLiteral.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Op.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/PointerType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Program.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Return.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/SizeOfExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Stmt.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/StrLiteral.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/StructType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/StructTypeDecl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/Type.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/TypecastExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/ValueAtExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/VarDecl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/VarExpr.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ast/While.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lexer/Scanner.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lexer/Token$TokenClass.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lexer/Token.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/lexer/Tokeniser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/parser/Parser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/parser/ParserPart1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/BaseSemanticVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/FuncSymbol.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/NameAnalysisVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/Scope.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/SemanticAnalyzer$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/SemanticAnalyzer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/SemanticVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/Symbol.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/TypeCheckVisitor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sem/VarSymbol.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/util/Position.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/ASTPrinter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/ASTPrinter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/ASTVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/ASTVisitor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/ArrayType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/ArrayType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/DotPrinter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/DotPrinter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/PointerType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/PointerType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/Program.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/Program.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/SizeOfExpr.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/SizeOfExpr.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/TypecastExpr.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/TypecastExpr.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/SemanticAnalyzer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/SemanticAnalyzer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/SemanticAnalyzer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/SemanticAnalyzer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ast/ASTPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTPrinter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ASTVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/VarDecl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/VarDecl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/ArrayType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ArrayType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/DotPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/DotPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/PointerType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/PointerType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Program.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/SizeOfExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/SizeOfExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/TypecastExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/TypecastExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/SemanticAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/SemanticAnalyzer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/parser/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/test.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,7 +120,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.sem fundecls">
+  <component name="RunManager" selected="Application.sem dupl var">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
@@ -68,6 +144,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="sem dupl var" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ct-19-20" />
+      <option name="PROGRAM_PARAMETERS" value="-sem tests/sem/fail_char_add_int.c dummy.out" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="sem fundecls" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
@@ -79,6 +163,7 @@
     <list>
       <item itemvalue="Application.ast fibonacci" />
       <item itemvalue="Application.sem fundecls" />
+      <item itemvalue="Application.sem dupl var" />
       <item itemvalue="Application.ast exp" />
     </list>
   </component>
@@ -126,7 +211,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
           <line>578</line>
-          <properties class="parser.Parser">
+          <properties class="parser.Parser" method="parseTypecast">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="27" />
@@ -134,7 +219,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
           <line>115</line>
-          <properties class="sem.NameAnalysisVisitor">
+          <properties class="sem.NameAnalysisVisitor" method="visitVarExpr">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="34" />
@@ -142,26 +227,26 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
           <line>129</line>
-          <properties class="sem.NameAnalysisVisitor">
+          <properties class="sem.NameAnalysisVisitor" method="visitFunCallExpr">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>183</line>
-          <properties class="sem.NameAnalysisVisitor">
+          <line>185</line>
+          <properties class="sem.NameAnalysisVisitor" method="visitBlock">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>43</line>
-          <properties class="sem.NameAnalysisVisitor">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>91</line>
+          <properties class="sem.TypeCheckVisitor" method="visitVarExpr">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="40" />
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
@@ -170,13 +255,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>67</line>
-          <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>18</line>
-          <option name="timeStamp" value="39" />
+          <line>15</line>
+          <option name="timeStamp" value="43" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

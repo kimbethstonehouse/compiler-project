@@ -12,11 +12,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitProgram(Program p) {
-		for (StructTypeDecl std : p.structTypeDecls) std.accept(this);
-		for (VarDecl vd : p.varDecls) vd.accept(this);
+        for (StructTypeDecl std : p.structTypeDecls) std.accept(this);
+        for (VarDecl vd : p.varDecls) vd.accept(this);
 
-		addLibraryFunctions();
-		for (FunDecl fd : p.funDecls) fd.accept(this);
+        addLibraryFunctions();
+        for (FunDecl fd : p.funDecls) fd.accept(this);
 		return null;
 	}
 
@@ -145,19 +145,21 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitBinOp(BinOp bo) {
-		// To be completed...
+		bo.lhs.accept(this);
+		bo.rhs.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visitArrayAccessExpr(ArrayAccessExpr aae) {
-		// To be completed...
+		aae.arr.accept(this);
+		aae.idx.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visitFieldAccessExpr(FieldAccessExpr fae) {
-		// To be completed...
+		// TODO
 		return null;
 	}
 
@@ -201,6 +203,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitIf(If i) {
+		// TODO what if expr2 is null
 		i.expr.accept(this);
 		return null;
 	}
@@ -214,6 +217,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitReturn(Return r) {
+		// TODO what if expr is null
 		r.expr.accept(this);
 		return null;
 	}

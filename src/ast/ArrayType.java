@@ -2,11 +2,11 @@ package ast;
 
 public class ArrayType implements Type {
 
-    public final Type type;
+    public final Type baseType;
     public final int size;
 
-    public ArrayType(Type type, int size) {
-        this.type = type;
+    public ArrayType(Type baseType, int size) {
+        this.baseType = baseType;
         this.size = size;
     }
 

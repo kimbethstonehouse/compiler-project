@@ -2,9 +2,9 @@ package ast;
 
 public class PointerType implements Type {
 
-    public final Type type;
+    public Type baseType;
 
-    public PointerType(Type type) { this.type = type; }
+    public PointerType(Type baseType) { this.baseType = baseType; }
 
     public <T> T accept(ASTVisitor<T> v) {
         return v.visitPointerType(this);

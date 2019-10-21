@@ -571,16 +571,16 @@ public class Parser {
     private SizeOfExpr parseSizeOf() {
         expect(TokenClass.SIZEOF);
         expect(TokenClass.LPAR);
-        Type type = parseType();
+        Type sizeofType = parseType();
         expect(TokenClass.RPAR);
-        return new SizeOfExpr(type);
+        return new SizeOfExpr(sizeofType);
     }
 
     private TypecastExpr parseTypecast() {
         expect(TokenClass.LPAR);
-        Type type = parseType();
+        Type castType = parseType();
         expect(TokenClass.RPAR);
         Expr exp = parseExp();
-        return new TypecastExpr(type, exp);
+        return new TypecastExpr(castType, exp);
     }
 }

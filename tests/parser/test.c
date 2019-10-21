@@ -1,6 +1,21 @@
 void main() {
-    x.y.z;
+    struct s {
+        int x;
+    }
+
+    struct y {
+        int x;
+    }
+
+    void y() {
+    }
+
 }
+
+
+//void main() {
+//    x.y.z;
+//}
 
 //void main() {
 //    int hello[3];

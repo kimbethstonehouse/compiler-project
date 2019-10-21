@@ -140,6 +140,8 @@ public class DotPrinter implements ASTVisitor<String> {
         return null;
     }
 
+    public String visitErrorType(ErrorType et) { return null; }
+
 //    public static void main(String args[]) {
 //        //File f = new File("C://afs/inf.ed.ac.uk/user/s16/s1615906/ast.txt");
 //        //DotPrinter dp = new DotPrinter("C://afs/inf.ed.ac.uk/user/s16/s1615906/ast.txt");

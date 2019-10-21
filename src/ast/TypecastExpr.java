@@ -2,11 +2,11 @@ package ast;
 
 public class TypecastExpr extends Expr {
 
-    public final Type type;
+    public final Type castType;
     public final Expr expr;
 
-    public TypecastExpr(Type type, Expr expr) {
-        this.type = type;
+    public TypecastExpr(Type castType, Expr expr) {
+        this.castType = castType;
         this.expr = expr;
     }
 
