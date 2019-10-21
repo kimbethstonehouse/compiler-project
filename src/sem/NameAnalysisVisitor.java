@@ -224,6 +224,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		return null;
 	}
 
+	@Override
+    public Void visitErrorType(ErrorType et) {
+	    return null;
+    }
+
 	// HELPER FUNCTIONS
 
 	private void addLibraryFunctions() {

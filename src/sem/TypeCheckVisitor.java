@@ -2,11 +2,16 @@ package sem;
 
 import ast.*;
 
+import java.util.List;
+
 public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitProgram(Program p) {
 		// To be completed...
+		// do not forget to set types  !!
+
+		// every expr should have a type
 		return null;
 	}
 
@@ -18,7 +23,11 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitVarDecl(VarDecl vd) {
-		// To be completed...
+		if (vd.type == BaseType.VOID) {
+			error("Variables cannot have type VOID");
+		}
+
+		// only expressions have types, vardecl is a statement
 		return null;
 	}
 
@@ -72,25 +81,65 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitVarExpr(VarExpr v) {
-		// To be completed...
-		return null;
+		// the type of the variable is the type of the declaration
+		v.type = v.vd.type;
+		return v.type;
 	}
 
 	@Override
 	public Type visitFunCallExpr(FunCallExpr fce) {
-		// To be completed...
-		return null;
+		List<VarDecl> params = fce.fd.params;
+		List<Expr> args = fce.args;
+
+		if (params.size() != args.size()) {
+			error("Function called with the wrong number of arguments");
+		}
+
+		for (int i = 0; i < params.size(); i++) {
+			Type paramsT = params.get(i).type;
+			Type argsT = args.get(i).accept(this);
+
+			if (paramsT != argsT) {
+				error("Parameter and argument types do not match");
+				return new ErrorType();
+			}
+		}
+
+		fce.type = fce.fd.type;
+		return fce.type;
 	}
 
 	@Override
 	public Type visitBinOp(BinOp bo) {
-		// To be completed...
-		return null;
+		Type lhsT = bo.lhs.accept(this);
+		Type rhsT = bo.rhs.accept(this);
+
+		if (bo.op == Op.NE || bo.op == Op.EQ) {
+			if (!(lhsT instanceof StructType || lhsT instanceof ArrayType || lhsT == BaseType.VOID)
+					&& lhsT.getClass() == rhsT.getClass()) {
+				bo.type = lhsT;
+				return bo.type;
+			} else {
+				error("Operands must be of the same type and the LHS cannot be void, a struct or an array");
+			}
+		} else {
+			// add, sub, mul, div, mod,
+			// or, and, gt, lt, ge, le
+			if (lhsT == BaseType.INT && rhsT == BaseType.INT) {
+				bo.type = BaseType.INT;
+				return bo.type;
+			} else {
+				error("Addition requires two integer operands");
+			}
+		}
+
+		return new ErrorType();
 	}
 
 	@Override
 	public Type visitArrayAccessExpr(ArrayAccessExpr aae) {
 		// To be completed...
+		// do we support arrays of arrays, pointers to pointers, structs of structs?
 		return null;
 	}
 
@@ -151,6 +200,11 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	@Override
 	public Type visitExprStmt(ExprStmt es) {
 		// To be completed...
+		return null;
+	}
+
+	@Override
+	public Type visitErrorType(ErrorType et) {
 		return null;
 	}
 

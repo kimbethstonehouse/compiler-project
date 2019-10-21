@@ -2,23 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03ad8db7-5a6e-4a29-930b-4a63d66f8b58" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_duplicate_var_decl.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_funcall_before_fundecl.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_illegal_shadowing.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_parameter_block_same_name.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_var_func_same_name.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_var_not_decl.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/pass_file_scope_access.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/pass_func_var_same_name.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/pass_legal_shadowing.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/pass_library_functions.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ast/ErrorType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/Scope.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/Scope.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/ASTPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/ASTVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ASTVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/VarDecl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/VarDecl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/SemanticAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/SemanticAnalyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/parser/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/test.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/sem/fundecls.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/fundecls.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -136,7 +126,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/parser/Parser.java</url>
           <line>578</line>
-          <properties class="parser.Parser" method="parseTypecast">
+          <properties class="parser.Parser">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="27" />
@@ -144,7 +134,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
           <line>115</line>
-          <properties class="sem.NameAnalysisVisitor" method="visitVarExpr">
+          <properties class="sem.NameAnalysisVisitor">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="34" />
@@ -152,7 +142,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
           <line>129</line>
-          <properties class="sem.NameAnalysisVisitor" method="visitFunCallExpr">
+          <properties class="sem.NameAnalysisVisitor">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="36" />
@@ -160,7 +150,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
           <line>183</line>
-          <properties class="sem.NameAnalysisVisitor" method="visitBlock">
+          <properties class="sem.NameAnalysisVisitor">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="37" />
@@ -168,7 +158,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
           <line>43</line>
-          <properties class="sem.NameAnalysisVisitor" method="visitFunDecl">
+          <properties class="sem.NameAnalysisVisitor">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="40" />

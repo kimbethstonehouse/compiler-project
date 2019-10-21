@@ -278,4 +278,9 @@ public class ASTPrinter implements ASTVisitor<Void> {
         writer.print(")");
         return null;
     }
+
+    @Override
+    public Void visitErrorType(ErrorType et) {
+        return null;
+    }
 }

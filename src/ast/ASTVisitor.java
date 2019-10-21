@@ -31,4 +31,7 @@ public interface ASTVisitor<T> {
     public T visitAssign(Assign a);
     public T visitReturn(Return r);
     public T visitExprStmt(ExprStmt es);
+
+    // error
+    public T visitErrorType(ErrorType et);
 }
