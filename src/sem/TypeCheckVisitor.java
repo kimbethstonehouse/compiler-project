@@ -63,8 +63,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitStructType(StructType st) {
-		// To be completed...
-		return null;
+		return st;
 	}
 
 	@Override
@@ -165,7 +164,22 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 	@Override
 	public Type visitFieldAccessExpr(FieldAccessExpr fae) {
 		// TODO
-		return null;
+		Type structType = fae.struct.accept(this);
+
+		if (structType instanceof StructType) {
+			// loop through the struct fields
+			// to find the field being accessed
+			for (VarDecl vd : ((StructType) structType).std.varDecls) {
+				if (fae.fieldName.equals(vd.varName)) {
+					fae.type = vd.type;
+					return fae.type;
+				}
+			}
+		}
+
+		// field does not exist
+		error("Field name does not exist");
+		return new ErrorType();
 	}
 
 	@Override

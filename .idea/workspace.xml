@@ -3,8 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/StructType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/StructType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/StructType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/StructType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/SemanticAnalyzer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/SemanticAnalyzer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/SemanticAnalyzer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/SemanticAnalyzer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lexer/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/lexer/test.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/sem/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/test.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,7 +47,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.sem fundecls">
+  <component name="RunManager" selected="Application.sem test">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
@@ -65,17 +71,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sem fundecls" type="Application" factoryName="Application">
+    <configuration name="sem test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
-      <option name="PROGRAM_PARAMETERS" value="-sem tests/sem/fundecls.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-sem tests/sem/test.c dummy.out" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
       <item itemvalue="Application.ast fibonacci" />
-      <item itemvalue="Application.sem fundecls" />
+      <item itemvalue="Application.sem test" />
       <item itemvalue="Application.ast exp" />
     </list>
   </component>
@@ -129,58 +135,30 @@
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>117</line>
-          <properties class="sem.NameAnalysisVisitor">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>164</line>
+          <properties class="sem.TypeCheckVisitor" method="visitFieldAccessExpr">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="34" />
+          <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>130</line>
-          <properties class="sem.NameAnalysisVisitor">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>27</line>
+          <properties class="sem.TypeCheckVisitor" method="visitVarDecl">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="36" />
+          <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>184</line>
-          <properties class="sem.NameAnalysisVisitor">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>90</line>
+          <properties class="sem.TypeCheckVisitor" method="visitVarExpr">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="37" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>44</line>
-          <properties class="sem.NameAnalysisVisitor">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>141</line>
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>68</line>
-          <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>19</line>
-          <option name="timeStamp" value="39" />
+          <option name="timeStamp" value="52" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="token" language="JAVA" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>

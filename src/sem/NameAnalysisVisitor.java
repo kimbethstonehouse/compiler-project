@@ -2,7 +2,6 @@ package sem;
 
 import ast.*;
 
-import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -20,7 +19,6 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	public Void visitProgram(Program p) {
         for (StructTypeDecl std : p.structTypeDecls) std.accept(this);
         for (VarDecl vd : p.varDecls) vd.accept(this);
-
         addLibraryFunctions();
         for (FunDecl fd : p.funDecls) fd.accept(this);
 		return null;
@@ -28,24 +26,20 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitStructTypeDecl(StructTypeDecl std) {
-		Symbol s = structScope.lookupCurrent(std.structType.name);
+		Symbol structSymbol = structScope.lookupCurrent(std.structType.name);
 
-		if (s!= null) {
-			error("Struct with name " + std.structType.name
-						+ " has already been declared in scope");
-		} else structScope.put(new StructSymbol(std));
+		if (structSymbol != null) error("Struct with name " + std.structType.name + " has already been declared in scope");
+		else structScope.put(new StructSymbol(std));
 
 		Scope oldStructScope = structScope;
 		structScope = new Scope(oldStructScope);
 
-		// visit vardecls
+		// visit vardecls declared in struct
 		for (VarDecl vd : std.varDecls) {
-			Symbol t = structScope.lookupCurrent(vd.varName);
+			Symbol varSymbol = structScope.lookupCurrent(vd.varName);
 
-			if (t != null)  {
-				error("Variable or function with name " + vd.varName
-						+ " has already been declared in scope");
-			} else scope.put(new VarSymbol(vd));
+			if (varSymbol != null) error("Variable with name " + vd.varName + " has already been declared in scope");
+			else structScope.put(new VarSymbol(vd));
 		}
 
 		structScope = oldStructScope;
@@ -53,17 +47,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	}
 
 	@Override
-	// check that variable has not been
-	// already declared with the same name
 	public Void visitVarDecl(VarDecl vd) {
 		Symbol s = scope.lookupCurrent(vd.varName);
 
-		if (s != null)  {
-			error("Variable or function with name " + vd.varName
-					+ " has already been declared in scope");
-		} else {
-			scope.put(new VarSymbol(vd));
-		}
+		if (s != null) error("Variable or function with name " + vd.varName + " has already been declared in scope");
+		else scope.put(new VarSymbol(vd));
 
 		vd.type.accept(this);
 		return null;
@@ -101,65 +89,59 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitBaseType(BaseType bt) {
-		// To be completed...
 		return null;
 	}
 
 	@Override
 	public Void visitPointerType(PointerType pt) {
-		// To be completed...
 		return null;
 	}
 
 	@Override
 	public Void visitStructType(StructType st) {
 		// check the struct exists in the scope
-		Symbol s = structScope.lookupCurrent(st.name);
+		Symbol s = structScope.lookup(st.name);
 
-		if (s == null) {
-			error("Struct with name " + st.name + " has not been declared in scope");
-		} else {
-			st.std = ((StructSymbol) s).std;
-		}
+		if (s == null) error("Struct with name " + st.name + " has not been declared in scope");
+		else st.std = ((StructSymbol) s).std;
 
 		return null;
 	}
 
 	@Override
 	public Void visitArrayType(ArrayType at) {
-		// To be completed...
 		return null;
 	}
 
 	@Override
 	public Void visitIntLiteral(IntLiteral il) {
-		// To be completed...
 		return null;
 	}
 
 	@Override
 	public Void visitStrLiteral(StrLiteral sl) {
-		// To be completed...
 		return null;
 	}
 
 	@Override
 	public Void visitChrLiteral(ChrLiteral cl) {
-		// To be completed...
 		return null;
 	}
 
 	@Override
 	public Void visitVarExpr(VarExpr v) {
-		// check the variable exists in the scope
+		// check the symbol exists in the scope
 		Symbol vs = scope.lookup(v.name);
 
-		if (vs == null) error("Variable " + v.name + " has not been declared in the scope");
+		if (vs == null) error("Symbol " + v.name + " has not been declared in the scope");
 		// vs could actually be a function
 		else if (!vs.isVar()) error(v.name + " is a function, not a variable");
 		// record vardecl in varexpr ast node
 		else v.vd = ((VarSymbol) vs).vd;
 
+		// if not variable, check if struct here
+		// if struct, save structtype in vardecl type
+		// later in typechecking, if struct, find vardecl.type.std
 		return null;
 	}
 
@@ -196,7 +178,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitFieldAccessExpr(FieldAccessExpr fae) {
-		// TODO
+		fae.struct.accept(this);
 		return null;
 	}
 
@@ -208,12 +190,13 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitSizeOfExpr(SizeOfExpr soe) {
-		// To be completed...
+		soe.type.accept(this);
 		return null;
 	}
 
 	@Override
 	public Void visitTypecastExpr(TypecastExpr tce) {
+		tce.type.accept(this);
 		tce.expr.accept(this);
 		return null;
 	}
@@ -240,8 +223,9 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitIf(If i) {
-		// TODO what if expr2 is null
 		i.expr.accept(this);
+		i.stmt1.accept(this);
+		if (i.stmt2 != null) i.stmt2.accept(this);
 		return null;
 	}
 
@@ -254,8 +238,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitReturn(Return r) {
-		// TODO what if expr is null
-		r.expr.accept(this);
+		if (r.expr != null) r.expr.accept(this);
 		return null;
 	}
 
