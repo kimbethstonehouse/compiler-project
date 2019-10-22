@@ -5,11 +5,12 @@
 
 //#include <stdio.h>
 
-struct s {
+struct p {
     int x;
 };
 
 struct s {
+    int x;
     int x;
 };
 

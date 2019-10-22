@@ -2,6 +2,7 @@ package sem;
 
 import ast.*;
 
+import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -112,13 +113,13 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitStructType(StructType st) {
+		// check the struct exists in the scope
 		Symbol s = structScope.lookupCurrent(st.name);
 
 		if (s == null) {
-			error("Struct with name " + st.name
-					+ " has not been declared in scope");
+			error("Struct with name " + st.name + " has not been declared in scope");
 		} else {
-
+			st.std = ((StructSymbol) s).std;
 		}
 
 		return null;
@@ -150,7 +151,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitVarExpr(VarExpr v) {
-		// check the variable has been declared
+		// check the variable exists in the scope
 		Symbol vs = scope.lookup(v.name);
 
 		if (vs == null) error("Variable " + v.name + " has not been declared in the scope");
