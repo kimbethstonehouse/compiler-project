@@ -1,16 +1,25 @@
 void main() {
-    struct s {
-        int x;
-    }
-
-    struct y {
-        int x;
-    }
-
-    void y() {
-    }
-
+    return *t + 1;
 }
+
+//void main() {
+//    return (int) t + 1;
+//}
+
+
+//void main() {
+//    struct s {
+//        int x;
+//    }
+//
+//    struct y {
+//        int x;
+//    }
+//
+//    void y() {
+//    }
+//
+//}
 
 
 //void main() {

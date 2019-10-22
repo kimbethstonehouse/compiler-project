@@ -7,6 +7,8 @@ import java.util.List;
 
 public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
+	Type currFuncReturnType = BaseType.VOID;
+
 	@Override
 	public Type visitProgram(Program p) {
 		for (StructTypeDecl std : p.structTypeDecls) std.accept(this);
@@ -36,16 +38,9 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitFunDecl(FunDecl p) {
-
+		currFuncReturnType = p.type;
 		for (VarDecl vd : p.params) { vd.accept(this); }
-
-		Type returnType = p.block.accept(this);
-		//if (returnType != p.type) {
-		//	error("Return statement does not match return type");
-	//		return new ErrorType();
-	//	}
-		// TODO check against return type
-
+		p.block.accept(this);
 		return null;
 	}
 
@@ -152,7 +147,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 		if ((arrType instanceof ArrayType || arrType instanceof PointerType)
 					&& idxType == BaseType.INT) {
-			aae.type = aae.arr.type;
+			aae.type = ((ArrayType) aae.arr.type).baseType;
 			return aae.type;
 		}
 
@@ -163,13 +158,12 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitFieldAccessExpr(FieldAccessExpr fae) {
-		// TODO
 		Type structType = fae.struct.accept(this);
 
 		if (structType instanceof StructType) {
 			// loop through the struct fields
 			// to find the field being accessed
-			for (VarDecl vd : ((StructType) structType).std.varDecls) {
+git			for (VarDecl vd : ((StructType) structType).std.varDecls) {
 				if (fae.fieldName.equals(vd.varName)) {
 					fae.type = vd.type;
 					return fae.type;
@@ -232,19 +226,9 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitBlock(Block b) {
-		Type returnType = null;
-
 		for (VarDecl vd : b.varDecls) { vd.accept(this); }
-		for (Stmt stmt : b.stmts) {
-			if (stmt instanceof Return) {
-				returnType = stmt.accept(this);
-			} else stmt.accept(this);
-		}
-
-		// TODO how to return the return type
-		// what about nesting?
-		// null if no return
-		return returnType;
+		for (Stmt stmt : b.stmts) { stmt.accept(this); }
+		return null;
 	}
 
 	@Override
@@ -256,21 +240,22 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 			return new ErrorType();
 		}
 
+		w.stmt.accept(this);
 		return null;
 	}
 
 	@Override
 	public Type visitIf(If i) {
-		// TODO what if expr2 is null
-		// TODO if no else if else distinction?
-
 		Type exprType = i.expr.accept(this);
 
-		// no else
 		if (exprType != BaseType.INT) {
 			error("Condition must be of type int");
 			return new ErrorType();
 		}
+
+		i.stmt1.accept(this);
+		// no else
+		if (i.stmt2 != null) i.stmt2.accept(this);
 
 		return null;
 	}
@@ -291,11 +276,12 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
 	@Override
 	public Type visitReturn(Return r) {
+		// no expr has a void return type
+		Type exprType = BaseType.VOID;
+		if (r.expr != null) exprType = r.expr.accept(this);
 
-		if (r.expr != null) {
-			Type exprType = r.expr.accept(this);
-			return exprType;
-		} else return BaseType.VOID;
+		if (exprType != currFuncReturnType) error("Return type does not match function type");
+		return exprType;
 	}
 
 	@Override

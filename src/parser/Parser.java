@@ -565,7 +565,7 @@ public class Parser {
 
     private ValueAtExpr parseValueAt() {
         expect(TokenClass.ASTERIX);
-        return new ValueAtExpr(parseExp());
+        return new ValueAtExpr(parseExpF());
     }
 
     private SizeOfExpr parseSizeOf() {
@@ -580,7 +580,7 @@ public class Parser {
         expect(TokenClass.LPAR);
         Type castType = parseType();
         expect(TokenClass.RPAR);
-        Expr exp = parseExp();
+        Expr exp = parseExpF();
         return new TypecastExpr(castType, exp);
     }
 }
