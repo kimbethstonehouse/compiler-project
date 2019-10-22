@@ -8,7 +8,12 @@ import java.util.Arrays;
 public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	Scope scope;
-	public NameAnalysisVisitor(Scope scope) { this.scope = scope; }
+	Scope structScope;
+
+	public NameAnalysisVisitor() {
+		this.scope = new Scope();
+		this.structScope = new Scope();
+	}
 
 	@Override
 	public Void visitProgram(Program p) {
@@ -21,8 +26,28 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	}
 
 	@Override
-	public Void visitStructTypeDecl(StructTypeDecl sts) {
-		// To be completed...
+	public Void visitStructTypeDecl(StructTypeDecl std) {
+		Symbol s = structScope.lookupCurrent(std.structType.name);
+
+		if (s!= null) {
+			error("Struct with name " + std.structType.name
+						+ " has already been declared in scope");
+		} else structScope.put(new StructSymbol(std));
+
+		Scope oldStructScope = structScope;
+		structScope = new Scope(oldStructScope);
+
+		// visit vardecls
+		for (VarDecl vd : std.varDecls) {
+			Symbol t = structScope.lookupCurrent(vd.varName);
+
+			if (t != null)  {
+				error("Variable or function with name " + vd.varName
+						+ " has already been declared in scope");
+			} else scope.put(new VarSymbol(vd));
+		}
+
+		structScope = oldStructScope;
 		return null;
 	}
 
@@ -35,8 +60,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 		if (s != null)  {
 			error("Variable or function with name " + vd.varName
 					+ " has already been declared in scope");
-		} else scope.put(new VarSymbol(vd));
+		} else {
+			scope.put(new VarSymbol(vd));
+		}
 
+		vd.type.accept(this);
 		return null;
 	}
 
@@ -84,7 +112,15 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitStructType(StructType st) {
-		// To be completed...
+		Symbol s = structScope.lookupCurrent(st.name);
+
+		if (s == null) {
+			error("Struct with name " + st.name
+					+ " has not been declared in scope");
+		} else {
+
+		}
+
 		return null;
 	}
 

@@ -10,7 +10,7 @@ public class SemanticAnalyzer {
 	public int analyze(ast.Program prog) {
 		// List of visitors
 		ArrayList<SemanticVisitor> visitors = new ArrayList<SemanticVisitor>() {{
-			add(new NameAnalysisVisitor(new Scope()));
+			add(new NameAnalysisVisitor());
 			add(new TypeCheckVisitor());
 		}};
 		// Error accumulator

@@ -281,7 +281,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 		if (r.expr != null) {
 			Type exprType = r.expr.accept(this);
 			return exprType;
-		} else return BaseType.VOID; // should be return void
+		} else return BaseType.VOID;
 	}
 
 	@Override
