@@ -34,18 +34,18 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     }
 
     @Override
+    // Program ::= StructTypeDecl* VarDecl* FunDecl*
     public Type visitProgram(Program p) {
         for (StructTypeDecl std : p.structTypeDecls) std.accept(this);
         for (VarDecl vd : p.varDecls) vd.accept(this);
         for (FunDecl fd : p.funDecls) fd.accept(this);
-
-        // do not forget to set types  !!
-        // every expr should have a type
         return null;
     }
 
     @Override
+    // StructTypeDecl ::= StructType VarDecl*
     public Type visitStructTypeDecl(StructTypeDecl std) {
+        std.structType.accept(this);
         for (VarDecl vd : std.varDecls) { vd.accept(this); }
         return null;
     }
@@ -67,22 +67,28 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     }
 
     @Override
+    // BaseType ::= INT | CHAR | VOID
     public Type visitBaseType(BaseType bt) {
         return bt;
     }
 
     @Override
+    // PointerType ::= Type
     public Type visitPointerType(PointerType pt) {
+        pt.baseType.accept(this);
         return pt;
     }
 
     @Override
+    // StructType ::= String
     public Type visitStructType(StructType st) {
         return st;
     }
 
     @Override
+    // ArrayType ::= Type int
     public Type visitArrayType(ArrayType at) {
+        at.baseType.accept(this);
         return at;
     }
 
@@ -124,7 +130,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         List<Expr> args = fce.args;
 
         if (params.size() != args.size()) {
-            error("Function called with %s arguments but required %\n", args.size(), params.size());
+            error("Function called with %s arguments but required %s\n", args.size(), params.size());
             return new ErrorType();
         }
 
@@ -273,6 +279,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     }
 
     @Override
+    // Block ::= VarDecl* Stmt*
     public Type visitBlock(Block b) {
         for (VarDecl vd : b.varDecls) { vd.accept(this); }
         for (Stmt stmt : b.stmts) { stmt.accept(this); }
@@ -280,11 +287,12 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     }
 
     @Override
+    // While ::= Expr Stmt
     public Type visitWhile(While w) {
         Type exprType = w.expr.accept(this);
 
         if (!eq(exprType, BaseType.INT)) {
-            error("Condition must be of type int\n");
+            error("Condition must be of type int, was %s\n", exprType);
         }
 
         w.stmt.accept(this);
@@ -292,11 +300,12 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     }
 
     @Override
+    // If ::= Expr Stmt [Stmt]
     public Type visitIf(If i) {
         Type exprType = i.expr.accept(this);
 
         if (!eq(exprType, BaseType.INT)) {
-            error("Condition must be of type int\n");
+            error("Condition must be of type int, was %s\n", exprType);
         }
 
         i.stmt1.accept(this);
@@ -307,12 +316,13 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     }
 
     @Override
+    // Assign ::= Expr Expr
     public Type visitAssign(Assign a) {
         Expr lhsExpr = a.lhs;
 
         if (!(lhsExpr instanceof VarExpr || lhsExpr instanceof FieldAccessExpr
                 || lhsExpr instanceof ArrayAccessExpr || lhsExpr instanceof ValueAtExpr)) {
-            error("LHS of the assignment must be VarExpr, FieldAccessExpr," +
+            error("The left hand side of the assignment must be a VarExpr, FieldAccessExpr, " +
                     "ArrayAccessExpr or ValueAtExpr\n");
         }
 
@@ -320,25 +330,28 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         Type rhsType = a.rhs.accept(this);
 
         if (eq(lhsType, BaseType.VOID) || lhsType instanceof ArrayType) {
-            error("LHS cannot be of type void or array\n");
+            error("The left hand side of an assignment cannot be %s\n", lhsType);
         }
 
-        if (!eq(lhsType, rhsType)) { error("LHS and RHS must be of the same type\n"); }
+        if (!eq(lhsType, rhsType)) { error("The left hand side and right hand side of an " +
+                "assignment must be of the same type\n"); }
 
         return null;
     }
 
     @Override
+    // Return ::= [Expr]
     public Type visitReturn(Return r) {
         // no expr has a void return type
         Type exprType = BaseType.VOID;
         if (r.expr != null) exprType = r.expr.accept(this);
 
-        if (!eq(exprType, currFuncReturnType)) error("Return type does not match function type\n");
-        return exprType;
+        if (!eq(exprType, currFuncReturnType)) error("Return type was %s, function type was %s\n", exprType, currFuncReturnType);
+        return null;
     }
 
     @Override
+    // ExprStmt ::= Expr
     public Type visitExprStmt(ExprStmt es) {
         es.expr.accept(this);
         return null;

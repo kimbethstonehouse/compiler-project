@@ -1,3 +1,4 @@
+// EXPECTED FAIL
 int main() {
     return 1;
 }

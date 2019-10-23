@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/tests/sem/fail_implicit_casts.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/pass_checking_assign.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/pass_explicit_casts.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/sem/fundecls.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/fail_checking_assign.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/sem/pass_valid_return_types.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/fail_invalid_return_types.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/sem/psas_struct_struct_array.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/pass_struct_struct_array.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/sem/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/test.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -184,31 +190,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>244</line>
-          <properties class="sem.TypeCheckVisitor" method="visitTypecastExpr">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="85" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>118</line>
-          <properties class="sem.TypeCheckVisitor" method="visitFunCallExpr">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="87" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>203</line>
-          <properties class="sem.TypeCheckVisitor" method="visitFieldAccessExpr">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="90" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>331</line>
+          <line>343</line>
           <properties class="sem.TypeCheckVisitor" method="visitReturn">
             <option name="EMULATED" value="true" />
           </properties>
