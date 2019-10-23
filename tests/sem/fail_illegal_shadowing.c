@@ -14,6 +14,13 @@
 //int x;
 //int x;
 
-//// var and func same name
-int x;
-int x() {}
+// var and func same name
+//int x;
+//int x() {}
+
+// shadowing params
+//void foo(int i) {
+//    int i;
+//}
+
+

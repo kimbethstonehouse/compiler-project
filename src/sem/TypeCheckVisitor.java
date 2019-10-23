@@ -47,41 +47,33 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     }
 
     @Override
-    public Type visitStructTypeDecl(StructTypeDecl sts) {
-        // To be completed...
+    public Type visitStructTypeDecl(StructTypeDecl std) {
+        for (VarDecl vd : std.varDecls) { vd.accept(this); }
         return null;
     }
 
     @Override
     public Type visitVarDecl(VarDecl vd) {
-        if (eq(vd.type, BaseType.VOID)) {
-            error("Variables cannot have type VOID");
-        }
-
-        // only expressions have types, vardecl is a statement
+        if (eq(vd.type, BaseType.VOID)) { error("Variables cannot have type VOID"); }
         return null;
     }
 
     @Override
     public Type visitFunDecl(FunDecl p) {
         currFuncReturnType = p.type;
-        for (VarDecl vd : p.params) {
-            vd.accept(this);
-        }
+        for (VarDecl vd : p.params) { vd.accept(this); }
         p.block.accept(this);
         return null;
     }
 
     @Override
     public Type visitBaseType(BaseType bt) {
-        // To be completed...
-        return null;
+        return bt;
     }
 
     @Override
     public Type visitPointerType(PointerType pt) {
-        // To be completed...
-        return null;
+        return pt;
     }
 
     @Override
@@ -91,7 +83,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
     @Override
     public Type visitArrayType(ArrayType at) {
-        return null;
+        return at;
     }
 
     @Override
@@ -151,7 +143,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         Type rhsT = bo.rhs.accept(this);
 
         if (bo.op == Op.NE || bo.op == Op.EQ) {
-            if (!(lhsT instanceof StructType || lhsT instanceof ArrayType || lhsT == BaseType.VOID) && eq(lhsT,  rhsT)) {
+            if (!(lhsT instanceof StructType || lhsT instanceof ArrayType || eq(lhsT, BaseType.VOID)) && eq(lhsT,  rhsT)) {
                 bo.type = BaseType.INT;
                 return bo.type;
             } else {
@@ -177,8 +169,13 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         Type arrType = aae.arr.accept(this);
         Type idxType = aae.idx.accept(this);
 
-        if ((arrType instanceof ArrayType || arrType instanceof PointerType) && eq(idxType, BaseType.INT)) {
+        if (arrType instanceof ArrayType && eq(idxType, BaseType.INT)) {
             aae.type = ((ArrayType) aae.arr.type).baseType;
+            return aae.type;
+        }
+
+        if (arrType instanceof PointerType && eq(idxType, BaseType.INT)) {
+            aae.type = ((PointerType) aae.arr.type).baseType;
             return aae.type;
         }
 

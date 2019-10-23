@@ -1,12 +1,18 @@
-int b(int i) {
-    return i;
-}
+//void main() {
+//    foo();
+//}
+//
+//int foo() {}
 
-void main() {
-    int i;
-    i = 0;
-    b(i);
-}
+//int b(int i) {
+//    return i;
+//}
+//
+//void main() {
+//    int i;
+//    i = 0;
+//    b(i);
+//}
 
 //struct s {
 //    int x;
