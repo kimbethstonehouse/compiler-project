@@ -2,31 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_duplicate_struct_decl.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_mismatch_return_type.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_nonexistent_struct_decl.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_nonexistent_struct_field_access.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_struct_duplicate_var_decl.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_wrong_return_deep_nesting.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/pass.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/pass_matching_return_type.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/pass_nested_matching_return.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/pass_return_deep_nesting.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/pass_struct_field_access.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/fail_func_not_decl.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/fail_mutual_recursion.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/fail_struct_not_decl.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/psas_struct_struct_array.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/parser/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/test.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageViewManager">
+    <option name="myElementSize" value="241" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -56,7 +49,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.sem match">
+  <component name="RunManager" selected="Application.sem var not decl">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
@@ -80,17 +73,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sem match" type="Application" factoryName="Application">
+    <configuration name="sem var not decl" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
-      <option name="PROGRAM_PARAMETERS" value="-sem tests/sem/pass.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-sem tests/sem/fail_var_not_decl.c dummy.out" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
       <item itemvalue="Application.ast fibonacci" />
-      <item itemvalue="Application.sem match" />
+      <item itemvalue="Application.sem var not decl" />
       <item itemvalue="Application.ast exp" />
     </list>
   </component>
@@ -135,29 +128,50 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>142</line>
-          <properties class="sem.TypeCheckVisitor" method="visitArrayAccessExpr">
+          <line>171</line>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>166</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
+          <line>118</line>
+          <properties class="sem.NameAnalysisVisitor" method="visitArrayType">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="64" />
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
+          <line>27</line>
+          <properties class="sem.NameAnalysisVisitor" method="visitStructTypeDecl">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="73" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>263</line>
+          <line>86</line>
+          <properties class="sem.TypeCheckVisitor" method="visitVarExpr">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="77" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>273</line>
           <properties class="sem.TypeCheckVisitor" method="visitAssign">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="65" />
+          <option name="timeStamp" value="78" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="token" language="JAVA" />
-      </configuration>
-    </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ct_19_20$sem_match.ic" NAME="sem match Coverage Results" MODIFIED="1571778523160" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

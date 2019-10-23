@@ -33,6 +33,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 		Scope oldStructScope = structScope;
 		structScope = new Scope(oldStructScope);
+		Scope newScope;
 
 		// visit vardecls declared in struct
 		for (VarDecl vd : std.varDecls) {
@@ -40,6 +41,12 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 			if (varSymbol != null) error("Variable with name " + vd.varName + " has already been declared in scope");
 			else structScope.put(new VarSymbol(vd));
+
+			newScope = structScope;
+			structScope = oldStructScope;
+			vd.type.accept(this);
+			structScope = newScope;
+
 		}
 
 		structScope = oldStructScope;
@@ -110,6 +117,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitArrayType(ArrayType at) {
+		at.baseType.accept(this);
 		return null;
 	}
 
