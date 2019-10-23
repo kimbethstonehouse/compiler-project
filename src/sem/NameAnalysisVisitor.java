@@ -235,6 +235,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	public Void visitIf(If i) {
 		i.expr.accept(this);
 		i.stmt1.accept(this);
+		// stmt2 is optional so may be null
 		if (i.stmt2 != null) i.stmt2.accept(this);
 		return null;
 	}
@@ -248,6 +249,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitReturn(Return r) {
+		// expr may be null in the case of a void return
 		if (r.expr != null) r.expr.accept(this);
 		return null;
 	}

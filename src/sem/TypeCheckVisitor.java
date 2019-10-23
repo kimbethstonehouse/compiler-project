@@ -152,7 +152,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
         if (bo.op == Op.NE || bo.op == Op.EQ) {
             if (!(lhsT instanceof StructType || lhsT instanceof ArrayType || lhsT == BaseType.VOID) && eq(lhsT,  rhsT)) {
-                bo.type = lhsT;
+                bo.type = BaseType.INT;
                 return bo.type;
             } else {
                 error("Operands must be of the same type and the LHS cannot be void, a struct or an array");
@@ -285,7 +285,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         }
 
         i.stmt1.accept(this);
-        // no else
+        // stmt2 is optional so may be null in the case of no else
         if (i.stmt2 != null) i.stmt2.accept(this);
 
         return null;

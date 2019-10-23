@@ -2,22 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_arity_mismatch.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_array_access.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_assign_mismatch.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_invalid_casts.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/pass_assign_match.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/pass_valid_casts.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/pass_valid_return_types.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/sem/pass_valueof_pointer.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/fail_conditional.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/a.out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/If.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/If.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/Return.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/Return.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/If.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/If.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/Return.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Return.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/parser/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/test.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/sem/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/test.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/sem/pass_legal_shadowing.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/pass_legal_shadowing.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,7 +50,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.sem test">
+  <component name="RunManager" selected="Application.sem tictactoe">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
@@ -88,14 +82,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="sem q pass" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="ct-19-20" />
-      <option name="PROGRAM_PARAMETERS" value="-sem tests/sem/q.pass.c dummy.out" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="sem q" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
@@ -112,12 +98,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="sem tictactoe" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ct-19-20" />
+      <option name="PROGRAM_PARAMETERS" value="-sem tests/parser/tictactoe.c dummy.out" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.ast fibonacci" />
       <item itemvalue="Application.sem fibonacci" />
       <item itemvalue="Application.sem test" />
       <item itemvalue="Application.sem q" />
-      <item itemvalue="Application.sem q pass" />
+      <item itemvalue="Application.sem tictactoe" />
       <item itemvalue="Application.ast exp" />
     </list>
   </component>
@@ -139,7 +133,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570623764742</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="changed == and != to eq">
+      <created>1571835920573</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1571835920573</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -157,14 +158,15 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added lookahead to fundecl" />
-    <option name="LAST_COMMIT_MESSAGE" value="added lookahead to fundecl" />
+    <MESSAGE value="changed == and != to eq" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed == and != to eq" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>118</line>
+          <line>119</line>
           <properties class="sem.NameAnalysisVisitor" method="visitArrayType">
             <option name="EMULATED" value="true" />
           </properties>
@@ -180,7 +182,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>199</line>
+          <line>200</line>
           <properties class="sem.NameAnalysisVisitor" method="visitSizeOfExpr">
             <option name="EMULATED" value="true" />
           </properties>
@@ -188,15 +190,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>299</line>
-          <properties class="sem.TypeCheckVisitor" method="visitAssign">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="84" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>230</line>
+          <line>229</line>
           <properties class="sem.TypeCheckVisitor" method="visitTypecastExpr">
             <option name="EMULATED" value="true" />
           </properties>
@@ -204,7 +198,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>120</line>
+          <line>121</line>
           <properties class="sem.TypeCheckVisitor" method="visitFunCallExpr">
             <option name="EMULATED" value="true" />
           </properties>
@@ -212,11 +206,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>64</line>
-          <properties class="sem.TypeCheckVisitor" method="visitFunDecl">
+          <line>190</line>
+          <properties class="sem.TypeCheckVisitor" method="visitFieldAccessExpr">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="88" />
+          <option name="timeStamp" value="90" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>267</line>
+          <properties class="sem.TypeCheckVisitor" method="visitWhile">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="91" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>279</line>
+          <properties class="sem.TypeCheckVisitor" method="visitIf">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>196</line>
+          <option name="timeStamp" value="89" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

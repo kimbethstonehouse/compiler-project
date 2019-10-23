@@ -10,16 +10,10 @@ public class If extends Stmt {
         this.expr = expr;
         this.stmt1 = stmt1;
 
-        // stmt2 is optional, so we explicitly set to null if not supplied
-        if (stmt2 != null) {
-            this.stmt2 = stmt2;
-        } else {
-            this.stmt2 = null;
-        }
+        // stmt2 is optional, so may be null
+        this.stmt2 = stmt2;
     }
 
-    public <T> T accept(ASTVisitor<T> v) {
-        return v.visitIf(this);
-    }
+    public <T> T accept(ASTVisitor<T> v) { return v.visitIf(this); }
 
 }
