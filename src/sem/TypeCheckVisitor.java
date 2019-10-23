@@ -2,8 +2,6 @@ package sem;
 
 import ast.*;
 
-import javax.swing.plaf.basic.BasicEditorPaneUI;
-import java.lang.reflect.Field;
 import java.util.List;
 
 public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
@@ -53,12 +51,14 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     }
 
     @Override
+    // VarDecl ::= Type String
     public Type visitVarDecl(VarDecl vd) {
-        if (eq(vd.type, BaseType.VOID)) { error("Variables cannot have type VOID\n"); }
+        if (eq(vd.type, BaseType.VOID)) { error("Variables cannot have type void\n"); }
         return null;
     }
 
     @Override
+    // FunDecl ::= Type String VarDecl* Block
     public Type visitFunDecl(FunDecl p) {
         currFuncReturnType = p.type;
         for (VarDecl vd : p.params) { vd.accept(this); }
@@ -87,21 +87,25 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     }
 
     @Override
+    // IntLiteral ::= int
     public Type visitIntLiteral(IntLiteral il) {
         return BaseType.INT;
     }
 
     @Override
+    // StrLiteral ::= String
     public Type visitStrLiteral(StrLiteral sl) {
         return new ArrayType(BaseType.CHAR, sl.s.length() + 1);
     }
 
     @Override
+    // ChrLiteral ::= char
     public Type visitChrLiteral(ChrLiteral cl) {
         return BaseType.CHAR;
     }
 
     @Override
+    // VarExpr ::= String
     public Type visitVarExpr(VarExpr v) {
         // return if the variable has not been declared
         if (v.vd == null) return new ErrorType();
@@ -111,6 +115,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     }
 
     @Override
+    // FunCallExpr ::= String Expr*
     public Type visitFunCallExpr(FunCallExpr fce) {
         // return if the function has not been declared
         if (fce.fd == null) return new ErrorType();
@@ -119,7 +124,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         List<Expr> args = fce.args;
 
         if (params.size() != args.size()) {
-            error("Function called with the wrong number of arguments\n");
+            error("Function called with %s arguments but required %\n", args.size(), params.size());
             return new ErrorType();
         }
 
@@ -138,36 +143,47 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     }
 
     @Override
+    // BinOp ::= Expr Op Expr
     public Type visitBinOp(BinOp bo) {
         Type lhsT = bo.lhs.accept(this);
         Type rhsT = bo.rhs.accept(this);
 
         if (bo.op == Op.NE || bo.op == Op.EQ) {
-            if (!(lhsT instanceof StructType || lhsT instanceof ArrayType || eq(lhsT, BaseType.VOID)) && eq(lhsT,  rhsT)) {
-                bo.type = BaseType.INT;
-                return bo.type;
-            } else {
-                error("Operands must be of the same type and the LHS cannot be void, a struct or an array\n");
+            if (lhsT instanceof StructType || lhsT instanceof ArrayType || eq(lhsT, BaseType.VOID)) {
+                error("The left hand side of a binary operator cannot be %s\n", lhsT);
+                return new ErrorType();
             }
+
+            if (!eq(lhsT, rhsT)) {
+                error("The operands of a binary operator must match in type\n");
+                return new ErrorType();
+            }
+
+            // else valid binop
+            bo.type = BaseType.INT;
+            return bo.type;
         } else {
-            // add, sub, mul, div, mod,
-            // or, and, gt, lt, ge, le
+            // add, sub, mul, div, mod, or, and, gt, lt, ge, le
             if (eq(lhsT, BaseType.INT) && eq(rhsT, BaseType.INT)) {
                 bo.type = BaseType.INT;
                 return bo.type;
             } else {
-                error("Addition requires two integer operands\n");
+                error("The operands of a binary operator must be integers\n");
+                return new ErrorType();
             }
         }
-
-        return new ErrorType();
     }
 
     @Override
+    // ArrayAccessExpr ::= Expr Expr
     public Type visitArrayAccessExpr(ArrayAccessExpr aae) {
-        // do we support arrays of arrays, pointers to pointers, structs of structs?
         Type arrType = aae.arr.accept(this);
         Type idxType = aae.idx.accept(this);
+
+        if (!eq(idxType, BaseType.INT)) {
+            error("Array index must be of type int\n");
+            return new ErrorType();
+        }
 
         if (arrType instanceof ArrayType && eq(idxType, BaseType.INT)) {
             aae.type = ((ArrayType) aae.arr.type).baseType;
@@ -179,18 +195,17 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
             return aae.type;
         }
 
-        error("Array access must be of array type or pointer type" +
-                "and index must be of type int\n");
+        error("Array access must be of type array or pointer\n");
         return new ErrorType();
     }
 
     @Override
+    // FieldAccessExpr ::= Expr String
     public Type visitFieldAccessExpr(FieldAccessExpr fae) {
         Type structType = fae.struct.accept(this);
 
         if (structType instanceof StructType) {
-            // loop through the struct fields
-            // to find the field being accessed
+            // loop through the struct fields to find the field being accessed
             for (VarDecl vd : ((StructType) structType).std.varDecls) {
                 if (fae.fieldName.equals(vd.varName)) {
                     fae.type = vd.type;
@@ -205,6 +220,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     }
 
     @Override
+    // ValueAtExpr ::= Expr
     public Type visitValueAtExpr(ValueAtExpr vae) {
         Type exprType = vae.expr.accept(this);
 
@@ -218,12 +234,14 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     }
 
     @Override
+    // SizeOfExpr ::= Type
     public Type visitSizeOfExpr(SizeOfExpr soe) {
         soe.type = BaseType.INT;
         return soe.type;
     }
 
     @Override
+    // TypecastExpr ::= Type Expr
     public Type visitTypecastExpr(TypecastExpr tce) {
         Type exprType = tce.expr.accept(this);
         Type castType = tce.castType;

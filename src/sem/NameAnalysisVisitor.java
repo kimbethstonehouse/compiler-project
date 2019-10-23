@@ -123,6 +123,11 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 	}
 
 	@Override
+
+
+
+
+
 	// ArrayType ::= Type int
 	public Void visitArrayType(ArrayType at) {
 		at.baseType.accept(this);

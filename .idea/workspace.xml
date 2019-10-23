@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/BaseSemanticVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/BaseSemanticVisitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/Scope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/Scope.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/sem/fail_illegal_shadowing.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/fail_illegal_shadowing.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -171,7 +168,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>126</line>
+          <line>131</line>
           <properties class="sem.NameAnalysisVisitor" method="visitArrayType">
             <option name="EMULATED" value="true" />
           </properties>
@@ -179,7 +176,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>213</line>
+          <line>218</line>
           <properties class="sem.NameAnalysisVisitor" method="visitSizeOfExpr">
             <option name="EMULATED" value="true" />
           </properties>
@@ -187,7 +184,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>226</line>
+          <line>244</line>
           <properties class="sem.TypeCheckVisitor" method="visitTypecastExpr">
             <option name="EMULATED" value="true" />
           </properties>
@@ -195,7 +192,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>113</line>
+          <line>118</line>
           <properties class="sem.TypeCheckVisitor" method="visitFunCallExpr">
             <option name="EMULATED" value="true" />
           </properties>
@@ -203,7 +200,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>187</line>
+          <line>203</line>
           <properties class="sem.TypeCheckVisitor" method="visitFieldAccessExpr">
             <option name="EMULATED" value="true" />
           </properties>
@@ -211,16 +208,19 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>313</line>
+          <line>331</line>
           <properties class="sem.TypeCheckVisitor" method="visitReturn">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="93" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>193</line>
-          <option name="timeStamp" value="89" />
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
+          <line>156</line>
+          <properties class="sem.NameAnalysisVisitor" method="visitVarExpr">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="94" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
