@@ -54,7 +54,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
     @Override
     public Type visitVarDecl(VarDecl vd) {
-        if (eq(vd.type, BaseType.VOID)) { error("Variables cannot have type VOID"); }
+        if (eq(vd.type, BaseType.VOID)) { error("Variables cannot have type VOID\n"); }
         return null;
     }
 
@@ -119,7 +119,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         List<Expr> args = fce.args;
 
         if (params.size() != args.size()) {
-            error("Function called with the wrong number of arguments");
+            error("Function called with the wrong number of arguments\n");
             return new ErrorType();
         }
 
@@ -128,7 +128,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
             Type argsT = args.get(i).accept(this);
 
             if (!eq(paramsT, argsT)) {
-                error("Parameter and argument types do not match");
+                error("Parameter and argument types do not match\n");
                 return new ErrorType();
             }
         }
@@ -147,7 +147,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
                 bo.type = BaseType.INT;
                 return bo.type;
             } else {
-                error("Operands must be of the same type and the LHS cannot be void, a struct or an array");
+                error("Operands must be of the same type and the LHS cannot be void, a struct or an array\n");
             }
         } else {
             // add, sub, mul, div, mod,
@@ -156,7 +156,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
                 bo.type = BaseType.INT;
                 return bo.type;
             } else {
-                error("Addition requires two integer operands");
+                error("Addition requires two integer operands\n");
             }
         }
 
@@ -180,7 +180,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         }
 
         error("Array access must be of array type or pointer type" +
-                "and index must be of type int");
+                "and index must be of type int\n");
         return new ErrorType();
     }
 
@@ -200,7 +200,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         }
 
         // field does not exist
-        error("Field name does not exist");
+        error("Field name does not exist\n");
         return new ErrorType();
     }
 
@@ -209,7 +209,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         Type exprType = vae.expr.accept(this);
 
         if (!(exprType instanceof PointerType)) {
-            error("Value at expression must have pointer type");
+            error("Value at expression must have pointer type\n");
             return new ErrorType();
         }
 
@@ -250,7 +250,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
             return tce.type;
         }
 
-        error("Invalid cast from " + exprType + " to " + castType);
+        error("Invalid cast from %s to %s\n", exprType, castType);
         return new ErrorType();
     }
 
@@ -266,7 +266,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         Type exprType = w.expr.accept(this);
 
         if (!eq(exprType, BaseType.INT)) {
-            error("Condition must be of type int");
+            error("Condition must be of type int\n");
         }
 
         w.stmt.accept(this);
@@ -278,7 +278,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         Type exprType = i.expr.accept(this);
 
         if (!eq(exprType, BaseType.INT)) {
-            error("Condition must be of type int");
+            error("Condition must be of type int\n");
         }
 
         i.stmt1.accept(this);
@@ -295,17 +295,17 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         if (!(lhsExpr instanceof VarExpr || lhsExpr instanceof FieldAccessExpr
                 || lhsExpr instanceof ArrayAccessExpr || lhsExpr instanceof ValueAtExpr)) {
             error("LHS of the assignment must be VarExpr, FieldAccessExpr," +
-                    "ArrayAccessExpr or ValueAtExpr");
+                    "ArrayAccessExpr or ValueAtExpr\n");
         }
 
         Type lhsType = a.lhs.accept(this);
         Type rhsType = a.rhs.accept(this);
 
         if (eq(lhsType, BaseType.VOID) || lhsType instanceof ArrayType) {
-            error("LHS cannot be of type void or array");
+            error("LHS cannot be of type void or array\n");
         }
 
-        if (!eq(lhsType, rhsType)) { error ("LHS and RHS must be of the same type"); }
+        if (!eq(lhsType, rhsType)) { error("LHS and RHS must be of the same type\n"); }
 
         return null;
     }
@@ -316,7 +316,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         Type exprType = BaseType.VOID;
         if (r.expr != null) exprType = r.expr.accept(this);
 
-        if (!eq(exprType, currFuncReturnType)) error("Return type does not match function type");
+        if (!eq(exprType, currFuncReturnType)) error("Return type does not match function type\n");
         return exprType;
     }
 

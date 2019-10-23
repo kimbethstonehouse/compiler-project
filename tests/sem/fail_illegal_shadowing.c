@@ -23,4 +23,18 @@
 //    int i;
 //}
 
+// lecture example, 3 errors
+//int i;
+//int i;
+//
+//void main(int j) {
+//    int j;
+//    int k;
+//    int k;
+//}
+
+// lecture example
+int i;
+void i() {
+}
 

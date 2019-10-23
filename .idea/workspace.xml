@@ -3,12 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grammar/grammar.txt" beforeDir="false" afterPath="$PROJECT_DIR$/grammar/grammar.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/BaseSemanticVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/BaseSemanticVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/Scope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/Scope.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/parser/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/test.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/sem/fail_wrong_return_deep_nesting.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/fail_wrong_return_deep_nesting.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/sem/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/test.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/sem/fail_illegal_shadowing.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/fail_illegal_shadowing.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -172,7 +171,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>119</line>
+          <line>126</line>
           <properties class="sem.NameAnalysisVisitor" method="visitArrayType">
             <option name="EMULATED" value="true" />
           </properties>
@@ -180,15 +179,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>27</line>
-          <properties class="sem.NameAnalysisVisitor" method="visitStructTypeDecl">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="73" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>200</line>
+          <line>213</line>
           <properties class="sem.NameAnalysisVisitor" method="visitSizeOfExpr">
             <option name="EMULATED" value="true" />
           </properties>

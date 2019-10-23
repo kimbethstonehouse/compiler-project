@@ -5,7 +5,8 @@ import java.util.Map;
 
 public class Scope {
 	private Scope outer;
-	// map identifier x to symbol which is either procedure or funciton
+	// map identifier x to a symbol which
+	// is either a variable or a function
 	private Map<String, Symbol> symbolTable;
 	
 	public Scope(Scope outer) {
@@ -13,7 +14,10 @@ public class Scope {
 		symbolTable = new HashMap<>();
 	}
 	
-	public Scope() { this(null); }
+	public Scope() {
+		this(null);
+		symbolTable = new HashMap<>();
+	}
 
 	// given a name, lookup the symbol corresponding to this name
 	public Symbol lookup(String name) {
@@ -22,17 +26,15 @@ public class Scope {
 		// symbol exists
 		if (s != null) return s;
 
-		// symbol does not exist, so check outer
+		// symbol does not exist, so check outer scope
 		if (outer != null) return outer.lookup(name);
 
 		// identifier is unknown
 		return null;
 	}
 
-	// same, but only in current scope
-	// this is useful for finding if a variable
-	// has already been declared only in current -
-	// this allows for shadowing
+	// same, but only in the current scope
+	// useful for shadowing
 	public Symbol lookupCurrent(String name) {
 		return symbolTable.get(name);
 	}
