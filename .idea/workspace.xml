@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/sem/fail_conditional.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/If.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/If.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/Return.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/Return.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/If.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/If.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/Return.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/Return.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/sem/pass_legal_shadowing.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/pass_legal_shadowing.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/sem/fail_illegal_shadowing.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/fail_illegal_shadowing.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
