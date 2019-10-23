@@ -1,6 +1,10 @@
-void main() {
-    return *t + 1;
+int main() {
+    9 % - 5 * 8;
 }
+
+//void main() {
+//    return *t + 1;
+//}
 
 //void main() {
 //    return (int) t + 1;

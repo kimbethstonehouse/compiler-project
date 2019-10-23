@@ -1,12 +1,22 @@
-struct s {
-    int x;
-};
-
-int main() {
-    struct s a;
-    a.x=11;
-    //z.x=11;
+int b(int i) {
+    return i;
 }
+
+void main() {
+    int i;
+    i = 0;
+    b(i);
+}
+
+//struct s {
+//    int x;
+//};
+//
+//int main() {
+//    struct s a;
+//    a.x=11;
+//    //z.x=11;
+//}
 
 //struct s {
 //    int x;

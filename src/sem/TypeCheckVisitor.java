@@ -3,11 +3,36 @@ package sem;
 import ast.*;
 
 import javax.swing.plaf.basic.BasicEditorPaneUI;
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
     Type currFuncReturnType = BaseType.VOID;
+
+    public boolean eq(Type a, Type b) {
+        // what does it mean for two types to be equal?
+
+        // arraytypes are the same if they have the
+        // same length and the same basetype
+        if (a instanceof ArrayType && b instanceof ArrayType) {
+            return ((ArrayType) a).size == ((ArrayType) b).size
+                    && eq(((ArrayType) a).baseType, ((ArrayType) b).baseType);
+        }
+
+        // pointertypes are the same if they have the same basetype
+        if (a instanceof PointerType && b instanceof PointerType) {
+            return eq(((PointerType) a).baseType, ((PointerType) b).baseType);
+        }
+
+        // structtypes are the same if they have the same name
+        if (a instanceof StructType && b instanceof StructType) {
+            return ((StructType) a).name.equals(((StructType) b).name);
+        }
+
+        // basetype
+        return a == b;
+    }
 
     @Override
     public Type visitProgram(Program p) {
@@ -102,6 +127,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
         if (params.size() != args.size()) {
             error("Function called with the wrong number of arguments");
+            return new ErrorType();
         }
 
         for (int i = 0; i < params.size(); i++) {
@@ -191,7 +217,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
             return new ErrorType();
         }
 
-        vae.type = exprType;
+        vae.type = ((PointerType) exprType).baseType;
         return vae.type;
     }
 
@@ -214,7 +240,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         }
 
         // array to pointer
-        if (exprType instanceof ArrayType && castType instanceof PointerType) {
+        if (exprType instanceof ArrayType && castType instanceof PointerType
+                        && ((ArrayType) exprType).baseType == ((PointerType) castType).baseType) {
             tce.expr.type = new PointerType(((ArrayType) exprType).baseType);
             tce.type = tce.expr.type;
             return tce.type;
@@ -227,6 +254,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
             return tce.type;
         }
 
+        error("Invalid cast from " + exprType + " to " + castType);
         return new ErrorType();
     }
 
@@ -247,7 +275,6 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
         if (exprType != BaseType.INT) {
             error("Condition must be of type int");
-            return new ErrorType();
         }
 
         w.stmt.accept(this);
@@ -260,7 +287,6 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
         if (exprType != BaseType.INT) {
             error("Condition must be of type int");
-            return new ErrorType();
         }
 
         i.stmt1.accept(this);
@@ -272,13 +298,23 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
     @Override
     public Type visitAssign(Assign a) {
+        Expr lhsExpr = a.lhs;
+
+        if (!(lhsExpr instanceof VarExpr || lhsExpr instanceof FieldAccessExpr
+                || lhsExpr instanceof ArrayAccessExpr || lhsExpr instanceof ValueAtExpr)) {
+            error("LHS of the assignment must be VarExpr, FieldAccessExpr," +
+                    "ArrayAccessExpr or ValueAtExpr");
+        }
+
         Type lhsType = a.lhs.accept(this);
         Type rhsType = a.rhs.accept(this);
 
-        if (lhsType == BaseType.VOID || lhsType instanceof ArrayType
-                || lhsType.getClass() != rhsType.getClass()) {
-            error("LHS and RHS must be of the same type and" +
-                    "cannot be of type void or array");
+        if (lhsType == BaseType.VOID || lhsType instanceof ArrayType) {
+            error("LHS cannot be of type void or array");
+        }
+
+        if (lhsType != rhsType) {
+            error ("LHS and RHS must be of the same type");
         }
 
         return null;
@@ -290,6 +326,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         Type exprType = BaseType.VOID;
         if (r.expr != null) exprType = r.expr.accept(this);
 
+        if (exprType instanceof ArrayType || exprType instanceof PointerType)
         if (exprType != currFuncReturnType) error("Return type does not match function type");
         return exprType;
     }

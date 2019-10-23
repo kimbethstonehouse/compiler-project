@@ -2,9 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/tests/sem/fail_arity_mismatch.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/fail_array_access.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/fail_assign_mismatch.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/fail_invalid_casts.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/pass_assign_match.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/pass_valid_casts.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/pass_valid_return_types.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/sem/pass_valueof_pointer.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/a.out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/parser/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/parser/test.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/sem/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/test.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +56,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.sem fibonacci">
+  <component name="RunManager" selected="Application.sem test">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
@@ -75,9 +88,36 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="sem q pass" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ct-19-20" />
+      <option name="PROGRAM_PARAMETERS" value="-sem tests/sem/q.pass.c dummy.out" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sem q" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ct-19-20" />
+      <option name="PROGRAM_PARAMETERS" value="-sem tests/sem/q.c dummy.out" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sem test" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ct-19-20" />
+      <option name="PROGRAM_PARAMETERS" value="-sem tests/sem/test.c dummy.out" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.ast fibonacci" />
       <item itemvalue="Application.sem fibonacci" />
+      <item itemvalue="Application.sem test" />
+      <item itemvalue="Application.sem q" />
+      <item itemvalue="Application.sem q pass" />
       <item itemvalue="Application.ast exp" />
     </list>
   </component>
@@ -122,11 +162,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>111</line>
-          <option name="timeStamp" value="79" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
           <line>118</line>
@@ -144,12 +179,44 @@
           <option name="timeStamp" value="73" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
+          <line>199</line>
+          <properties class="sem.NameAnalysisVisitor" method="visitSizeOfExpr">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="82" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
-          <line>95</line>
+          <line>299</line>
+          <properties class="sem.TypeCheckVisitor" method="visitAssign">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="84" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>230</line>
+          <properties class="sem.TypeCheckVisitor" method="visitTypecastExpr">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="85" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>120</line>
           <properties class="sem.TypeCheckVisitor" method="visitFunCallExpr">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="80" />
+          <option name="timeStamp" value="87" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/sem/TypeCheckVisitor.java</url>
+          <line>64</line>
+          <properties class="sem.TypeCheckVisitor" method="visitFunDecl">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="88" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
