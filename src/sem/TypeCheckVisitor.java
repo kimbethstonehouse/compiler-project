@@ -108,7 +108,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
             Type paramsT = params.get(i).type;
             Type argsT = args.get(i).accept(this);
 
-            if (paramsT != argsT) {
+            if (paramsT.getClass() != argsT.getClass()) {
                 error("Parameter and argument types do not match");
                 return new ErrorType();
             }
