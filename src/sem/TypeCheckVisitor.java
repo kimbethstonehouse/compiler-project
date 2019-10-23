@@ -10,22 +10,23 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
     Type currFuncReturnType = BaseType.VOID;
 
+    // what does it mean for two types to be equal?
     public boolean eq(Type a, Type b) {
-        // what does it mean for two types to be equal?
-
-        // arraytypes are the same if they have the
+        // arraytypes are equal if they have the
         // same length and the same basetype
         if (a instanceof ArrayType && b instanceof ArrayType) {
             return ((ArrayType) a).size == ((ArrayType) b).size
                     && eq(((ArrayType) a).baseType, ((ArrayType) b).baseType);
         }
 
-        // pointertypes are the same if they have the same basetype
+        // pointertypes are equal if they have the same basetype
         if (a instanceof PointerType && b instanceof PointerType) {
             return eq(((PointerType) a).baseType, ((PointerType) b).baseType);
         }
 
-        // structtypes are the same if they have the same name
+        // structtypes are equal if they have the name
+        // as two structs cannot be defined with the same name
+        // this is enforced in name checking
         if (a instanceof StructType && b instanceof StructType) {
             return ((StructType) a).name.equals(((StructType) b).name);
         }
@@ -53,7 +54,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
     @Override
     public Type visitVarDecl(VarDecl vd) {
-        if (vd.type == BaseType.VOID) {
+        if (eq(vd.type, BaseType.VOID)) {
             error("Variables cannot have type VOID");
         }
 
@@ -134,7 +135,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
             Type paramsT = params.get(i).type;
             Type argsT = args.get(i).accept(this);
 
-            if (paramsT.getClass() != argsT.getClass()) {
+            if (!eq(paramsT, argsT)) {
                 error("Parameter and argument types do not match");
                 return new ErrorType();
             }
@@ -150,8 +151,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         Type rhsT = bo.rhs.accept(this);
 
         if (bo.op == Op.NE || bo.op == Op.EQ) {
-            if (!(lhsT instanceof StructType || lhsT instanceof ArrayType || lhsT == BaseType.VOID)
-                    && lhsT.getClass() == rhsT.getClass()) {
+            if (!(lhsT instanceof StructType || lhsT instanceof ArrayType || lhsT == BaseType.VOID) && eq(lhsT,  rhsT)) {
                 bo.type = lhsT;
                 return bo.type;
             } else {
@@ -160,7 +160,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         } else {
             // add, sub, mul, div, mod,
             // or, and, gt, lt, ge, le
-            if (lhsT == BaseType.INT && rhsT == BaseType.INT) {
+            if (eq(lhsT, BaseType.INT) && eq(rhsT, BaseType.INT)) {
                 bo.type = BaseType.INT;
                 return bo.type;
             } else {
@@ -177,8 +177,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         Type arrType = aae.arr.accept(this);
         Type idxType = aae.idx.accept(this);
 
-        if ((arrType instanceof ArrayType || arrType instanceof PointerType)
-                && idxType == BaseType.INT) {
+        if ((arrType instanceof ArrayType || arrType instanceof PointerType) && eq(idxType, BaseType.INT)) {
             aae.type = ((ArrayType) aae.arr.type).baseType;
             return aae.type;
         }
@@ -233,7 +232,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         Type castType = tce.castType;
 
         // char to int
-        if (exprType == BaseType.CHAR && castType == BaseType.INT) {
+        if (eq(exprType, BaseType.CHAR) && eq(castType, BaseType.INT)) {
             tce.expr.type = BaseType.INT;
             tce.type = tce.expr.type;
             return tce.type;
@@ -241,7 +240,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
         // array to pointer
         if (exprType instanceof ArrayType && castType instanceof PointerType
-                        && ((ArrayType) exprType).baseType == ((PointerType) castType).baseType) {
+                && eq(((ArrayType) exprType).baseType, ((PointerType) castType).baseType)) {
             tce.expr.type = new PointerType(((ArrayType) exprType).baseType);
             tce.type = tce.expr.type;
             return tce.type;
@@ -260,12 +259,8 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
 
     @Override
     public Type visitBlock(Block b) {
-        for (VarDecl vd : b.varDecls) {
-            vd.accept(this);
-        }
-        for (Stmt stmt : b.stmts) {
-            stmt.accept(this);
-        }
+        for (VarDecl vd : b.varDecls) { vd.accept(this); }
+        for (Stmt stmt : b.stmts) { stmt.accept(this); }
         return null;
     }
 
@@ -273,7 +268,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     public Type visitWhile(While w) {
         Type exprType = w.expr.accept(this);
 
-        if (exprType != BaseType.INT) {
+        if (!eq(exprType, BaseType.INT)) {
             error("Condition must be of type int");
         }
 
@@ -285,7 +280,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     public Type visitIf(If i) {
         Type exprType = i.expr.accept(this);
 
-        if (exprType != BaseType.INT) {
+        if (!eq(exprType, BaseType.INT)) {
             error("Condition must be of type int");
         }
 
@@ -309,13 +304,11 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         Type lhsType = a.lhs.accept(this);
         Type rhsType = a.rhs.accept(this);
 
-        if (lhsType == BaseType.VOID || lhsType instanceof ArrayType) {
+        if (eq(lhsType, BaseType.VOID) || lhsType instanceof ArrayType) {
             error("LHS cannot be of type void or array");
         }
 
-        if (lhsType != rhsType) {
-            error ("LHS and RHS must be of the same type");
-        }
+        if (!eq(lhsType, rhsType)) { error ("LHS and RHS must be of the same type"); }
 
         return null;
     }
@@ -327,7 +320,7 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         if (r.expr != null) exprType = r.expr.accept(this);
 
         if (exprType instanceof ArrayType || exprType instanceof PointerType)
-        if (exprType != currFuncReturnType) error("Return type does not match function type");
+        if (!eq(exprType, currFuncReturnType)) error("Return type does not match function type");
         return exprType;
     }
 

@@ -66,6 +66,7 @@ public class NameAnalysisVisitor extends BaseSemanticVisitor<Void> {
 
 	@Override
 	public Void visitFunDecl(FunDecl p) {
+		p.type.accept(this);
 		Symbol s = scope.lookupCurrent(p.name);
 
 		if (s != null)  {
