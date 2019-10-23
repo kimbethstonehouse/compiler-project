@@ -316,7 +316,6 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
         Type exprType = BaseType.VOID;
         if (r.expr != null) exprType = r.expr.accept(this);
 
-        if (exprType instanceof ArrayType || exprType instanceof PointerType)
         if (!eq(exprType, currFuncReturnType)) error("Return type does not match function type");
         return exprType;
     }

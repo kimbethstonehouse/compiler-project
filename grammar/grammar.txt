@@ -59,6 +59,6 @@ funcall ::= IDENT "(" arglist ")"
 arglist ::= exp argrep | ε
 argrep ::= "," exp argrep | ε
 
-valueat      ::= "*" exp
+valueat      ::= "*" expF
 sizeof       ::= "sizeof" "(" type ")"
-typecast     ::= "(" type ")" exp
+typecast     ::= "(" type ")" expF

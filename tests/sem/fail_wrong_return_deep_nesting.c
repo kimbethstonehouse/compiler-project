@@ -1,4 +1,4 @@
-// EXPECTED PASS
+// EXPECTED FAIL
 void main() {
 
     if (1) {
