@@ -2,14 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/ast/precedence.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/ast/ex1.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/ast/ex2.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/ast/ex3.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/ast/ex4.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/ast/ex5.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/ast/ex6.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/ast/ex7.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/ast/ex8.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/a.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/BaseSemanticVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/BaseSemanticVisitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/NameAnalysisVisitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/Scope.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/Scope.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/TypeCheckVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ast/precedence.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ast/precedence.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/sem/q.fail.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/q.fail.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

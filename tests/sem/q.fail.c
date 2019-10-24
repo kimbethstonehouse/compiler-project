@@ -208,7 +208,6 @@
 //
 //}
 
-
 // FAIL - conditions are not of type int
 //void* a;
 //
@@ -247,8 +246,8 @@
 //}
 
 // FAIL - array access index is char not int
-//int c[10];
-//
-//void main() {
-//	c['a'];
-//}
+int c[10];
+
+void main() {
+	c['a'];
+}
