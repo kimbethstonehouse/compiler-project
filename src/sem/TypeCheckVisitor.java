@@ -46,7 +46,12 @@ public class TypeCheckVisitor extends BaseSemanticVisitor<Type> {
     // StructTypeDecl ::= StructType VarDecl*
     public Type visitStructTypeDecl(StructTypeDecl std) {
         std.structType.accept(this);
-        for (VarDecl vd : std.varDecls) { vd.accept(this); }
+        for (VarDecl vd : std.varDecls) {
+            if (eq(vd.type, std.structType)) {
+                error("Structs cannot self refer\n");
+            }
+            vd.accept(this);
+        }
         return null;
     }
 
