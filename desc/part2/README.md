@@ -186,7 +186,7 @@ i=(int)c;
 
 ## 6. Checking assignments
 
-Finally, your last task will consist in checking that the left hand side expression of an assignment statement is one of the following: VarExpr, FieldAccessExpr, ArrayAccessExpr or ValuteAtExpr.
+Finally, your last task will consist in checking that the left hand side expression of an assignment statement is one of the following: VarExpr, FieldAccessExpr, ArrayAccessExpr or ValueAtExpr.
 For instance the following code is legal:
 ```C
 int i;
