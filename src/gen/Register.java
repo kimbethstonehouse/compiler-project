@@ -30,10 +30,10 @@ public class Register {
             tmpRegs.add(new Register(i,"t"+(i-24+8)));
     }
 
-    public static final Register gp = new Register(28,"gp");
-    public static final Register sp = new Register(29,"sp");
-    public static final Register fp = new Register(30,"fp");
-    public static final Register ra = new Register(31,"ra");
+    public static final Register gp = new Register(28,"gp"); // address of data segment
+    public static final Register sp = new Register(29,"sp"); // stack pointer
+    public static final Register fp = new Register(30,"fp"); // frame pointer
+    public static final Register ra = new Register(31,"ra"); // return address
 
 
     private final int num;      // register number
