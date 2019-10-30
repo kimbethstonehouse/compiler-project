@@ -4,10 +4,9 @@ import ast.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.EmptyStackException;
-import java.util.List;
 import java.util.Stack;
 
 public class CodeGenerator implements ASTVisitor<Register> {
@@ -38,16 +37,14 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
 
-
-
-
     private PrintWriter writer; // use this writer to output the assembly instructions
-
+    private DataAllocation dataAlloc; // use this pass to allocate global and local variables
 
     public void emitProgram(Program program, File outputFile) throws FileNotFoundException {
         writer = new PrintWriter(outputFile);
-        writer.println(".data");
-        // separate data pass?
+        dataAlloc = new DataAllocation();
+
+        dataAlloc.emitProgram(program, writer);
 
         writer.println(".text");
         writer.println("main:");
@@ -61,8 +58,11 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // Program ::= StructTypeDecl* VarDecl* FunDecl*
     public Register visitProgram(Program p) {
-        // TODO: to complete
+        for (StructTypeDecl std : p.structTypeDecls) std.accept(this);
+        for (VarDecl vd : p.varDecls) vd.accept(this);
+        for (FunDecl fd : p.funDecls) fd.accept(this);
         return null;
     }
 
@@ -209,12 +209,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 break;
             case AND:
                 writer.printf("and %s,%s,%s\n", resultReg, lhsReg, rhsReg);
-
-
-// positional encoding - use conditional branches
-// 0 false, everything else true - numerical representation
-
-
         }
 
         freeRegister(lhsReg);
