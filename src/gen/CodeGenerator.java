@@ -188,63 +188,21 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 break;
             case GT:
                 writer.printf("sgt %s,%s,gt\n", resultReg, lhsReg, rhsReg);
-
-//                writer.printf("bgt %s,%s,gt\n", lhsReg, rhsReg);
-//                writer.printf("li %s,0\n", resultReg);
-//                writer.println("b endgt");
-//                writer.println("gt:");
-//                writer.printf("li %s,1\n");
-//                writer.println("endgt:");
                 break;
             case LT:
                 writer.printf("slt %s,%s,gt\n", resultReg, lhsReg, rhsReg);
-
-//                writer.printf("blt %s,%s,lt\n", lhsReg, rhsReg);
-//                writer.printf("li %s,0\n", resultReg);
-//                writer.println("b endlt");
-//                writer.println("lt:");
-//                writer.printf("li %s,1\n");
-//                writer.println("endlt:");
                 break;
             case GE:
                 writer.printf("sge %s,%s,gt\n", resultReg, lhsReg, rhsReg);
-
-//                writer.printf("bge %s,%s,ge\n", lhsReg, rhsReg);
-//                writer.printf("li %s,0\n", resultReg);
-//                writer.println("b endge");
-//                writer.println("ge:");
-//                writer.printf("li %s,1\n");
-//                writer.println("endge:");
                 break;
             case LE:
                 writer.printf("sle %s,%s,gt\n", resultReg, lhsReg, rhsReg);
-
-//                writer.printf("ble %s,%s,le\n", lhsReg, rhsReg);
-//                writer.printf("li %s,0\n", resultReg);
-//                writer.println("b endle");
-//                writer.println("le:");
-//                writer.printf("li %s,1\n");
-//                writer.println("endle:");
                 break;
             case NE:
                 writer.printf("sne %s,%s,gt\n", resultReg, lhsReg, rhsReg);
-
-//                writer.printf("bne %s,%s,ne\n", lhsReg, rhsReg);
-//                writer.printf("li %s,0\n", resultReg);
-//                writer.println("b endne");
-//                writer.println("ne:");
-//                writer.printf("li %s,1\n");
-//                writer.println("endne:");
                 break;
             case EQ:
-                    writer.printf("seq %s,%s,gt\n", resultReg, lhsReg, rhsReg);
-
-//                writer.printf("beq %s,%s,eq\n", lhsReg, rhsReg);
-//                writer.printf("li %s,0\n", resultReg);
-//                writer.println("b endeq");
-//                writer.println("eq:");
-//                writer.printf("li %s,1\n");
-//                writer.println("endeq:");
+                writer.printf("seq %s,%s,gt\n", resultReg, lhsReg, rhsReg);
                 break;
             case OR:
                 writer.printf("or %s,%s,%s\n", resultReg, lhsReg, rhsReg);
