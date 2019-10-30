@@ -8,3 +8,7 @@ int x;
 struct a p;
 char* f;
 int* g[5];
+
+void main() {
+        "Hello, world!";
+}

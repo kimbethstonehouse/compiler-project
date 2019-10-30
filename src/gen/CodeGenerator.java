@@ -114,7 +114,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitStrLiteral(StrLiteral sl) {
-        // do this in a data pass
+        // TODO: do this in a data pass
 //        Register reg = getRegister();
 //        writer.printf("li %s %s\n", reg, sl.s);
 //        return reg;
@@ -135,6 +135,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
         // then want to load the address
         // then get the result and return
         // see slides
+        // may want to store whether variable is static or fucntion
+        // inside the ast node
         return null;
     }
 
@@ -280,6 +282,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     // HELPER FUNCTIONS
     public void print_i(Register argRegister) {
+        // TODO: where is this called?
         writer.println("li $v0 1");
         writer.printf("move $a0 %s\n", argRegister.toString());
         writer.println("syscall");

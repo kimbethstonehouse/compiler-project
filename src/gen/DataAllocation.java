@@ -78,6 +78,8 @@ public class DataAllocation implements ASTVisitor<Void> {
 
     @Override
     public Void visitStrLiteral(StrLiteral sl) {
+        // TODO: handle str literal
+//        writer.printf("%s: .asciiz \"%s\"\n", "string", sl.s);
         return null;
     }
 
@@ -163,8 +165,9 @@ public class DataAllocation implements ASTVisitor<Void> {
 
     // HELPER FUNCTIONS
     private int returnTypeSize(Type type) {
-        // what about structs???
         if (type instanceof StructType) {
+            // struct size was determined at declaration
+            // and stored in the std ast node
             return ((StructType) type).std.structSize;
         } else if (type instanceof ArrayType) {
             ArrayType arrayType = (ArrayType) type;
