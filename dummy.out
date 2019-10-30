@@ -1,5 +1,5 @@
 .data
 .text
 main:
-li $v0 10
+reg $t9li $v0 10
 syscall

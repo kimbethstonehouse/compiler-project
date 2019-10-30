@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/gen/test.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dummy.out" beforeDir="false" afterPath="$PROJECT_DIR$/dummy.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/Main$Mode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/Main$Mode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/sem/TypeCheckVisitor.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gen/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/Register.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

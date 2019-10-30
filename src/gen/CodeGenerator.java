@@ -108,22 +108,33 @@ public class CodeGenerator implements ASTVisitor<Register> {
     @Override
     public Register visitIntLiteral(IntLiteral il) {
         Register reg = getRegister();
-        return null;
+        writer.printf("li %s,%s\n", reg, il.i);
+        return reg;
     }
 
     @Override
-    public Register visitStrLiteral(StrLiteral st) {
+    public Register visitStrLiteral(StrLiteral sl) {
+        // do this in a data pass
+//        Register reg = getRegister();
+//        writer.printf("li %s %s\n", reg, sl.s);
+//        return reg;
         return null;
     }
 
     @Override
     public Register visitChrLiteral(ChrLiteral cl) {
-        return null;
+        Register reg = getRegister();
+        writer.printf("li %s,'%s'\n", reg, cl.c);
+        return reg;
     }
 
     @Override
     public Register visitVarExpr(VarExpr v) {
         // TODO: to complete
+        // the variable will be stored at a memory address
+        // then want to load the address
+        // then get the result and return
+        // see slides
         return null;
     }
 
@@ -139,7 +150,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 //        if (fce.name.equals("print_i")) {
 //            for (Register argRegister : argRegisters) {
 //                writer.println("li $v0 1");
-//                writer.println("mv $a0 " + argRegister.toString());
+//                writer.println("mv $a0 " + argRegister);
 //                writer.println("syscall");
 //
 //                freeRegister(argRegister);
@@ -148,12 +159,97 @@ public class CodeGenerator implements ASTVisitor<Register> {
 //        }
 //
 //        writer.println("");
-//        return null;
+        return null;
     }
 
     @Override
     public Register visitBinOp(BinOp bo) {
-        return null;
+        Register lhsReg = bo.lhs.accept(this);
+        Register rhsReg = bo.rhs.accept(this);
+        Register resultReg = getRegister();
+
+        switch(bo.op) {
+            case ADD:
+                writer.printf("add %s %s %s\n", resultReg, lhsReg, rhsReg);
+                break;
+            case SUB:
+                writer.printf("sub %s %s %s\n", resultReg, lhsReg, rhsReg);
+                break;
+                // what to return in the case of mul???
+            case MUL:
+                writer.printf("mult %s,%s\n", lhsReg, rhsReg);
+                break;
+            case DIV:
+                writer.printf("div %s,%s\n", lhsReg, rhsReg);
+                writer.printf("mflo %s\n", resultReg);
+                break;
+            case MOD:
+                writer.printf("div %s,%s\n", lhsReg, rhsReg);
+                writer.printf("mfhi %s\n", resultReg);
+                break;
+            case GT:
+                writer.printf("bgt %s,%s,gt\n", lhsReg, rhsReg);
+                writer.printf("li %s,0\n", resultReg);
+                writer.println("b endgt");
+                writer.println("gt:");
+                writer.printf("li %s,1\n");
+                writer.println("endgt:");
+                break;
+            case LT:
+                writer.printf("blt %s,%s,lt\n", lhsReg, rhsReg);
+                writer.printf("li %s,0\n", resultReg);
+                writer.println("b endlt");
+                writer.println("lt:");
+                writer.printf("li %s,1\n");
+                writer.println("endlt:");
+                break;
+            case GE:
+                writer.printf("bge %s,%s,ge\n", lhsReg, rhsReg);
+                writer.printf("li %s,0\n", resultReg);
+                writer.println("b endge");
+                writer.println("ge:");
+                writer.printf("li %s,1\n");
+                writer.println("endge:");
+                break;
+            case LE:
+                writer.printf("ble %s,%s,le\n", lhsReg, rhsReg);
+                writer.printf("li %s,0\n", resultReg);
+                writer.println("b endle");
+                writer.println("le:");
+                writer.printf("li %s,1\n");
+                writer.println("endle:");
+                break;
+            case NE:
+                writer.printf("bne %s,%s,ne\n", lhsReg, rhsReg);
+                writer.printf("li %s,0\n", resultReg);
+                writer.println("b endne");
+                writer.println("ne:");
+                writer.printf("li %s,1\n");
+                writer.println("endne:");
+                break;
+            case EQ:
+                writer.printf("beq %s,%s,eq\n", lhsReg, rhsReg);
+                writer.printf("li %s,0\n", resultReg);
+                writer.println("b endeq");
+                writer.println("eq:");
+                writer.printf("li %s,1\n");
+                writer.println("endeq:");
+                break;
+            case OR:
+                break;
+            case AND:
+
+
+
+// positional encoding - use conditional branches
+// 0 false, everything else true - numerical representation
+
+
+        }
+
+        freeRegister(lhsReg);
+        freeRegister(rhsReg);
+        return resultReg;
     }
 
     @Override
@@ -216,5 +312,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
     @Override
     public Register visitErrorType(ErrorType et) {
         return null;
+    }
+
+    // HELPER FUNCTIONS
+    public void print_i(Register argRegister) {
+        writer.println("li $v0 1");
+        writer.printf("move $a0 %s\n", argRegister.toString());
+        writer.println("syscall");
+        freeRegister(argRegister);
     }
 }
