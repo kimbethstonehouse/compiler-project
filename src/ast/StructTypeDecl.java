@@ -10,6 +10,7 @@ public class StructTypeDecl implements ASTNode {
     public StructTypeDecl(StructType structType, List<VarDecl> varDecls) {
         this.structType = structType;
         this.varDecls = varDecls;
+        this.structSize = 0;
     }
 
     public <T> T accept(ASTVisitor<T> v) {
