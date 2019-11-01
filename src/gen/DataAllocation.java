@@ -27,7 +27,7 @@ public class DataAllocation implements ASTVisitor<Void> {
     @Override
     // StructTypeDecl ::= StructType VarDecl*
     public Void visitStructTypeDecl(StructTypeDecl st) {
-        for (VarDecl vd : st.varDecls) { st.structSize += getTypeSize(vd.type); }
+        for (VarDecl vd : st.varDecls) { st.structSize += getStructTypeSize(vd.type); }
         return null;
     }
 
@@ -209,10 +209,32 @@ public class DataAllocation implements ASTVisitor<Void> {
             return ((StructType) type).std.structSize;
         } else if (type instanceof ArrayType) {
             ArrayType arrayType = (ArrayType) type;
-            return (arrayType.size * getTypeSize(arrayType.baseType));
+            int size = (arrayType.size * getTypeSize(arrayType.baseType));
+            return makeMultipleFour(size);
+        } else if (type == BaseType.CHAR) {
+            // chars need 1 byte
+            return 1;
         } else {
-            // chars, ints and pointers need 4 bytes
+            // ints and pointers need 4 bytes
             return 4;
         }
+    }
+
+    private int getStructTypeSize(Type type) {
+        if (type instanceof StructType) {
+            // struct size was determined at declaration and stored in the std ast node
+            return ((StructType) type).std.structSize;
+        } else if (type instanceof ArrayType) {
+            ArrayType arrayType = (ArrayType) type;
+            return (arrayType.size * getTypeSize(arrayType.baseType));
+        } else {
+            // chars, ints and pointers need 4 bytes as all structure fields are aligned at a 4 byte boundary
+            return 4;
+        }
+    }
+
+    private int makeMultipleFour(int x) {
+        if (x % 4 != 0) return x + 4 - (x % 4);
+        return x;
     }
 }
