@@ -2,17 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/gen/data_alloc_array_alignment.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/data_alloc_self_refer.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/local_allocation.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dummy.out" beforeDir="false" afterPath="$PROJECT_DIR$/dummy.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/StrLiteral.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/StrLiteral.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/StructTypeDecl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/StructTypeDecl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/VarDecl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/VarDecl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/VarDecl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/VarDecl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/DataAllocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/DataAllocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_duplicate_str.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_duplicate_str.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_multiple_str.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_multiple_str.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_array_alignment.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_array_alignment.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_structs_vars.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_structs_vars.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -52,7 +53,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.gen array align">
+  <component name="RunManager" selected="Application.gen local alloc">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
@@ -76,10 +77,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="gen array align" type="Application" factoryName="Application">
+    <configuration name="gen local alloc" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
-      <option name="PROGRAM_PARAMETERS" value="-gen tests/gen/data_alloc_array_alignment.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/gen/local_allocation.c dummy.out" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -122,7 +123,7 @@
       <item itemvalue="Application.sem test" />
       <item itemvalue="Application.sem q" />
       <item itemvalue="Application.sem tictactoe" />
-      <item itemvalue="Application.gen array align" />
+      <item itemvalue="Application.gen local alloc" />
       <item itemvalue="Application.ast exp" />
     </list>
   </component>
@@ -193,11 +194,19 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/gen/DataAllocation.java</url>
-          <line>205</line>
+          <line>208</line>
           <properties class="gen.DataAllocation" method="getTypeSize">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="96" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
+          <line>87</line>
+          <properties class="gen.CodeGenerator" method="visitFunDecl">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="97" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

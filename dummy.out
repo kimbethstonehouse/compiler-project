@@ -1,11 +1,8 @@
 .data
-x: .space 4
-p: .space 48
-f: .space 4
-g: .space 20
-c: .space 1
 
 .text
 main:
+move $fp,$sp
+addi $sp,$sp,-16
 li $v0 10
 syscall

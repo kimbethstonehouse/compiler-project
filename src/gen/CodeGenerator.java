@@ -4,9 +4,10 @@ import ast.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.EmptyStackException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class CodeGenerator implements ASTVisitor<Register> {
@@ -17,6 +18,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     // contains all the free temporary registers
     private Stack<Register> freeRegs = new Stack<Register>();
+    private int currentOffset;       // tracks how much offset from the frame pointer is
+                                    // needed for the local variables encountered so far
 
     public CodeGenerator() {
         freeRegs.addAll(Register.tmpRegs);
@@ -61,7 +64,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
     // Program ::= StructTypeDecl* VarDecl* FunDecl*
     public Register visitProgram(Program p) {
         for (StructTypeDecl std : p.structTypeDecls) std.accept(this);
-        for (VarDecl vd : p.varDecls) vd.accept(this);
+        // done in the data allocation pass
+        //for (VarDecl vd : p.varDecls) vd.accept(this);
         for (FunDecl fd : p.funDecls) fd.accept(this);
         return null;
     }
@@ -73,13 +77,30 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitVarDecl(VarDecl vd) {
-        // TODO: to complete
+        vd.offset = currentOffset;
+        // increment offset by size of the type for the next vardecl
+        currentOffset -= dataAlloc.getTypeSize(vd.type);
         return null;
     }
 
     @Override
+    // FunDecl ::= Type String VarDecl* Block
     public Register visitFunDecl(FunDecl p) {
-        // TODO: to complete
+
+        // TODO: maybe do this in funcall
+        // initialise fp to the value of sp
+        writer.println("move $fp,$sp");
+        currentOffset = 0;
+
+        // TODO: do something with the params - will need to edit varexpr
+        // TODO: too to account for this
+
+        // allocate local variables
+        p.block.accept(this);
+
+        // move the stack pointer ($sp) by an offset corresponding to the
+        // size of all the local variables declared on the stack
+        writer.printf("addi $sp,$sp,%s\n", currentOffset);
         return null;
     }
 
@@ -130,14 +151,19 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitVarExpr(VarExpr v) {
-        // TODO: to complete
-        // the variable will be stored at a memory address
-        // then want to load the address
-        // then get the result and return
-        // see slides
-        // may want to store whether variable is static or fucntion
-        // inside the ast node
-        return null;
+        Register valueReg = getRegister();
+
+        // v may be a local or a global variable
+        if (v.vd.isGlobal) {
+            // variable is stored at the address corresponding
+            // to the label in the data directive
+            writer.printf("lw %s,%s\n", valueReg, v.name);
+        } else {
+            // variable is stored on the stack at an offset from the fp
+            writer.printf("lw %s,%s($fp)\n", valueReg, v.vd.offset);
+        }
+
+        return valueReg;
     }
 
     @Override
@@ -171,6 +197,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         Register resultReg = getRegister();
 
         switch(bo.op) {
+            // TODO: change to control flow
             case ADD:
                 writer.printf("add %s %s %s\n", resultReg, lhsReg, rhsReg);
                 break;
@@ -206,6 +233,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
             case EQ:
                 writer.printf("seq %s,%s,gt\n", resultReg, lhsReg, rhsReg);
                 break;
+                // TODO: fix and or
             case OR:
                 writer.printf("or %s,%s,%s\n", resultReg, lhsReg, rhsReg);
                 break;
@@ -245,8 +273,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     // STMT
     @Override
+    // Block ::= VarDecl* Stmt*
     public Register visitBlock(Block b) {
-        // TODO: to complete
+
+        for (VarDecl vd : b.varDecls) { vd.accept(this); }
+
+        // TODO: what about stmts?
+        for (Stmt stmt : b.stmts) { stmt.accept(this); }
         return null;
     }
 

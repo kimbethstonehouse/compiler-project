@@ -27,7 +27,8 @@ public class DataAllocation implements ASTVisitor<Void> {
     @Override
     // StructTypeDecl ::= StructType VarDecl*
     public Void visitStructTypeDecl(StructTypeDecl st) {
-        for (VarDecl vd : st.varDecls) { st.structSize += getStructTypeSize(vd.type); }
+        // all structure fields are aligned at a 4 byte boundary
+        for (VarDecl vd : st.varDecls) { st.structSize += makeMultipleFour(getTypeSize(vd.type)); }
         return null;
     }
 
@@ -37,6 +38,8 @@ public class DataAllocation implements ASTVisitor<Void> {
         // global variables go in the static storage area (.data)
         int size = getTypeSize(vd.type);
         writer.printf("%s: .space %s\n", vd.varName, size);
+        // record the variable as global
+        vd.isGlobal = true;
         return null;
     }
 
@@ -203,7 +206,7 @@ public class DataAllocation implements ASTVisitor<Void> {
     }
 
     // HELPER FUNCTIONS
-    private int getTypeSize(Type type) {
+    public int getTypeSize(Type type) {
         if (type instanceof StructType) {
             // struct size was determined at declaration and stored in the std ast node
             return ((StructType) type).std.structSize;
@@ -220,20 +223,7 @@ public class DataAllocation implements ASTVisitor<Void> {
         }
     }
 
-    private int getStructTypeSize(Type type) {
-        if (type instanceof StructType) {
-            // struct size was determined at declaration and stored in the std ast node
-            return ((StructType) type).std.structSize;
-        } else if (type instanceof ArrayType) {
-            ArrayType arrayType = (ArrayType) type;
-            return (arrayType.size * getTypeSize(arrayType.baseType));
-        } else {
-            // chars, ints and pointers need 4 bytes as all structure fields are aligned at a 4 byte boundary
-            return 4;
-        }
-    }
-
-    private int makeMultipleFour(int x) {
+    public int makeMultipleFour(int x) {
         if (x % 4 != 0) return x + 4 - (x % 4);
         return x;
     }
