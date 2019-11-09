@@ -2,14 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/ast/test.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/array_access.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/if.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/field_access.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dummy.out" beforeDir="false" afterPath="$PROJECT_DIR$/dummy.out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gen/local_allocation.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/local_allocation.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gen/while.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/while.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen/DataAllocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/DataAllocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ast/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ast/test.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/sem/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/sem/test.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -189,7 +188,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/gen/DataAllocation.java</url>
-          <line>210</line>
+          <line>216</line>
           <properties class="gen.DataAllocation" method="getTypeSize">
             <option name="EMULATED" value="true" />
           </properties>

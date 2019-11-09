@@ -113,16 +113,18 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitPointerType(PointerType pt) {
+        // TODO return address for array access expr - maybe this is
+        // TODO handled in varexpr and maybe it doesnt even make sense
         return null;
     }
 
     @Override
-    public Register visitStructType(StructType st) {
-        return null;
-    }
+    public Register visitStructType(StructType st) { return null; }
 
     @Override
     public Register visitArrayType(ArrayType at) {
+
+        // TODO-maybe covered in varexpr, return address for array access expr
         return null;
     }
 
@@ -156,11 +158,9 @@ public class CodeGenerator implements ASTVisitor<Register> {
         Register valueReg = getRegister();
         String loadInstr = "";
 
-
         // return the address in these cases
         if (v.vd.type instanceof ArrayType || v.vd.type instanceof StructType) loadInstr = "la";
         else loadInstr = "lw";
-
 
         // v may be a local or a global variable
         if (v.vd.isGlobal) {
@@ -294,28 +294,43 @@ public class CodeGenerator implements ASTVisitor<Register> {
     @Override
     public Register visitArrayAccessExpr(ArrayAccessExpr aae) {
         writer.println();
-        String loadInstr;
+        String loadInstruct;
+        Type baseType;
 
+        Register arrAddr = getArrayAccessAddress(aae);
         Register resultReg = getRegister();
-        Register arrReg = getArrayAccessAddress(aae);
 
-        if (((ArrayType) aae.arr.type).baseType == BaseType.CHAR) loadInstr = "lb";
-        else loadInstr = "lw";
+        // arr can be either an array or a pointer
+        if (aae.arr.type instanceof ArrayType) baseType = (((ArrayType) aae.arr.type).baseType);
+        else baseType = (((PointerType) aae.arr.type).baseType);
 
-        writer.printf("%s %s,(%s)\n", loadInstr, resultReg, arrReg);
+        if (baseType == BaseType.CHAR) loadInstruct = "lb";
+        else loadInstruct = "lw";
 
-        freeRegister(arrReg);
+        writer.printf("%s %s,(%s)\n", loadInstruct, resultReg, arrAddr);
+
+        freeRegister(arrAddr);
         writer.println();
         return resultReg;
     }
 
     @Override
     public Register visitFieldAccessExpr(FieldAccessExpr fae) {
-        return null;
+        writer.println();
+
+        Register fieldAddress = getFieldAccessAddress(fae);
+        Register resultReg = getRegister();
+
+        writer.printf("lw %s,(%s)\n", resultReg, fieldAddress);
+
+        freeRegister(fieldAddress);
+        writer.println();
+        return resultReg;
     }
 
     @Override
     public Register visitValueAtExpr(ValueAtExpr vae) {
+        // TODO: big todo
         return null;
     }
 
@@ -330,7 +345,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitTypecastExpr(TypecastExpr tce) {
-        // TODO: type cast expr
+        // TODO: return an address for array access expr
         return null;
     }
 
@@ -483,16 +498,44 @@ public class CodeGenerator implements ASTVisitor<Register> {
 //    }
 
     private Register getArrayAccessAddress(ArrayAccessExpr aae) {
-        Register arrReg = aae.arr.accept(this);
+        Register arrReg;
         Register idxReg = aae.idx.accept(this);
         int typeSize = dataAlloc.getTypeSize(((ArrayType) aae.arr.type).baseType);
+        // all structs are global so this is initially assumed true
+        boolean isGlobal = true;
+
+
+        // TODO: what about field access?
+        // TODO: pointers too
+        // TODO: typecast expr, value at
+
+        if (aae.arr instanceof FieldAccessExpr) arrReg = getFieldAccessAddress((FieldAccessExpr) aae.arr);
+        else arrReg = aae.arr.accept(this);
 
         writer.printf("mul %s,%s,%s\n", idxReg, idxReg, typeSize);
         // if the array is global the address will be stored in the data segment
-        if (((VarExpr) aae.arr).vd.isGlobal) writer.printf("add %s,%s,%s\n", arrReg, arrReg, idxReg);
+        if (aae.arr instanceof VarExpr) isGlobal = (((VarExpr) aae.arr).vd.isGlobal);
+
+        if (isGlobal) writer.printf("add %s,%s,%s\n", arrReg, arrReg, idxReg);
         else writer.printf("sub %s,%s,%s\n", arrReg, arrReg, idxReg);
 
         freeRegister(idxReg);
         return arrReg;
+    }
+
+    private Register getFieldAccessAddress(FieldAccessExpr fae) {
+        Register structReg = fae.struct.accept(this);
+        int offset = 0;
+
+        // find the offset from the struct for the field
+        for (VarDecl vd : ((StructType) (((VarExpr) fae.struct).vd.type)).std.varDecls) {
+            if (vd.varName.equals(fae.fieldName)) offset = vd.offset;
+        }
+
+        if (((VarExpr) fae.struct).vd.isGlobal) writer.printf("add %s,%s,%s\n", structReg, structReg, offset);
+        // local variables are stored on the stack which grows down so we subtract
+        else writer.printf("sub %s,%s,%s\n", structReg, structReg, offset);
+
+        return structReg;
     }
 }

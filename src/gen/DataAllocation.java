@@ -8,6 +8,7 @@ public class DataAllocation implements ASTVisitor<Void> {
 
     private PrintWriter writer; // use this writer to output the assembly instructions
     private int numStrings = 0;
+    private int structOffset = 0; // tracks how much offset from the struct address each struct field needs
 
     public void emitProgram(Program program, PrintWriter writer) {
         this.writer = writer;
@@ -29,7 +30,12 @@ public class DataAllocation implements ASTVisitor<Void> {
     // StructTypeDecl ::= StructType VarDecl*
     public Void visitStructTypeDecl(StructTypeDecl st) {
         // all structure fields are aligned at a 4 byte boundary
-        for (VarDecl vd : st.varDecls) { st.structSize += makeMultipleFour(getTypeSize(vd.type)); }
+        for (VarDecl vd : st.varDecls) {
+            vd.offset = structOffset;
+            structOffset += makeMultipleFour(getTypeSize(vd.type));
+        }
+
+        st.structSize = structOffset;
         return null;
     }
 

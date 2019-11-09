@@ -1,3 +1,8 @@
+struct a {
+    int x;
+};
+
 int main() {
-    3 = 4;
+    struct a b;
+    b.y;
 }

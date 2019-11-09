@@ -1,25 +1,32 @@
 .data
 
-a: .space 56
+b: .space 68
 
 .text
 
 main:
 move $fp,$sp
-addi $sp,$sp,-52
+addi $sp,$sp,-68
 
-la $t8,a
-li $s7,1
-mul $s7,$s7,4
-add $t8,$t8,$s7
-lw $t9,($t8)
+la $t9,b
+add $t9,$t9,0
+lw $t8,($t9)
 
 
-la $s7,-40($fp)
-li $s6,5
-mul $s6,$s6,1
-sub $s7,$s7,$s6
-lb $t8,($s7)
+la $t9,0($fp)
+sub $t9,$t9,8
+lw $s7,($t9)
+
+
+
+la $t9,0($fp)
+sub $t9,$t9,52
+lw $s6,($t9)
+
+li $t9,1
+mul $t9,$t9,4
+add $s6,$s6,$t9
+lw $t9,($s6)
 
 
 li $v0 10
