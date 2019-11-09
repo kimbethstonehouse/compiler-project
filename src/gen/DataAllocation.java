@@ -12,6 +12,7 @@ public class DataAllocation implements ASTVisitor<Void> {
     public void emitProgram(Program program, PrintWriter writer) {
         this.writer = writer;
         writer.println(".data");
+        writer.println();
         visitProgram(program);
         writer.println();
     }
@@ -165,6 +166,7 @@ public class DataAllocation implements ASTVisitor<Void> {
     // While ::= Expr Stmt
     public Void visitWhile(While w) {
         w.expr.accept(this);
+        w.stmt.accept(this);
         return null;
     }
 

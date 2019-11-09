@@ -19,7 +19,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
     // contains all the free temporary registers
     private Stack<Register> freeRegs = new Stack<Register>();
     private int currentOffset;       // tracks how much offset from the frame pointer is
-                                    // needed for the local variables encountered so far
+                                     // needed for the local variables encountered so far
+    private int numWhiles = 0;       // number of while loops or if statements encountered
+    private int numIfs = 0;          // so far, used for generating unique labels
+
 
     public CodeGenerator() {
         freeRegs.addAll(Register.tmpRegs);
@@ -50,13 +53,14 @@ public class CodeGenerator implements ASTVisitor<Register> {
         dataAlloc.emitProgram(program, writer);
 
         writer.println(".text");
-        writer.println("main:");
+        writer.println();
 
+        writer.println("main:");
         visitProgram(program);
+        writer.println();
 
         writer.println("li $v0 10");
         writer.println("syscall");
-
         writer.close();
     }
 
@@ -253,6 +257,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 // set result to 0 and finish
                 writer.printf("li %s,0\n", resultReg);
 
+                writer.println();
                 writer.println("or_end:");
                 break;
             case AND:
@@ -274,6 +279,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 // set result to 0 and finish
                 writer.printf("li %s,0\n", resultReg);
 
+                writer.println();
                 writer.println("and_end:");
         }
 
@@ -325,11 +331,80 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitWhile(While w) {
+        // CONTROL FLOW
+        // PRE TEST
+        // 1. evaluate condition
+        // 2. skip loop if not true
+
+        // LOOP BODY
+        // 3. execute body of loop
+        // 4. reevaluate condition
+
+        // POST TEST
+        // 5. end if not true
+        // 6. or jump back to body
+
+        writer.println();
+        int n = numWhiles;
+        numWhiles++;
+
+        // 1. evaluate condition
+        Register expReg = w.expr.accept(this);
+        // 2. skip loop if not true
+        writer.printf("beqz %s,while_end%s\n", expReg, n);
+        // no longer needed, condition has been evaluated
+        freeRegister(expReg);
+
+        // 3. execute body of loop
+        writer.printf("while_body%s:\n", n);
+        w.stmt.accept(this);
+        // 4. reevaluate condition
+        expReg = w.expr.accept(this);
+
+        // 5. end if not true
+        writer.printf("beqz %s,while_end%s\n", expReg, n);
+        freeRegister(expReg);
+        // 6. or jump back to body
+        writer.printf("j while_body%s\n", n);
+
+        writer.printf("while_end%s:\n", n);
+        // increment number of while loops encountered so far
+        writer.println();
         return null;
     }
 
     @Override
     public Register visitIf(If i) {
+        // CONTROL FLOW
+        // 1. evaluate condition
+        // 2. execute stmt if true and end
+        // 3. go to else if not true
+        // 4. execute else
+        // 5. end
+
+        writer.println();
+        int n = numIfs;
+        numIfs++;
+
+        // 1. evaluate condition
+        Register expReg = i.expr.accept(this);
+
+        // 3. go to else if not true
+        writer.printf("beqz %s,if_else%s\n", expReg, n);
+        // 2. execute stmt if true and end
+        i.stmt1.accept(this);
+        writer.printf("j if_end%s:\n", n);
+
+        // 4. execute else
+        if (i.stmt2 != null) {
+            writer.printf("if_else%s:\n", n);
+            i.stmt2.accept(this);
+        }
+
+        // 5. end
+        writer.printf("if_end%s:\n", n);
+        writer.println();
+
         return null;
     }
 
