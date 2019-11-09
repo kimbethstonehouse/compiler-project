@@ -5,6 +5,7 @@ import ast.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
@@ -97,14 +98,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
         currentOffset = 0;
 
         // TODO: do something with the params - will need to edit varexpr
-        // TODO: to to account for this
+        // TODO: to to account for this / stack allocation
 
         // allocate local variables
         p.block.accept(this);
-
-        // move the stack pointer ($sp) by an offset corresponding to the
-        // size of all the local variables declared on the stack
-        writer.printf("addi $sp,$sp,%s\n", currentOffset);
         return null;
     }
 
@@ -139,7 +136,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitStrLiteral(StrLiteral sl) {
-        // TODO: do this in a data pass
+        // TODO: load this into a register maybe??
 //        Register reg = getRegister();
 //        writer.printf("li %s %s\n", reg, sl.s);
 //        return reg;
@@ -157,15 +154,20 @@ public class CodeGenerator implements ASTVisitor<Register> {
     // VarExpr ::= String
     public Register visitVarExpr(VarExpr v) {
         Register valueReg = getRegister();
+        String loadInstr = "";
+
+
+        // return the address in these cases
+        if (v.vd.type instanceof ArrayType || v.vd.type instanceof StructType) loadInstr = "la";
+        else loadInstr = "lw";
+
 
         // v may be a local or a global variable
         if (v.vd.isGlobal) {
-            // variable is stored at the address corresponding
-            // to the label in the data directive
-            writer.printf("lw %s,%s\n", valueReg, v.name);
+            writer.printf("%s %s,%s\n", loadInstr, valueReg, v.name);
         } else {
             // variable is stored on the stack at an offset from the fp
-            writer.printf("lw %s,%s($fp)\n", valueReg, v.vd.offset);
+            writer.printf("%s %s,%s($fp)\n", loadInstr, valueReg, v.vd.offset);
         }
 
         return valueReg;
@@ -196,6 +198,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // BinOp ::= Expr Op Expr
     public Register visitBinOp(BinOp bo) {
         Register lhsReg = bo.lhs.accept(this);
         Register rhsReg = bo.rhs.accept(this);
@@ -290,7 +293,20 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitArrayAccessExpr(ArrayAccessExpr aae) {
-        return null;
+        writer.println();
+        String loadInstr;
+
+        Register resultReg = getRegister();
+        Register arrReg = getArrayAccessAddress(aae);
+
+        if (((ArrayType) aae.arr.type).baseType == BaseType.CHAR) loadInstr = "lb";
+        else loadInstr = "lw";
+
+        writer.printf("%s %s,(%s)\n", loadInstr, resultReg, arrReg);
+
+        freeRegister(arrReg);
+        writer.println();
+        return resultReg;
     }
 
     @Override
@@ -314,6 +330,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitTypecastExpr(TypecastExpr tce) {
+        // TODO: type cast expr
         return null;
     }
 
@@ -321,8 +338,14 @@ public class CodeGenerator implements ASTVisitor<Register> {
     @Override
     // Block ::= VarDecl* Stmt*
     public Register visitBlock(Block b) {
+        int startingOffset = currentOffset;
 
         for (VarDecl vd : b.varDecls) { vd.accept(this); }
+
+        // move stack pointer before any variables are used in stmts
+        // ($sp) is moved by an offset corresponding to the size of
+        // all the local variables declared on the stack in this block
+        writer.printf("addi $sp,$sp,%s\n", currentOffset - startingOffset);
 
         // TODO: what about stmts?
         for (Stmt stmt : b.stmts) { stmt.accept(this); }
@@ -377,8 +400,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitIf(If i) {
         // CONTROL FLOW
         // 1. evaluate condition
-        // 2. execute stmt if true and end
-        // 3. go to else if not true
+        // 2. go to else if not true
+        // 3. execute stmt if true and end
         // 4. execute else
         // 5. end
 
@@ -388,16 +411,17 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // 1. evaluate condition
         Register expReg = i.expr.accept(this);
-
-        // 3. go to else if not true
+        // 2. go to else if not true
         writer.printf("beqz %s,if_else%s\n", expReg, n);
-        // 2. execute stmt if true and end
+        freeRegister(expReg);
+
+        // 3. execute stmt if true and end
         i.stmt1.accept(this);
         writer.printf("j if_end%s:\n", n);
+        writer.printf("if_else%s:\n", n);
 
         // 4. execute else
         if (i.stmt2 != null) {
-            writer.printf("if_else%s:\n", n);
             i.stmt2.accept(this);
         }
 
@@ -421,6 +445,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
         }
 
         // TODO - what if lhs is not a varexpr?
+
+        // may be field access, array access or value at
         return null;
     }
 
@@ -431,6 +457,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitExprStmt(ExprStmt es) {
+        es.expr.accept(this);
         return null;
     }
 
@@ -440,11 +467,32 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     // HELPER FUNCTIONS
-    public void print_i(Register argRegister) {
+    private void print_i(Register argRegister) {
         // TODO: where is this called?
         writer.println("li $v0 1");
         writer.printf("move $a0 %s\n", argRegister.toString());
         writer.println("syscall");
         freeRegister(argRegister);
+    }
+
+//    private Register getVarAddress(VarExpr v) {
+//        Register addrReg = getRegister();
+//
+//        if (v.vd.isGlobal) writer.printf("sw %s,%s\n", rhsReg, v.name);
+//        else writer.printf("sw %s,%s($fp)\n", rhsReg, v.vd.offset);
+//    }
+
+    private Register getArrayAccessAddress(ArrayAccessExpr aae) {
+        Register arrReg = aae.arr.accept(this);
+        Register idxReg = aae.idx.accept(this);
+        int typeSize = dataAlloc.getTypeSize(((ArrayType) aae.arr.type).baseType);
+
+        writer.printf("mul %s,%s,%s\n", idxReg, idxReg, typeSize);
+        // if the array is global the address will be stored in the data segment
+        if (((VarExpr) aae.arr).vd.isGlobal) writer.printf("add %s,%s,%s\n", arrReg, arrReg, idxReg);
+        else writer.printf("sub %s,%s,%s\n", arrReg, arrReg, idxReg);
+
+        freeRegister(idxReg);
+        return arrReg;
     }
 }

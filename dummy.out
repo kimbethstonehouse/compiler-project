@@ -1,40 +1,26 @@
 .data
 
-str0: .asciiz "Hello world!"
-str1: .asciiz "Kim"
+a: .space 56
 
 .text
 
 main:
 move $fp,$sp
+addi $sp,$sp,-52
 
-li $t9,0
-beqz $t9,while_end0
-while_body0:
-li $t9,0
-beqz $t9,while_end0
-j while_body0
-while_end0:
+la $t8,a
+li $s7,1
+mul $s7,$s7,4
+add $t8,$t8,$s7
+lw $t9,($t8)
 
 
-li $t9,1
-beqz $t9,while_end1
-while_body1:
+la $s7,-40($fp)
+li $s6,5
+mul $s6,$s6,1
+sub $s7,$s7,$s6
+lb $t8,($s7)
 
-li $t9,2
-beqz $t9,while_end2
-while_body2:
-li $t9,2
-beqz $t9,while_end2
-j while_body2
-while_end2:
-
-li $t9,1
-beqz $t9,while_end1
-j while_body1
-while_end1:
-
-addi $sp,$sp,-4
 
 li $v0 10
 syscall

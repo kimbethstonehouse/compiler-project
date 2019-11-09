@@ -14,9 +14,14 @@ void main() {
 
 //.data
 //
+//
 //.text
+//
 //main:
 //move $fp,$sp
-//addi $sp,$sp,-20
+//addi $sp,$sp,-12
+//addi $sp,$sp,-4
+//addi $sp,$sp,-4
+//
 //li $v0 10
 //syscall

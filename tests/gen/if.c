@@ -1,23 +1,15 @@
 void main() {
-    int x;
-
-    while(0) {
-        "Hello world!";
+    if (1) {
+    } else {
     }
 
-    "Kim";
+    if (1) {}
 
-    while (1) {
-        while(2) {
+    if (1) {
+        if (1) {
         }
     }
 
-    while (1) {
-        while(2) {
-            while(3) {
-            }
-        }
-    }
 }
 
 //.data
