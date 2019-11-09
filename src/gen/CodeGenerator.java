@@ -79,7 +79,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitVarDecl(VarDecl vd) {
         vd.offset = currentOffset;
         // increment offset by size of the type for the next vardecl
-        currentOffset -= dataAlloc.getTypeSize(vd.type);
+        currentOffset -= dataAlloc.makeMultipleFour(dataAlloc.getTypeSize(vd.type));
         return null;
     }
 
@@ -93,7 +93,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         currentOffset = 0;
 
         // TODO: do something with the params - will need to edit varexpr
-        // TODO: too to account for this
+        // TODO: to to account for this
 
         // allocate local variables
         p.block.accept(this);
@@ -150,6 +150,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // VarExpr ::= String
     public Register visitVarExpr(VarExpr v) {
         Register valueReg = getRegister();
 
@@ -197,7 +198,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         Register resultReg = getRegister();
 
         switch(bo.op) {
-            // TODO: change to control flow
+            // TODO: maybe change to positional encoding
             case ADD:
                 writer.printf("add %s %s %s\n", resultReg, lhsReg, rhsReg);
                 break;
@@ -233,12 +234,47 @@ public class CodeGenerator implements ASTVisitor<Register> {
             case EQ:
                 writer.printf("seq %s,%s,gt\n", resultReg, lhsReg, rhsReg);
                 break;
-                // TODO: fix and or
             case OR:
-                writer.printf("or %s,%s,%s\n", resultReg, lhsReg, rhsReg);
+                // short circuit evaluation
+                // if lhs is true, whole expr is true
+                writer.printf("bnez %s,or_true\n", lhsReg);
+                // if rhs is true, whole expr is true
+                writer.printf("bnez %s,or_true\n", rhsReg);
+                // if neither true, the statement is false
+                writer.printf("b or_false\n");
+
+                // code for what to in the case of true and false
+                writer.println("or_true:");
+                // set result to 1 and finish
+                writer.printf("li %s,1\n", resultReg);
+                writer.printf("b or_end");
+
+                writer.println("or_false:");
+                // set result to 0 and finish
+                writer.printf("li %s,0\n", resultReg);
+
+                writer.println("or_end:");
                 break;
             case AND:
-                writer.printf("and %s,%s,%s\n", resultReg, lhsReg, rhsReg);
+                // short circuit evaluation
+                // if lhs is false, whole expr is false
+                writer.printf("beqz %s,and_false\n", lhsReg);
+                // if rhs is false, jump to false
+                writer.printf("beqz %s,and_false\n", rhsReg);
+                // if neither false, the statement is true
+                writer.printf("b and_true\n");
+
+                // code for what to in the case of true and false
+                writer.println("and_true:");
+                // set result to 1 and finish
+                writer.printf("li %s,1\n", resultReg);
+                writer.printf("b and_end");
+
+                writer.println("and_false:");
+                // set result to 0 and finish
+                writer.printf("li %s,0\n", resultReg);
+
+                writer.println("and_end:");
         }
 
         freeRegister(lhsReg);
@@ -262,8 +298,12 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // SizeOfExpr ::= Type
     public Register visitSizeOfExpr(SizeOfExpr soe) {
-        return null;
+        Register result = getRegister();
+        int size = dataAlloc.getTypeSize(soe.sizeofType);
+        writer.printf("li %s,%s\n", result, size);
+        return result;
     }
 
     @Override
@@ -295,6 +335,17 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitAssign(Assign a) {
+        Register rhsReg = a.rhs.accept(this);
+
+        // store the result in the variable
+        if (a.lhs instanceof VarExpr) {
+            VarExpr v = ((VarExpr) a.lhs);
+
+            if (v.vd.isGlobal) writer.printf("sw %s,%s\n", rhsReg, v.name);
+            else writer.printf("sw %s,%s($fp)\n", rhsReg, v.vd.offset);
+        }
+
+        // TODO - what if lhs is not a varexpr?
         return null;
     }
 

@@ -1,5 +1,11 @@
-
+#include <stdio.h>
 
 void main() {
-        "Hello, world!";
+    if (0) {
+        printf("Hello");
+    }
 }
+
+//void main() {
+//        "Hello, world!";
+//}
