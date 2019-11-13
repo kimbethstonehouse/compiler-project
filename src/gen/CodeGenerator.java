@@ -484,6 +484,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     // HELPER FUNCTIONS
     private void print_i(Register argRegister) {
         // TODO: where is this called?
+        // TODO: you will need to fix escape chars
         writer.println("li $v0 1");
         writer.printf("move $a0 %s\n", argRegister.toString());
         writer.println("syscall");
