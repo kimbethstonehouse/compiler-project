@@ -4,12 +4,12 @@ int foo(int a) {
     return x;
 }
 
-void a() {
-    return;
+int a() {
+    return 2;
 }
 
 void main() {
-    foo(a());
+    foo(a);
 }
 
 

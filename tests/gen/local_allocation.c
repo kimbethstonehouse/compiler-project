@@ -22,6 +22,9 @@ void main() {
 //addi $sp,$sp,-12
 //addi $sp,$sp,-4
 //addi $sp,$sp,-4
+//subi $sp,$sp,-4
+//subi $sp,$sp,-4
+//subi $sp,$sp,-12
 //
 //li $v0 10
 //syscall

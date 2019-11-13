@@ -1,33 +1,16 @@
 .data
 
-b: .space 68
 
 .text
 
 main:
 move $fp,$sp
-addi $sp,$sp,-68
-
-la $t9,b
-add $t9,$t9,0
-lw $t8,($t9)
-
-
-la $t9,0($fp)
-sub $t9,$t9,8
-lw $s7,($t9)
-
-
-
-la $t9,0($fp)
-sub $t9,$t9,52
-lw $s6,($t9)
-
-li $t9,1
-mul $t9,$t9,4
-add $s6,$s6,$t9
-lw $t9,($s6)
-
+addi $sp,$sp,-12
+addi $sp,$sp,-4
+addi $sp,$sp,-4
+subi $sp,$sp,-4
+subi $sp,$sp,-4
+subi $sp,$sp,-12
 
 li $v0 10
 syscall

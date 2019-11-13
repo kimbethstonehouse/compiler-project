@@ -3,7 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dummy.out" beforeDir="false" afterPath="$PROJECT_DIR$/dummy.out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ast/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ast/test.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/local_allocation.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/local_allocation.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +49,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.gen local alloc">
+  <component name="RunManager" selected="Application.sem test">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
@@ -93,7 +100,15 @@
     <configuration name="sem test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
-      <option name="PROGRAM_PARAMETERS" value="-sem tests/sem/test.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-sem tests/ast/test.c dummy.out" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="sem test" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ct-19-20" />
+      <option name="PROGRAM_PARAMETERS" value="-sem tests/ast/test.c dummy.out" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -112,7 +127,6 @@
       <item itemvalue="Application.sem test" />
       <item itemvalue="Application.sem q" />
       <item itemvalue="Application.sem tictactoe" />
-      <item itemvalue="Application.gen local alloc" />
       <item itemvalue="Application.ast exp" />
     </list>
   </component>
@@ -196,6 +210,14 @@
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="97" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
+          <line>171</line>
+          <properties class="sem.NameAnalysisVisitor" method="visitFunCallExpr">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="98" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

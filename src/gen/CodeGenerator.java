@@ -102,6 +102,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // allocate local variables
         p.block.accept(this);
+
         return null;
     }
 
@@ -194,6 +195,14 @@ public class CodeGenerator implements ASTVisitor<Register> {
 //        }
 //
 //        writer.println("");
+
+        // PRECALL
+        // 1. PUSH ALL ARGS ONTO STACK
+        // for each argument
+        // evalaute (call accept)
+        // push result onto stack
+
+
         return null;
     }
 
@@ -354,16 +363,22 @@ public class CodeGenerator implements ASTVisitor<Register> {
     // Block ::= VarDecl* Stmt*
     public Register visitBlock(Block b) {
         int startingOffset = currentOffset;
-
+        // vardecl allocates space for all variables
+        // so current offset will be changed
         for (VarDecl vd : b.varDecls) { vd.accept(this); }
+        int blockOffset = currentOffset - startingOffset;
 
         // move stack pointer before any variables are used in stmts
         // ($sp) is moved by an offset corresponding to the size of
         // all the local variables declared on the stack in this block
-        writer.printf("addi $sp,$sp,%s\n", currentOffset - startingOffset);
+        writer.printf("addi $sp,$sp,%s\n", blockOffset);
 
         // TODO: what about stmts?
         for (Stmt stmt : b.stmts) { stmt.accept(this); }
+
+        // move sp back after variable scope ends
+        writer.printf("subi $sp,$sp,%s\n", blockOffset);
+        currentOffset -= blockOffset;
         return null;
     }
 
