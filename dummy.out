@@ -4,10 +4,9 @@
 .text
 
 main:
+
+func_main_start:
 move $fp,$sp
-addi $sp,$sp,-12
-addi $sp,$sp,-4
-addi $sp,$sp,-4
 subi $sp,$sp,-4
 subi $sp,$sp,-4
 subi $sp,$sp,-12

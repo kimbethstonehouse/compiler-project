@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dummy.out" beforeDir="false" afterPath="$PROJECT_DIR$/dummy.out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen/DataAllocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/DataAllocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/test.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -115,6 +118,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.gen local alloc" />
       <item itemvalue="Application.ast fibonacci" />
       <item itemvalue="Application.sem fibonacci" />
       <item itemvalue="Application.sem test" />
@@ -190,7 +194,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/gen/DataAllocation.java</url>
-          <line>216</line>
+          <line>217</line>
           <properties class="gen.DataAllocation" method="getTypeSize">
             <option name="EMULATED" value="true" />
           </properties>
@@ -198,7 +202,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>92</line>
+          <line>94</line>
           <properties class="gen.CodeGenerator" method="visitFunDecl">
             <option name="EMULATED" value="true" />
           </properties>
