@@ -24,7 +24,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     // needed for the local variables encountered so far
     private int numWhiles = 0;       // number of while loops or if statements encountered
     private int numIfs = 0;          // so far, used for generating unique labels
-
+    private String currentFuncName;  // the name of the function currently in
 
     public CodeGenerator() {
         freeRegs.addAll(Register.tmpRegs);
@@ -58,7 +58,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
         writer.println(".text");
         writer.println();
 
-        writer.println("main:");
         visitProgram(program);
         writer.println();
 
@@ -94,16 +93,15 @@ public class CodeGenerator implements ASTVisitor<Register> {
     // FunDecl ::= Type String VarDecl* Block
     public Register visitFunDecl(FunDecl p) {
         writer.println();
+        currentFuncName = p.name;
+
+        if (p.name.equals("main")) { writer.printf(".globl main\n", p.name); }
         writer.printf("func_%s_start:\n", p.name);
 
         // initialise fp to the value of sp
         writer.println("move $fp,$sp");
         int paramOffset = 0;
         currentOffset = 0;
-
-        // TODO: do something with the params - will need to edit varexpr
-        // TODO: to to account for this / stack allocation
-        // store in vardecl ast node the offset from the fp - will be a backwards offset?
 
         for (VarDecl vd : p.params) {
             vd.offset = paramOffset;
@@ -116,6 +114,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // push return
 
+        writer.printf("func_%s_end:\n", p.name);
         return null;
     }
 
@@ -431,24 +430,15 @@ public class CodeGenerator implements ASTVisitor<Register> {
     @Override
     // Block ::= VarDecl* Stmt*
     public Register visitBlock(Block b) {
+        // vardecl allocates space for all variables so current offset will be changed
         int startingOffset = currentOffset;
-        // vardecl allocates space for all variables
-        // so current offset will be changed
-        for (VarDecl vd : b.varDecls) {
-            vd.accept(this);
-        }
-        int blockOffset = currentOffset - startingOffset;
 
-        // move stack pointer before any variables are used in stmts
-        // ($sp) is moved by an offset corresponding to the size of
-
-
-        // TODO: what about stmts?
-        for (Stmt stmt : b.stmts) {
-            stmt.accept(this);
-        }
+        // allocate space for local variables
+        for (VarDecl vd : b.varDecls) { vd.accept(this); }
+        for (Stmt stmt : b.stmts) { stmt.accept(this); }
 
         // move sp back after variable scope ends
+        int blockOffset = currentOffset - startingOffset;
         writer.printf("subi $sp,$sp,%s\n", blockOffset);
         currentOffset -= blockOffset;
         return null;
@@ -581,7 +571,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
             }
         }
 
-        writer.println("jr $ra");
+        if (!currentFuncName.equals("main")) writer.println("jr $ra");
         return null;
     }
 

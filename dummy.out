@@ -3,13 +3,144 @@
 
 .text
 
-main:
 
+func_foo_start:
+move $fp,$sp
+
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $s7,0($fp)
+addi $sp,$sp,-4
+sw $s7,0($sp)
+jal func_print_i_start
+addi $sp,$sp,4
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $s6,4($fp)
+addi $sp,$sp,-4
+sw $s6,0($sp)
+jal func_print_i_start
+addi $sp,$sp,4
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $s5,8($fp)
+addi $sp,$sp,-4
+sw $s5,0($sp)
+jal func_print_i_start
+addi $sp,$sp,4
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $s4,12($fp)
+addi $sp,$sp,-4
+sw $s4,0($sp)
+jal func_print_i_start
+addi $sp,$sp,4
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $s3,16($fp)
+addi $sp,$sp,-4
+sw $s3,0($sp)
+jal func_print_i_start
+addi $sp,$sp,4
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+lw $s3,16($fp)
+addi $sp,$sp,-4
+sw $s3,0($sp)
+jr $ra
+subi $sp,$sp,0
+func_foo_end:
+
+.globl main
 func_main_start:
 move $fp,$sp
+li $s3,0
+sw $s3,0($fp)
+li $s2,1
+sw $s2,-4($fp)
+li $s1,2
+sw $s1,-8($fp)
+li $s0,3
+sw $s0,-12($fp)
+li $t7,4
+sw $t7,-16($fp)
+
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $t4,0($fp)
+addi $sp,$sp,-4
+sw $t4,0($sp)
+lw $t4,-4($fp)
+addi $sp,$sp,-4
+sw $t4,0($sp)
+lw $t4,-8($fp)
+addi $sp,$sp,-4
+sw $t4,0($sp)
+lw $t4,-12($fp)
+addi $sp,$sp,-4
+sw $t4,0($sp)
+lw $t4,-16($fp)
+addi $sp,$sp,-4
+sw $t4,0($sp)
+jal func_foo_start
+lw $t6,0($sp)
 subi $sp,$sp,-4
+addi $sp,$sp,20
+lw $ra,0($sp)
 subi $sp,$sp,-4
-subi $sp,$sp,-12
+lw $fp,0($sp)
+subi $sp,$sp,-4
+sw $t6,-20($fp)
+
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $t3,-20($fp)
+addi $sp,$sp,-4
+sw $t3,0($sp)
+jal func_print_i_start
+addi $sp,$sp,4
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+subi $sp,$sp,-24
+func_main_end:
 
 li $v0 10
 syscall
