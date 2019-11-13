@@ -1,6 +1,7 @@
 int foo(int a) {
     int x;
     x=4;
+    print_i(x);
     return x;
 }
 

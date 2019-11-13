@@ -95,8 +95,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
         writer.println();
         currentFuncName = p.name;
 
-        if (p.name.equals("main")) { writer.printf(".globl main\n", p.name); }
-        writer.printf("func_%s_start:\n", p.name);
+        if (p.name.equals("main")) {
+            writer.println(".globl main");
+            writer.println("main:");
+        } else writer.printf("func_%s_start:\n", p.name);
 
         // initialise fp to the value of sp
         writer.println("move $fp,$sp");
@@ -192,6 +194,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitFunCallExpr(FunCallExpr fce) {
         // TODO: add support for library functions
         writer.println();
+
+        if (fce.name.equals("print_i")) {
+            print_i(fce.args.get(0).accept(this));
+            return null;
+        }
+        //if (fce.name.equals("print_i")) print_i(fce.args.get(0).accept(this));
+
 
         Register returnReg = getRegister();
         Register argReg = getRegister();
@@ -591,9 +600,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
         // TODO: where is this called?
         // TODO: you will need to fix escape chars
         writer.println("li $v0 1");
-        writer.printf("move $a0 %s\n", argRegister.toString());
+        writer.printf("move $a0 %s\n", argRegister);
         writer.println("syscall");
         freeRegister(argRegister);
+    }
+
+    private void print_s(Register argRegister) {
+
     }
 
 //    private Register getVarAddress(VarExpr v) {

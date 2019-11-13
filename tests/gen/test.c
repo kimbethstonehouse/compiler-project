@@ -19,8 +19,8 @@ void main(){
     c=2;
     d=3;
     e=4;
-    res = foo(a,b,c,d,e);
-    print_i(res);
+    foo(a,b,c,d,e);
+    print_i(e);
 }
 
 
