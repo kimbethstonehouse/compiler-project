@@ -91,6 +91,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     @Override
     // FunDecl ::= Type String VarDecl* Block
     public Register visitFunDecl(FunDecl p) {
+        // callee saves?
 
         // TODO: maybe do this in funcall
         // initialise fp to the value of sp
@@ -99,10 +100,14 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // TODO: do something with the params - will need to edit varexpr
         // TODO: to to account for this / stack allocation
+        // store in vardecl ast node the offset from the fp - will be a backwards offset?
+
 
         // allocate local variables
         p.block.accept(this);
 
+        // pop callee saves
+        // push return
         return null;
     }
 
@@ -197,10 +202,20 @@ public class CodeGenerator implements ASTVisitor<Register> {
 //        writer.println("");
 
         // PRECALL
+        // push caller saves, ra, fp
+
         // 1. PUSH ALL ARGS ONTO STACK
-        // for each argument
+        // for each argumentv
         // evalaute (call accept)
         // push result onto stack
+        // if array or struct, evaluate will return address
+        // need to load from addresss to stack
+
+        // callee
+
+        // pop return
+        // pop args
+        // pop caller saves, ra, fp
 
 
         return null;
