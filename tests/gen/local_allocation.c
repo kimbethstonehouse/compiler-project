@@ -17,6 +17,8 @@ void main() {
 //
 //.text
 //
+//
+//.globl main
 //main:
 //move $fp,$sp
 //addi $sp,$sp,-12
@@ -25,6 +27,6 @@ void main() {
 //subi $sp,$sp,-4
 //subi $sp,$sp,-4
 //subi $sp,$sp,-12
-//
+//func_main_end:
 //li $v0 10
 //syscall

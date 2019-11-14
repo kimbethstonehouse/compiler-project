@@ -6,9 +6,4 @@ struct a {
 struct a p;     // 8
 
 //.data
-//p: .space 8
-//
-//.text
-//main:
-//li $v0 10
-//syscall
+//p: .word 2

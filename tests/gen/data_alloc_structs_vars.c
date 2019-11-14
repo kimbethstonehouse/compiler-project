@@ -14,13 +14,8 @@ int* e[5];          // 20
 char f;             // 1
 
 //.data
-//b: .space 4
-//c: .space 68
-//d: .space 4
-//e: .space 20
-//f: .space 1
-//
-//.text
-//main:
-//li $v0 10
-//syscall
+//b: .word 1
+//c: .word 17
+//d: .word 1
+//e: .word 5
+//f: .word 1

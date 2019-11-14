@@ -1,7 +1,5 @@
 .data
 
-c: .word 1
-d: .word 1
 
 .text
 
@@ -9,12 +7,12 @@ d: .word 1
 .globl main
 main:
 move $fp,$sp
-addi $sp,$sp,0
-li $t9,'A'
-sw $t9,c
-lw $t8,c
-sw $t8,d
-subi $sp,$sp,0
+addi $sp,$sp,-12
+addi $sp,$sp,-4
+addi $sp,$sp,-4
+subi $sp,$sp,-4
+subi $sp,$sp,-4
+subi $sp,$sp,-12
 func_main_end:
 li $v0 10
 syscall

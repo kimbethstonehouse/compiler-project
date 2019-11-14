@@ -4,9 +4,13 @@
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dummy.out" beforeDir="false" afterPath="$PROJECT_DIR$/dummy.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/DataAllocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/DataAllocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gen/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/test.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_array_alignment.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_array_alignment.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_duplicate_str.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_duplicate_str.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_multiple_str.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_multiple_str.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_self_refer.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_self_refer.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_structs_vars.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_structs_vars.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/local_allocation.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/local_allocation.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

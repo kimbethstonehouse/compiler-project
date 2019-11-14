@@ -10,12 +10,7 @@ char c[26];         // size 26 but needs to be 28, mod is 2
 char d[11];         // size 11 but needs to be 12, mod is 3
 
 //.data
-//e: .space 60
-//a: .space 20
-//b: .space 28
-//c: .space 12
-//
-//.text
-//main:
-//li $v0 10
-//syscall
+//e: .word 15
+//b: .word 5
+//c: .word 7
+//d: .word 3

@@ -10,8 +10,8 @@ void main() {
 }
 
 //.data
-//jen: .space 4
-//kim: .space 4
+//jen: .word 1
+//kim: .word 1
 //str0: .asciiz "Hello, world!"
 //str1: .asciiz "Jen"
 //str2: .asciiz "Jen"

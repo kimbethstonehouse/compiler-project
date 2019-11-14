@@ -12,7 +12,7 @@ void main() {
 }
 
 //.data
-//a: .space 4
+//a: .word 1
 //str0: .asciiz "Hello, world!"
 //str1: .asciiz "Jen"
 //str2: .asciiz "Hello"
@@ -21,8 +21,3 @@ void main() {
 //str5: .asciiz "Uday"
 //str6: .asciiz "all work and no play makes jack a dull boy"
 //str7: .asciiz "Jen"
-//
-//.text
-//main:
-//li $v0 10
-//syscall

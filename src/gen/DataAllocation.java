@@ -223,6 +223,7 @@ public class DataAllocation implements ASTVisitor<Void> {
             ArrayType arrayType = (ArrayType) type;
             int size = (arrayType.size * getTypeSize(arrayType.baseType));
             //return makeMultipleFour(size);
+            return size;
         } else if (type == BaseType.CHAR) {
             // chars need 1 byte
             return 1;
