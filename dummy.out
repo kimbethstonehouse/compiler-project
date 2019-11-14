@@ -1,93 +1,20 @@
 .data
 
+c: .word 1
+d: .word 1
 
 .text
 
 
-func_foo_start:
-move $fp,$sp
-addi $sp,$sp,0
-
-lw $t9,0($fp)
-li $v0 1
-move $a0 $t9
-syscall
-
-lw $t9,4($fp)
-li $v0 1
-move $a0 $t9
-syscall
-
-lw $t9,8($fp)
-li $v0 1
-move $a0 $t9
-syscall
-
-lw $t9,12($fp)
-li $v0 1
-move $a0 $t9
-syscall
-
-lw $t9,16($fp)
-li $v0 1
-move $a0 $t9
-syscall
-lw $t9,16($fp)
-addi $sp,$sp,-4
-sw $t9,0($sp)
-jr $ra
-subi $sp,$sp,0
-func_foo_end:
-
 .globl main
 main:
 move $fp,$sp
-addi $sp,$sp,-24
-li $t9,0
-sw $t9,0($fp)
-li $t8,1
-sw $t8,-4($fp)
-li $s7,2
-sw $s7,-8($fp)
-li $s6,3
-sw $s6,-12($fp)
-li $s5,4
-sw $s5,-16($fp)
-
-addi $sp,$sp,-4
-sw $fp,0($sp)
-addi $sp,$sp,-4
-sw $ra,0($sp)
-lw $s3,0($fp)
-addi $sp,$sp,-4
-sw $s3,0($sp)
-lw $s3,-4($fp)
-addi $sp,$sp,-4
-sw $s3,0($sp)
-lw $s3,-8($fp)
-addi $sp,$sp,-4
-sw $s3,0($sp)
-lw $s3,-12($fp)
-addi $sp,$sp,-4
-sw $s3,0($sp)
-lw $s3,-16($fp)
-addi $sp,$sp,-4
-sw $s3,0($sp)
-jal func_foo_start
-lw $s4,0($sp)
-subi $sp,$sp,-4
-addi $sp,$sp,20
-lw $ra,0($sp)
-subi $sp,$sp,-4
-lw $fp,0($sp)
-subi $sp,$sp,-4
-sw $s4,-20($fp)
-
-lw $s3,-20($fp)
-li $v0 1
-move $a0 $s3
-syscall
-subi $sp,$sp,-24
+addi $sp,$sp,0
+li $t9,'A'
+sw $t9,c
+lw $t8,c
+sw $t8,d
+subi $sp,$sp,0
 func_main_end:
 li $v0 10
 syscall

@@ -85,7 +85,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitVarDecl(VarDecl vd) {
         vd.offset = currentOffset;
         // increment offset by size of the type for the next vardecl
-        currentOffset -= dataAlloc.makeMultipleFour(dataAlloc.getTypeSize(vd.type));
+        currentOffset -= dataAlloc.getAlignedTypeSize(vd.type);
         return null;
     }
 
@@ -108,7 +108,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         for (VarDecl vd : p.params) {
             vd.offset = paramOffset;
             // increment offset by size of the type for the next vardecl
-            paramOffset += dataAlloc.makeMultipleFour(dataAlloc.getTypeSize(vd.type));
+            paramOffset += dataAlloc.getAlignedTypeSize(vd.type);
         }
 
         // allocate local variables
@@ -160,6 +160,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitStrLiteral(StrLiteral sl) {
+        // returns the address of the string
         // TODO: load this into a register maybe??
 //        Register reg = getRegister();
 //        writer.printf("li %s %s\n", reg, sl.s);
@@ -254,8 +255,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
             freeRegister(argReg);
         }
-
-        //freeRegister(argReg);
 
         // callee
         writer.printf("jal func_%s_start\n", fce.name);

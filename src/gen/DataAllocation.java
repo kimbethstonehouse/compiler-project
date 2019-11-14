@@ -32,7 +32,7 @@ public class DataAllocation implements ASTVisitor<Void> {
         // all structure fields are aligned at a 4 byte boundary
         for (VarDecl vd : st.varDecls) {
             vd.offset = structOffset;
-            structOffset += makeMultipleFour(getTypeSize(vd.type));
+            structOffset += getAlignedTypeSize(vd.type);
         }
 
         st.structSize = structOffset;
@@ -43,9 +43,9 @@ public class DataAllocation implements ASTVisitor<Void> {
     // VarDecl ::= Type String
     public Void visitVarDecl(VarDecl vd) {
         // global variables go in the static storage area (.data)
-        int size = getTypeSize(vd.type);
+        int size = getAlignedTypeSize(vd.type);
         // TODO: change to .word 1
-        writer.printf("%s: .space %s\n", vd.varName, size);
+        writer.printf("%s: .word %s\n", vd.varName, size / 4);
         // record the variable as global
         vd.isGlobal = true;
         return null;
@@ -222,10 +222,9 @@ public class DataAllocation implements ASTVisitor<Void> {
         } else if (type instanceof ArrayType) {
             ArrayType arrayType = (ArrayType) type;
             int size = (arrayType.size * getTypeSize(arrayType.baseType));
-            return makeMultipleFour(size);
+            //return makeMultipleFour(size);
         } else if (type == BaseType.CHAR) {
             // chars need 1 byte
-            // TODO: need to sort out word alignment asap
             return 1;
         } else {
             // ints and pointers need 4 bytes
@@ -233,8 +232,16 @@ public class DataAllocation implements ASTVisitor<Void> {
         }
     }
 
+    public int getAlignedTypeSize(Type type) {
+        int size = getTypeSize(type);
+        if (size % 4 == 0) return size;
+        // round up by adding the difference between 4 and size % 4
+        return size + 4 - (size % 4);
+    }
+
     public int makeMultipleFour(int x) {
-        if (x % 4 != 0) return x + 4 - (x % 4);
-        return x;
+        if (x % 4 == 0) return x;
+        // round up by adding the difference between 4 and x % 4
+        return x + 4 - (x % 4);
     }
 }
