@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dummy.out" beforeDir="false" afterPath="$PROJECT_DIR$/dummy.out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen/DataAllocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/DataAllocation.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +44,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.gen test">
+  <component name="RunManager" selected="Application.gen fib">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
@@ -62,6 +64,14 @@
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="gen fib" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ct-19-20" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/parser/fibonacci.c dummy.out" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -128,6 +138,7 @@
       <item itemvalue="Application.sem fibonacci" />
       <item itemvalue="Application.sem test" />
       <item itemvalue="Application.gen test" />
+      <item itemvalue="Application.gen fib" />
       <item itemvalue="Application.sem q" />
       <item itemvalue="Application.sem tictactoe" />
       <item itemvalue="Application.ast exp" />
@@ -198,9 +209,33 @@
           </properties>
           <option name="timeStamp" value="82" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
+          <line>177</line>
+          <properties class="gen.CodeGenerator" method="visitVarExpr">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="100" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
+          <line>556</line>
+          <properties class="gen.CodeGenerator" method="visitAssign">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="101" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
+          <line>444</line>
+          <properties class="gen.CodeGenerator" method="visitTypecastExpr">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="102" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>230</line>
+          <line>235</line>
           <option name="timeStamp" value="99" />
         </line-breakpoint>
       </breakpoints>

@@ -1,5 +1,8 @@
 .data
 
+str0: .asciiz "First "
+str1: .asciiz " terms of Fibonacci series are : "
+str2: .asciiz " "
 
 .text
 
@@ -7,12 +10,84 @@
 .globl main
 main:
 move $fp,$sp
-addi $sp,$sp,-12
-addi $sp,$sp,-4
-addi $sp,$sp,-4
-subi $sp,$sp,-4
-subi $sp,$sp,-4
-subi $sp,$sp,-12
+addi $sp,$sp,-24
+
+li $v0,5
+syscall
+move $t9,$v0
+sw $t9,0($fp)
+li $t8,0
+sw $t8,-4($fp)
+li $s7,1
+sw $s7,-8($fp)
+
+la $s6 str0
+li $v0 4
+move $a0 $s6
+syscall
+
+lw $s6,0($fp)
+li $v0 1
+move $a0 $s6
+syscall
+
+la $s6 str1
+li $v0 4
+move $a0 $s6
+syscall
+li $s6,0
+sw $s6,-16($fp)
+
+lw $s5,-16($fp)
+lw $s4,0($fp)
+slt $s3,$s5,$s4
+beqz $s3,while_end0
+while_body0:
+addi $sp,$sp,0
+
+lw $s3,-16($fp)
+li $s4,1
+sle $s5,$s3,$s4
+beqz $s5,if_else0
+lw $s5,-16($fp)
+sw $s5,-12($fp)
+j if_end0
+if_else0:
+addi $sp,$sp,0
+lw $s4,-4($fp)
+lw $s3,-8($fp)
+add $s2 $s4 $s3
+sw $s2,-12($fp)
+lw $s3,-8($fp)
+sw $s3,-4($fp)
+lw $s4,-12($fp)
+sw $s4,-8($fp)
+subi $sp,$sp,0
+if_end0:
+
+
+lw $s1,-12($fp)
+li $v0 1
+move $a0 $s1
+syscall
+
+la $s1 str2
+li $v0 4
+move $a0 $s1
+syscall
+lw $s1,-16($fp)
+li $s0,1
+add $t7 $s1 $s0
+sw $t7,-16($fp)
+subi $sp,$sp,0
+lw $s0,-16($fp)
+lw $s1,0($fp)
+slt $t6,$s0,$s1
+beqz $t6,while_end0
+j while_body0
+while_end0:
+
+subi $sp,$sp,-24
 func_main_end:
 li $v0 10
 syscall

@@ -162,7 +162,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitStrLiteral(StrLiteral sl) {
         // returns the address of the string
         Register reg = getRegister();
-        writer.printf("la %s %s\n", reg, sl.s);
+        writer.printf("la %s %s\n", reg, sl.label);
         return reg;
     }
 
@@ -202,6 +202,11 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (fce.name.equals("print_i")) {
             print_i(fce.args.get(0).accept(this));
             return null;
+        } else if(fce.name.equals("print_s")) {
+            print_s(fce.args.get(0).accept(this));
+            return null;
+        } else if (fce.name.equals("read_i")) {
+            return read_i();
         }
 
         Register returnReg = getRegister();
@@ -313,22 +318,22 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 writer.printf("mfhi %s\n", resultReg);
                 break;
             case GT:
-                writer.printf("sgt %s,%s,gt\n", resultReg, lhsReg, rhsReg);
+                writer.printf("sgt %s,%s,%s\n", resultReg, lhsReg, rhsReg);
                 break;
             case LT:
-                writer.printf("slt %s,%s,gt\n", resultReg, lhsReg, rhsReg);
+                writer.printf("slt %s,%s,%s\n", resultReg, lhsReg, rhsReg);
                 break;
             case GE:
-                writer.printf("sge %s,%s,gt\n", resultReg, lhsReg, rhsReg);
+                writer.printf("sge %s,%s,%s\n", resultReg, lhsReg, rhsReg);
                 break;
             case LE:
-                writer.printf("sle %s,%s,gt\n", resultReg, lhsReg, rhsReg);
+                writer.printf("sle %s,%s,%s\n", resultReg, lhsReg, rhsReg);
                 break;
             case NE:
-                writer.printf("sne %s,%s,gt\n", resultReg, lhsReg, rhsReg);
+                writer.printf("sne %s,%s,%s\n", resultReg, lhsReg, rhsReg);
                 break;
             case EQ:
-                writer.printf("seq %s,%s,gt\n", resultReg, lhsReg, rhsReg);
+                writer.printf("seq %s,%s,%s\n", resultReg, lhsReg, rhsReg);
                 break;
             case OR:
                 // short circuit evaluation
@@ -533,7 +538,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // 3. execute stmt if true and end
         i.stmt1.accept(this);
-        writer.printf("j if_end%s:\n", n);
+        writer.printf("j if_end%s\n", n);
         writer.printf("if_else%s:\n", n);
 
         // 4. execute else
@@ -622,8 +627,20 @@ public class CodeGenerator implements ASTVisitor<Register> {
         freeRegister(argRegister);
     }
 
-    private void print_s(Register argRegister) {
+    // TODO: CHECK THIS
+    private Register read_i() {
+        Register result = getRegister();
+        writer.println("li $v0,5");
+        writer.println("syscall");
+        writer.printf("move %s,$v0\n", result);
+        return result;
+    }
 
+    private void print_s(Register argRegister) {
+        writer.println("li $v0 4");
+        writer.printf("move $a0 %s\n", argRegister);
+        writer.println("syscall");
+        freeRegister(argRegister);
     }
 
 //    private Register getVarAddress(VarExpr v) {
