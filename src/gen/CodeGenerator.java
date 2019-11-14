@@ -61,8 +61,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
         visitProgram(program);
         writer.println();
 
-        writer.println("li $v0 10");
-        writer.println("syscall");
+        //writer.println("li $v0 10");
+        //writer.println("syscall");
         writer.close();
     }
 
@@ -116,7 +116,12 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // push return
 
+        // end
         writer.printf("func_%s_end:\n", p.name);
+        if (p.name.equals("main")) {
+            writer.println("li $v0 10");
+            writer.println("syscall");
+        }
         return null;
     }
 
@@ -199,15 +204,12 @@ public class CodeGenerator implements ASTVisitor<Register> {
             print_i(fce.args.get(0).accept(this));
             return null;
         }
-        //if (fce.name.equals("print_i")) print_i(fce.args.get(0).accept(this));
-
 
         Register returnReg = getRegister();
-        Register argReg = getRegister();
+        Register argReg;
         int argsSpace = 0;
 
-        // PRECALL
-        // TODO: push caller saves
+        // 1. PRECALL
 
         // push fp
         writer.println("addi $sp,$sp,-4");
@@ -216,6 +218,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
         // push ra
         writer.println("addi $sp,$sp,-4");
         writer.println("sw $ra,0($sp)");
+
+        // TODO: push caller saves
 
         // push all args onto stack
         for (Expr arg : fce.args) {
@@ -251,7 +255,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
             freeRegister(argReg);
         }
 
-        freeRegister(argReg);
+        //freeRegister(argReg);
 
         // callee
         writer.printf("jal func_%s_start\n", fce.name);
@@ -261,6 +265,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (fce.type instanceof ArrayType || fce.type instanceof StructType) {
             // return the address of the array or struct on the stack
             writer.printf("mv %s,$sp\n", returnReg);
+            // TODO: in this case, the ra fp will be in the wrong place
         } else if (fce.type == BaseType.CHAR || fce.type == BaseType.INT
                 || fce.type instanceof PointerType) {
             // load the value and decrement the stack pointer
@@ -271,6 +276,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
         // pop args
         writer.printf("addi $sp,$sp,%s\n", argsSpace);
 
+        // TODO: pop caller saves
+
         // pop ra
         writer.println("lw $ra,0($sp)");
         writer.println("subi $sp,$sp,-4");
@@ -279,7 +286,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
         writer.println("lw $fp,0($sp)");
         writer.println("subi $sp,$sp,-4");
 
-        // TODO: pop caller saves
         return returnReg;
     }
 
@@ -444,10 +450,16 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // allocate space for local variables
         for (VarDecl vd : b.varDecls) { vd.accept(this); }
+
+        // move stack pointer before any variables are used in stmts
+        // ($sp) is moved by an offset corresponding to the size of
+        // all the local variables declared on the stack in this block
+        int blockOffset = currentOffset - startingOffset;
+        writer.printf("addi $sp,$sp,%s\n", blockOffset);
+
         for (Stmt stmt : b.stmts) { stmt.accept(this); }
 
         // move sp back after variable scope ends
-        int blockOffset = currentOffset - startingOffset;
         writer.printf("subi $sp,$sp,%s\n", blockOffset);
         currentOffset -= blockOffset;
         return null;
@@ -578,6 +590,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 writer.println("addi $sp,$sp,-4");
                 writer.printf("sw %s,0($sp)\n", expReg);
             }
+
+            freeRegister(expReg);
         }
 
         if (!currentFuncName.equals("main")) writer.println("jr $ra");
