@@ -161,11 +161,9 @@ public class CodeGenerator implements ASTVisitor<Register> {
     @Override
     public Register visitStrLiteral(StrLiteral sl) {
         // returns the address of the string
-        // TODO: load this into a register maybe??
-//        Register reg = getRegister();
-//        writer.printf("li %s %s\n", reg, sl.s);
-//        return reg;
-        return null;
+        Register reg = getRegister();
+        writer.printf("la %s %s\n", reg, sl.s);
+        return reg;
     }
 
     @Override
@@ -420,9 +418,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // TODO: check valueat, typecast, sizeof
     public Register visitValueAtExpr(ValueAtExpr vae) {
-        // TODO: big todo
-        return null;
+        Register addrReg = vae.expr.accept(this);
+        Register valueReg = getRegister();
+        writer.printf("lw %s,0(%s)\n", valueReg, addrReg);
+        freeRegister(addrReg);
+        return valueReg;
     }
 
     @Override
@@ -436,8 +438,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitTypecastExpr(TypecastExpr tce) {
-        // TODO: return an address for array access expr
-        return null;
+        // mips doesn't care about the type of something
+        // this has been handled in the typechecking
+        // so just return the relevant value or address
+        return tce.expr.accept(this);
     }
 
     // STMT
