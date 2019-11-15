@@ -113,6 +113,7 @@ public class DataAllocation implements ASTVisitor<Void> {
     @Override
     // FunCallExpr ::= String Expr*
     public Void visitFunCallExpr(FunCallExpr fce) {
+        //  TODO: check this
         for (Expr arg : fce.args) {arg.accept(this);}
         return null;
     }
