@@ -2,7 +2,6 @@ package gen;
 
 import ast.*;
 
-import javax.swing.plaf.basic.BasicEditorPaneUI;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -196,17 +195,24 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitFunCallExpr(FunCallExpr fce) {
-        // TODO: add support for library functions
         writer.println();
 
-        if (fce.name.equals("print_i")) {
-            print_i(fce.args.get(0).accept(this));
-            return null;
-        } else if(fce.name.equals("print_s")) {
+        // library functions
+        if (fce.name.equals("print_s")) {
             print_s(fce.args.get(0).accept(this));
             return null;
+        } else if (fce.name.equals("print_i")) {
+            print_i(fce.args.get(0).accept(this));
+            return null;
+        } else if(fce.name.equals("print_c")) {
+            print_c(fce.args.get(0).accept(this));
+            return null;
+        } else if (fce.name.equals("read_c")) {
+            return read_c();
         } else if (fce.name.equals("read_i")) {
             return read_i();
+        } else if (fce.name.equals("mcmalloc")) {
+            return mcmalloc(fce.args.get(0).accept(this));
         }
 
         Register returnReg = getRegister();
@@ -423,10 +429,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
-    // TODO: check valueat, typecast, sizeof
+    // ValueAtExpr ::= Expr
     public Register visitValueAtExpr(ValueAtExpr vae) {
-        Register addrReg = vae.expr.accept(this);
         Register valueReg = getRegister();
+        Register addrReg = vae.expr.accept(this);
         writer.printf("lw %s,0(%s)\n", valueReg, addrReg);
         freeRegister(addrReg);
         return valueReg;
@@ -442,6 +448,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // TypecastExpr ::= Type Expr
     public Register visitTypecastExpr(TypecastExpr tce) {
         // mips doesn't care about the type of something
         // this has been handled in the typechecking
@@ -563,11 +570,19 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
             if (v.vd.isGlobal) writer.printf("sw %s,%s\n", rhsReg, v.name);
             else writer.printf("sw %s,%s($fp)\n", rhsReg, v.vd.offset);
+        // store the result at the address the pointer points to
+        } else if (a.lhs instanceof ValueAtExpr) {
+            ValueAtExpr vae = ((ValueAtExpr) a.lhs);
+
+            Register addrReg = vae.expr.accept(this);
+            writer.printf("sw %s,0(%s)\n", rhsReg, addrReg);
+            freeRegister(addrReg);
         }
 
         // TODO - what if lhs is not a varexpr?
 
         // may be field access, array access or value at
+        freeRegister(rhsReg);
         return null;
     }
 
@@ -617,17 +632,46 @@ public class CodeGenerator implements ASTVisitor<Register> {
         return null;
     }
 
+    // the register contains the integer
+
     // HELPER FUNCTIONS
+    // TODO: you will need to fix escape chars
+    // void print_s(const char* s)
+    private void print_s(Register addrRegister) {
+        // the register contains the address of the string
+        writer.println("li $v0,4");
+        writer.printf("move $a0,%s\n", addrRegister);
+        writer.println("syscall");
+        freeRegister(addrRegister);
+    }
+
+    // void print_i(int i)
     private void print_i(Register argRegister) {
-        // TODO: where is this called?
-        // TODO: you will need to fix escape chars
-        writer.println("li $v0 1");
-        writer.printf("move $a0 %s\n", argRegister);
+        writer.println("li $v0,1");
+        writer.printf("move $a0,%s\n", argRegister);
         writer.println("syscall");
         freeRegister(argRegister);
     }
 
-    // TODO: CHECK THIS
+    // void print_c(char c)
+    private void print_c(Register argRegister) {
+        // the register contains the character
+        writer.println("li $v0,11");
+        writer.printf("move $a0,%s\n", argRegister);
+        writer.println("syscall");
+        freeRegister(argRegister);
+    }
+
+    // char read_c()
+    private Register read_c() {
+        Register result = getRegister();
+        writer.println("li $v0,12");
+        writer.println("syscall");
+        writer.printf("move %s,$v0\n", result);
+        return result;
+    }
+
+    // int read_i()
     private Register read_i() {
         Register result = getRegister();
         writer.println("li $v0,5");
@@ -636,12 +680,19 @@ public class CodeGenerator implements ASTVisitor<Register> {
         return result;
     }
 
-    private void print_s(Register argRegister) {
-        writer.println("li $v0 4");
-        writer.printf("move $a0 %s\n", argRegister);
+    // void* mcmalloc(int size)
+    private Register mcmalloc(Register size) {
+        // the register argument contains the size to malloc
+        Register addr = getRegister();
+        writer.println("li $v0,9");
+        writer.printf("move $a0,%s\n", size);
+        freeRegister(size);
         writer.println("syscall");
-        freeRegister(argRegister);
+        writer.printf("move %s,$v0\n", addr);
+        return addr;
     }
+
+
 
 //    private Register getVarAddress(VarExpr v) {
 //        Register addrReg = getRegister();

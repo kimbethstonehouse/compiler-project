@@ -1,10 +1,18 @@
-char c;
-char d;
+#include "minic-stdlib.h"
 
 int main() {
-    c = 'A';
-    d = c;
+    int size = sizeof(void);
+    print_i(size);
 }
+
+
+//char c;
+//char d;
+//
+//int main() {
+//    c = 'A';
+//    d = c;
+//}
 
 
 //int foo(int a, int b, int c, int d, int e){
