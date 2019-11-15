@@ -1,62 +1,1456 @@
 .data
 
+a11: .word 1
+a12: .word 1
+a13: .word 1
+a21: .word 1
+a22: .word 1
+a23: .word 1
+a31: .word 1
+a32: .word 1
+a33: .word 1
+empty: .word 1
+str0: .asciiz "
+"
+str1: .asciiz "     1   2   3
+"
+str2: .asciiz "   +---+---+---+
+"
+str3: .asciiz "a  | "
+str4: .asciiz " | "
+str5: .asciiz " | "
+str6: .asciiz " |
+"
+str7: .asciiz "   +---+---+---+
+"
+str8: .asciiz "b  | "
+str9: .asciiz " | "
+str10: .asciiz " | "
+str11: .asciiz " |
+"
+str12: .asciiz "   +---+---+---+
+"
+str13: .asciiz "c  | "
+str14: .asciiz " | "
+str15: .asciiz " | "
+str16: .asciiz " |
+"
+str17: .asciiz "   +---+---+---+
+"
+str18: .asciiz "
+"
+str19: .asciiz "Player "
+str20: .asciiz " has won!
+"
+str21: .asciiz "Player "
+str22: .asciiz " select move (e.g. a2)>"
+str23: .asciiz "That is not a valid move!
+"
+str24: .asciiz "That move is not possible!
+"
+str25: .asciiz "It's a draw!
+"
+str26: .asciiz "Play again? (y/n)> "
 
 .text
 
 
+### entering visit fundecl
+func_reset_start:
+move $fp,$sp
+addi $sp,$sp,0
+lw $t9,empty
+sw $t9,a11
+lw $t9,empty
+sw $t9,a12
+lw $t9,empty
+sw $t9,a13
+lw $t9,empty
+sw $t9,a21
+lw $t9,empty
+sw $t9,a22
+lw $t9,empty
+sw $t9,a23
+lw $t9,empty
+sw $t9,a31
+lw $t9,empty
+sw $t9,a32
+lw $t9,empty
+sw $t9,a33
+subi $sp,$sp,0
+func_reset_end:
+jr $ra
+
+### entering visit fundecl
+func_full_start:
+move $fp,$sp
+addi $sp,$sp,-4
+li $t9,0
+sw $t9,0($fp)
+
+### entering visit if
+lw $t9,a11
+lw $t8,empty
+sne $s7,$t9,$t8
+beqz $s7,if_else0
+lw $s7,0($fp)
+li $t8,1
+add $t9 $s7 $t8
+sw $t9,0($fp)
+j if_end0
+if_else0:
+if_end0:
+
+### entering visit if
+lw $t9,a21
+lw $t8,empty
+sne $s7,$t9,$t8
+beqz $s7,if_else1
+lw $s7,0($fp)
+li $t8,1
+add $t9 $s7 $t8
+sw $t9,0($fp)
+j if_end1
+if_else1:
+if_end1:
+
+### entering visit if
+lw $t9,a31
+lw $t8,empty
+sne $s7,$t9,$t8
+beqz $s7,if_else2
+lw $s7,0($fp)
+li $t8,1
+add $t9 $s7 $t8
+sw $t9,0($fp)
+j if_end2
+if_else2:
+if_end2:
+
+### entering visit if
+lw $t9,a12
+lw $t8,empty
+sne $s7,$t9,$t8
+beqz $s7,if_else3
+lw $s7,0($fp)
+li $t8,1
+add $t9 $s7 $t8
+sw $t9,0($fp)
+j if_end3
+if_else3:
+if_end3:
+
+### entering visit if
+lw $t9,a22
+lw $t8,empty
+sne $s7,$t9,$t8
+beqz $s7,if_else4
+lw $s7,0($fp)
+li $t8,1
+add $t9 $s7 $t8
+sw $t9,0($fp)
+j if_end4
+if_else4:
+if_end4:
+
+### entering visit if
+lw $t9,a32
+lw $t8,empty
+sne $s7,$t9,$t8
+beqz $s7,if_else5
+lw $s7,0($fp)
+li $t8,1
+add $t9 $s7 $t8
+sw $t9,0($fp)
+j if_end5
+if_else5:
+if_end5:
+
+### entering visit if
+lw $t9,a13
+lw $t8,empty
+sne $s7,$t9,$t8
+beqz $s7,if_else6
+lw $s7,0($fp)
+li $t8,1
+add $t9 $s7 $t8
+sw $t9,0($fp)
+j if_end6
+if_else6:
+if_end6:
+
+### entering visit if
+lw $t9,a23
+lw $t8,empty
+sne $s7,$t9,$t8
+beqz $s7,if_else7
+lw $s7,0($fp)
+li $t8,1
+add $t9 $s7 $t8
+sw $t9,0($fp)
+j if_end7
+if_else7:
+if_end7:
+
+### entering visit if
+lw $t9,a33
+lw $t8,empty
+sne $s7,$t9,$t8
+beqz $s7,if_else8
+lw $s7,0($fp)
+li $t8,1
+add $t9 $s7 $t8
+sw $t9,0($fp)
+j if_end8
+if_else8:
+if_end8:
+
+### entering visit if
+lw $t9,0($fp)
+li $t8,9
+seq $s7,$t9,$t8
+beqz $s7,if_else9
+li $s7,1
+addi $sp,$sp,-4
+sw $s7,0($sp)
+jr $ra
+j if_end9
+if_else9:
+li $s7,0
+addi $sp,$sp,-4
+sw $s7,0($sp)
+jr $ra
+if_end9:
+subi $sp,$sp,-4
+func_full_end:
+jr $ra
+
+### entering visit fundecl
+func_set_start:
+move $fp,$sp
+addi $sp,$sp,-4
+li $s7,1
+sw $s7,0($fp)
+
+### entering visit if
+lw $s7,12($fp)
+li $t8,'a'
+seq $t9,$s7,$t8
+beqz $t9,if_else10
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,8($fp)
+li $t8,1
+seq $s7,$t9,$t8
+beqz $s7,if_else11
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a11
+lw $t8,empty
+seq $t9,$s7,$t8
+beqz $t9,if_else12
+lw $t9,4($fp)
+sw $t9,a11
+j if_end12
+if_else12:
+li $t9,0
+li $t8,1
+sub $s7 $t9 $t8
+sw $s7,0($fp)
+if_end12:
+subi $sp,$sp,0
+j if_end11
+if_else11:
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,8($fp)
+li $t8,2
+seq $t9,$s7,$t8
+beqz $t9,if_else13
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,a12
+lw $t8,empty
+seq $s7,$t9,$t8
+beqz $s7,if_else14
+lw $s7,4($fp)
+sw $s7,a12
+j if_end14
+if_else14:
+li $s7,0
+li $t8,1
+sub $t9 $s7 $t8
+sw $t9,0($fp)
+if_end14:
+subi $sp,$sp,0
+j if_end13
+if_else13:
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,8($fp)
+li $t8,3
+seq $s7,$t9,$t8
+beqz $s7,if_else15
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a13
+lw $t8,empty
+seq $t9,$s7,$t8
+beqz $t9,if_else16
+lw $t9,4($fp)
+sw $t9,a13
+j if_end16
+if_else16:
+li $t9,0
+li $t8,1
+sub $s7 $t9 $t8
+sw $s7,0($fp)
+if_end16:
+subi $sp,$sp,0
+j if_end15
+if_else15:
+addi $sp,$sp,0
+li $s7,0
+sw $s7,0($fp)
+subi $sp,$sp,0
+if_end15:
+subi $sp,$sp,0
+if_end13:
+subi $sp,$sp,0
+if_end11:
+subi $sp,$sp,0
+j if_end10
+if_else10:
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,12($fp)
+li $t8,'b'
+seq $t9,$s7,$t8
+beqz $t9,if_else17
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,8($fp)
+li $t8,1
+seq $s7,$t9,$t8
+beqz $s7,if_else18
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a21
+lw $t8,empty
+seq $t9,$s7,$t8
+beqz $t9,if_else19
+lw $t9,4($fp)
+sw $t9,a21
+j if_end19
+if_else19:
+li $t9,0
+li $t8,1
+sub $s7 $t9 $t8
+sw $s7,0($fp)
+if_end19:
+subi $sp,$sp,0
+j if_end18
+if_else18:
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,8($fp)
+li $t8,2
+seq $t9,$s7,$t8
+beqz $t9,if_else20
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,a22
+lw $t8,empty
+seq $s7,$t9,$t8
+beqz $s7,if_else21
+lw $s7,4($fp)
+sw $s7,a22
+j if_end21
+if_else21:
+li $s7,0
+li $t8,1
+sub $t9 $s7 $t8
+sw $t9,0($fp)
+if_end21:
+subi $sp,$sp,0
+j if_end20
+if_else20:
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,8($fp)
+li $t8,3
+seq $s7,$t9,$t8
+beqz $s7,if_else22
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a23
+lw $t8,empty
+seq $t9,$s7,$t8
+beqz $t9,if_else23
+lw $t9,4($fp)
+sw $t9,a23
+j if_end23
+if_else23:
+li $t9,0
+li $t8,1
+sub $s7 $t9 $t8
+sw $s7,0($fp)
+if_end23:
+subi $sp,$sp,0
+j if_end22
+if_else22:
+addi $sp,$sp,0
+li $s7,0
+sw $s7,0($fp)
+subi $sp,$sp,0
+if_end22:
+subi $sp,$sp,0
+if_end20:
+subi $sp,$sp,0
+if_end18:
+subi $sp,$sp,0
+j if_end17
+if_else17:
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,12($fp)
+li $t8,'c'
+seq $t9,$s7,$t8
+beqz $t9,if_else24
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,8($fp)
+li $t8,1
+seq $s7,$t9,$t8
+beqz $s7,if_else25
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a31
+lw $t8,empty
+seq $t9,$s7,$t8
+beqz $t9,if_else26
+lw $t9,4($fp)
+sw $t9,a31
+j if_end26
+if_else26:
+li $t9,0
+li $t8,1
+sub $s7 $t9 $t8
+sw $s7,0($fp)
+if_end26:
+subi $sp,$sp,0
+j if_end25
+if_else25:
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,8($fp)
+li $t8,2
+seq $t9,$s7,$t8
+beqz $t9,if_else27
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,a32
+lw $t8,empty
+seq $s7,$t9,$t8
+beqz $s7,if_else28
+lw $s7,4($fp)
+sw $s7,a32
+j if_end28
+if_else28:
+li $s7,0
+li $t8,1
+sub $t9 $s7 $t8
+sw $t9,0($fp)
+if_end28:
+subi $sp,$sp,0
+j if_end27
+if_else27:
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,8($fp)
+li $t8,3
+seq $s7,$t9,$t8
+beqz $s7,if_else29
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a33
+lw $t8,empty
+seq $t9,$s7,$t8
+beqz $t9,if_else30
+lw $t9,4($fp)
+sw $t9,a33
+j if_end30
+if_else30:
+li $t9,0
+li $t8,1
+sub $s7 $t9 $t8
+sw $s7,0($fp)
+if_end30:
+subi $sp,$sp,0
+j if_end29
+if_else29:
+addi $sp,$sp,0
+li $s7,0
+sw $s7,0($fp)
+subi $sp,$sp,0
+if_end29:
+subi $sp,$sp,0
+if_end27:
+subi $sp,$sp,0
+if_end25:
+subi $sp,$sp,0
+j if_end24
+if_else24:
+addi $sp,$sp,0
+li $s7,0
+sw $s7,0($fp)
+subi $sp,$sp,0
+if_end24:
+subi $sp,$sp,0
+if_end17:
+subi $sp,$sp,0
+if_end10:
+lw $s7,0($fp)
+addi $sp,$sp,-4
+sw $s7,0($sp)
+jr $ra
+subi $sp,$sp,-4
+func_set_end:
+jr $ra
+
+### entering visit fundecl
+func_printGame_start:
+move $fp,$sp
+addi $sp,$sp,0
+
+### entering visit funcall expr
+la $s7 str0
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str1
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str2
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str3
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+lw $s7,a11
+li $v0,11
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str4
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+lw $s7,a12
+li $v0,11
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str5
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+lw $s7,a13
+li $v0,11
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str6
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str7
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str8
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+lw $s7,a21
+li $v0,11
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str9
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+lw $s7,a22
+li $v0,11
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str10
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+lw $s7,a23
+li $v0,11
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str11
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str12
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str13
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+lw $s7,a31
+li $v0,11
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str14
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+lw $s7,a32
+li $v0,11
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str15
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+lw $s7,a33
+li $v0,11
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str16
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str17
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str18
+li $v0,4
+move $a0,$s7
+syscall
+subi $sp,$sp,0
+func_printGame_end:
+jr $ra
+
+### entering visit fundecl
+func_printWinner_start:
+move $fp,$sp
+addi $sp,$sp,0
+
+### entering visit funcall expr
+la $s7 str19
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+lw $s7,4($fp)
+li $v0,1
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str20
+li $v0,4
+move $a0,$s7
+syscall
+subi $sp,$sp,0
+func_printWinner_end:
+jr $ra
+
+### entering visit fundecl
+func_switchPlayer_start:
+move $fp,$sp
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,4($fp)
+li $t8,1
+seq $t9,$s7,$t8
+beqz $t9,if_else31
+li $t9,2
+addi $sp,$sp,-4
+sw $t9,0($sp)
+jr $ra
+j if_end31
+if_else31:
+li $t9,1
+addi $sp,$sp,-4
+sw $t9,0($sp)
+jr $ra
+if_end31:
+subi $sp,$sp,0
+func_switchPlayer_end:
+jr $ra
+
+### entering visit fundecl
+func_get_mark_start:
+move $fp,$sp
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,4($fp)
+li $t8,1
+seq $s7,$t9,$t8
+beqz $s7,if_else32
+li $s7,'X'
+addi $sp,$sp,-4
+sw $s7,0($sp)
+jr $ra
+j if_end32
+if_else32:
+li $s7,'O'
+addi $sp,$sp,-4
+sw $s7,0($sp)
+jr $ra
+if_end32:
+subi $sp,$sp,0
+func_get_mark_end:
+jr $ra
+
+### entering visit fundecl
+func_selectmove_start:
+move $fp,$sp
+addi $sp,$sp,-20
+li $s7,1
+sw $s7,-8($fp)
+
+### entering visit while
+lw $s7,-8($fp)
+beqz $s7,while_end0
+while_body0:
+addi $sp,$sp,0
+
+### entering visit funcall expr
+la $s7 str21
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+lw $s7,4($fp)
+li $v0,1
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+la $s7 str22
+li $v0,4
+move $a0,$s7
+syscall
+
+### entering visit funcall expr
+li $v0,12
+syscall
+move $s7,$v0
+sw $s7,0($fp)
+
+### entering visit funcall expr
+li $v0,5
+syscall
+move $s7,$v0
+sw $s7,-4($fp)
+
+### entering visit funcall expr
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $t8,4($fp)
+addi $sp,$sp,-4
+sw $t8,0($sp)
+jal func_get_mark_start
+lw $s7,0($sp)
+subi $sp,$sp,-4
+addi $sp,$sp,4
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+sw $s7,-16($fp)
+
+### entering visit funcall expr
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $t8,0($fp)
+addi $sp,$sp,-4
+sw $t8,0($sp)
+lw $t8,-4($fp)
+addi $sp,$sp,-4
+sw $t8,0($sp)
+lw $t8,-16($fp)
+addi $sp,$sp,-4
+sw $t8,0($sp)
+jal func_set_start
+lw $s7,0($sp)
+subi $sp,$sp,-4
+addi $sp,$sp,12
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+sw $s7,-12($fp)
+
+### entering visit if
+lw $s7,-12($fp)
+li $t8,0
+seq $t9,$s7,$t8
+beqz $t9,if_else33
+addi $sp,$sp,0
+
+### entering visit funcall expr
+la $t9 str23
+li $v0,4
+move $a0,$t9
+syscall
+subi $sp,$sp,0
+j if_end33
+if_else33:
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,-12($fp)
+li $t8,0
+li $s7,1
+sub $s6 $t8 $s7
+seq $s7,$t9,$s6
+beqz $s7,if_else34
+
+### entering visit funcall expr
+la $s7 str24
+li $v0,4
+move $a0,$s7
+syscall
+j if_end34
+if_else34:
+li $s7,0
+sw $s7,-8($fp)
+if_end34:
+subi $sp,$sp,0
+if_end33:
+subi $sp,$sp,0
+lw $s7,-8($fp)
+beqz $s7,while_end0
+j while_body0
+while_end0:
+
+subi $sp,$sp,-20
+func_selectmove_end:
+jr $ra
+
+### entering visit fundecl
+func_won_start:
+move $fp,$sp
+addi $sp,$sp,-4
+li $s7,0
+sw $s7,0($fp)
+
+### entering visit if
+lw $s7,a11
+lw $s6,4($fp)
+seq $t9,$s7,$s6
+beqz $t9,if_else35
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,a21
+lw $s6,4($fp)
+seq $s7,$t9,$s6
+beqz $s7,if_else36
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a31
+lw $s6,4($fp)
+seq $t9,$s7,$s6
+beqz $t9,if_else37
+addi $sp,$sp,0
+li $t9,1
+sw $t9,0($fp)
+subi $sp,$sp,0
+j if_end37
+if_else37:
+if_end37:
+subi $sp,$sp,0
+j if_end36
+if_else36:
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,a22
+lw $s6,4($fp)
+seq $s7,$t9,$s6
+beqz $s7,if_else38
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a33
+lw $s6,4($fp)
+seq $t9,$s7,$s6
+beqz $t9,if_else39
+addi $sp,$sp,0
+li $t9,1
+sw $t9,0($fp)
+subi $sp,$sp,0
+j if_end39
+if_else39:
+if_end39:
+subi $sp,$sp,0
+j if_end38
+if_else38:
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,a12
+lw $s6,4($fp)
+seq $s7,$t9,$s6
+beqz $s7,if_else40
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a13
+lw $s6,4($fp)
+seq $t9,$s7,$s6
+beqz $t9,if_else41
+addi $sp,$sp,0
+li $t9,1
+sw $t9,0($fp)
+subi $sp,$sp,0
+j if_end41
+if_else41:
+if_end41:
+subi $sp,$sp,0
+j if_end40
+if_else40:
+if_end40:
+subi $sp,$sp,0
+if_end38:
+subi $sp,$sp,0
+if_end36:
+subi $sp,$sp,0
+j if_end35
+if_else35:
+if_end35:
+
+### entering visit if
+lw $t9,a12
+lw $s6,4($fp)
+seq $s7,$t9,$s6
+beqz $s7,if_else42
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a22
+lw $s6,4($fp)
+seq $t9,$s7,$s6
+beqz $t9,if_else43
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,a32
+lw $s6,4($fp)
+seq $s7,$t9,$s6
+beqz $s7,if_else44
+addi $sp,$sp,0
+li $s7,1
+sw $s7,0($fp)
+subi $sp,$sp,0
+j if_end44
+if_else44:
+if_end44:
+subi $sp,$sp,0
+j if_end43
+if_else43:
+if_end43:
+subi $sp,$sp,0
+j if_end42
+if_else42:
+if_end42:
+
+### entering visit if
+lw $s7,a13
+lw $s6,4($fp)
+seq $t9,$s7,$s6
+beqz $t9,if_else45
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,a23
+lw $s6,4($fp)
+seq $s7,$t9,$s6
+beqz $s7,if_else46
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a33
+lw $s6,4($fp)
+seq $t9,$s7,$s6
+beqz $t9,if_else47
+addi $sp,$sp,0
+li $t9,1
+sw $t9,0($fp)
+subi $sp,$sp,0
+j if_end47
+if_else47:
+if_end47:
+subi $sp,$sp,0
+j if_end46
+if_else46:
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,a22
+lw $s6,4($fp)
+seq $s7,$t9,$s6
+beqz $s7,if_else48
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a31
+lw $s6,4($fp)
+seq $t9,$s7,$s6
+beqz $t9,if_else49
+addi $sp,$sp,0
+li $t9,1
+sw $t9,0($fp)
+subi $sp,$sp,0
+j if_end49
+if_else49:
+if_end49:
+subi $sp,$sp,0
+j if_end48
+if_else48:
+if_end48:
+subi $sp,$sp,0
+if_end46:
+subi $sp,$sp,0
+j if_end45
+if_else45:
+if_end45:
+
+### entering visit if
+lw $t9,a21
+lw $s6,4($fp)
+seq $s7,$t9,$s6
+beqz $s7,if_else50
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a22
+lw $s6,4($fp)
+seq $t9,$s7,$s6
+beqz $t9,if_else51
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,a23
+lw $s6,4($fp)
+seq $s7,$t9,$s6
+beqz $s7,if_else52
+addi $sp,$sp,0
+li $s7,1
+sw $s7,0($fp)
+subi $sp,$sp,0
+j if_end52
+if_else52:
+if_end52:
+subi $sp,$sp,0
+j if_end51
+if_else51:
+if_end51:
+subi $sp,$sp,0
+j if_end50
+if_else50:
+if_end50:
+
+### entering visit if
+lw $s7,a31
+lw $s6,4($fp)
+seq $t9,$s7,$s6
+beqz $t9,if_else53
+addi $sp,$sp,0
+
+### entering visit if
+lw $t9,a32
+lw $s6,4($fp)
+seq $s7,$t9,$s6
+beqz $s7,if_else54
+addi $sp,$sp,0
+
+### entering visit if
+lw $s7,a33
+lw $s6,4($fp)
+seq $t9,$s7,$s6
+beqz $t9,if_else55
+addi $sp,$sp,0
+li $t9,1
+sw $t9,0($fp)
+subi $sp,$sp,0
+j if_end55
+if_else55:
+if_end55:
+subi $sp,$sp,0
+j if_end54
+if_else54:
+if_end54:
+subi $sp,$sp,0
+j if_end53
+if_else53:
+if_end53:
+lw $t9,0($fp)
+addi $sp,$sp,-4
+sw $t9,0($sp)
+jr $ra
+subi $sp,$sp,-4
+func_won_end:
+jr $ra
+
+### entering visit fundecl
 .globl main
 main:
 move $fp,$sp
-addi $sp,$sp,-12
+addi $sp,$sp,-16
+li $t9,' '
+sw $t9,empty
+li $t9,1
+sw $t9,0($fp)
 
-li $t9,4
-li $v0,9
-move $a0,$t9
-syscall
-move $t8,$v0
-sw $t8,0($fp)
+### entering visit funcall expr
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+jal func_reset_start
+addi $sp,$sp,0
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
 
-li $t8,4
-li $v0,9
-move $a0,$t8
-syscall
-move $t9,$v0
-sw $t9,-8($fp)
-li $t9,5
-lw $t8,0($fp)
-sw $t9,0($t8)
+### entering visit funcall expr
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+jal func_printGame_start
+addi $sp,$sp,0
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+li $s7,1
+sw $s7,-4($fp)
 
-lw $t8,0($fp)
-lw $t9,0($t8)
-li $v0,1
-move $a0,$t9
-syscall
-li $t9,8
-lw $t8,0($fp)
-sw $t9,0($t8)
+### entering visit while
+lw $s7,0($fp)
+beqz $s7,while_end1
+while_body1:
+addi $sp,$sp,0
 
-lw $t8,0($fp)
-lw $t9,0($t8)
-li $v0,1
-move $a0,$t9
-syscall
-li $t9,11
-sw $t9,-4($fp)
-lw $t9,-4($fp)
-lw $t8,-8($fp)
-sw $t9,0($t8)
+### entering visit funcall expr
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $t8,-4($fp)
+addi $sp,$sp,-4
+sw $t8,0($sp)
+jal func_selectmove_start
+addi $sp,$sp,4
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
 
-lw $t8,-8($fp)
-lw $t9,0($t8)
-li $v0,1
-move $a0,$t9
+### entering visit funcall expr
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $s5,-4($fp)
+addi $sp,$sp,-4
+sw $s5,0($sp)
+jal func_get_mark_start
+lw $t8,0($sp)
+subi $sp,$sp,-4
+addi $sp,$sp,4
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+sw $t8,-8($fp)
+
+### entering visit funcall expr
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+jal func_printGame_start
+addi $sp,$sp,0
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+
+### entering visit if
+
+### entering visit funcall expr
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $s4,-8($fp)
+addi $sp,$sp,-4
+sw $s4,0($sp)
+jal func_won_start
+lw $s5,0($sp)
+subi $sp,$sp,-4
+addi $sp,$sp,4
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+beqz $s5,if_else56
+addi $sp,$sp,0
+
+### entering visit funcall expr
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $s4,-4($fp)
+addi $sp,$sp,-4
+sw $s4,0($sp)
+jal func_printWinner_start
+addi $sp,$sp,4
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+li $s4,0
+sw $s4,0($fp)
+subi $sp,$sp,0
+j if_end56
+if_else56:
+
+### entering visit if
+
+### entering visit funcall expr
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+jal func_full_start
+lw $s4,0($sp)
+subi $sp,$sp,-4
+addi $sp,$sp,0
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+li $s3,1
+seq $s2,$s4,$s3
+beqz $s2,if_else57
+addi $sp,$sp,0
+
+### entering visit funcall expr
+la $s2 str25
+li $v0,4
+move $a0,$s2
+syscall
+li $s2,0
+sw $s2,0($fp)
+subi $sp,$sp,0
+j if_end57
+if_else57:
+addi $sp,$sp,0
+
+### entering visit funcall expr
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+lw $s3,-4($fp)
+addi $sp,$sp,-4
+sw $s3,0($sp)
+jal func_switchPlayer_start
+lw $s2,0($sp)
+subi $sp,$sp,-4
+addi $sp,$sp,4
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+sw $s2,-4($fp)
+subi $sp,$sp,0
+if_end57:
+if_end56:
+
+### entering visit if
+lw $s2,0($fp)
+li $s3,0
+seq $s4,$s2,$s3
+beqz $s4,if_else58
+addi $sp,$sp,0
+
+### entering visit funcall expr
+la $s4 str26
+li $v0,4
+move $a0,$s4
 syscall
 
-lw $t9,-4($fp)
-li $v0,1
-move $a0,$t9
+### entering visit funcall expr
+li $v0,12
 syscall
-subi $sp,$sp,-12
+move $s4,$v0
+sw $s4,-12($fp)
+
+### entering visit if
+lw $s4,-12($fp)
+li $s3,'y'
+seq $s2,$s4,$s3
+beqz $s2,if_else59
+addi $sp,$sp,0
+li $s2,1
+sw $s2,0($fp)
+
+### entering visit funcall expr
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+jal func_reset_start
+addi $sp,$sp,0
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+subi $sp,$sp,0
+j if_end59
+if_else59:
+addi $sp,$sp,0
+
+### entering visit if
+lw $s3,-12($fp)
+li $s4,'Y'
+seq $s1,$s3,$s4
+beqz $s1,if_else60
+addi $sp,$sp,0
+li $s1,1
+sw $s1,0($fp)
+
+### entering visit funcall expr
+addi $sp,$sp,-4
+sw $fp,0($sp)
+addi $sp,$sp,-4
+sw $ra,0($sp)
+jal func_reset_start
+addi $sp,$sp,0
+lw $ra,0($sp)
+subi $sp,$sp,-4
+lw $fp,0($sp)
+subi $sp,$sp,-4
+subi $sp,$sp,0
+j if_end60
+if_else60:
+if_end60:
+subi $sp,$sp,0
+if_end59:
+subi $sp,$sp,0
+j if_end58
+if_else58:
+if_end58:
+subi $sp,$sp,0
+lw $s4,0($fp)
+beqz $s4,while_end1
+j while_body1
+while_end1:
+
+subi $sp,$sp,-16
 func_main_end:
 li $v0 10
 syscall

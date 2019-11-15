@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
@@ -92,6 +93,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     // FunDecl ::= Type String VarDecl* Block
     public Register visitFunDecl(FunDecl p) {
         writer.println();
+        writer.println("### entering visit fundecl");
         currentFuncName = p.name;
 
         if (p.name.equals("main")) {
@@ -101,14 +103,23 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // initialise fp to the value of sp
         writer.println("move $fp,$sp");
-        int paramOffset = 0;
+        int paramOffset = 4;
         currentOffset = 0;
 
-        for (VarDecl vd : p.params) {
+        // iterate through the parameters in reverse order
+        for (int i = p.params.size() - 1; i >= 0; i--) {
+            VarDecl vd = p.params.get(i);
+
             vd.offset = paramOffset;
             // increment offset by size of the type for the next vardecl
             paramOffset += dataAlloc.getAlignedTypeSize(vd.type);
         }
+
+//        for (VarDecl vd : p.params) {
+//            vd.offset = paramOffset;
+//            // increment offset by size of the type for the next vardecl
+//            paramOffset += dataAlloc.getAlignedTypeSize(vd.type);
+//        }
 
         // allocate local variables
         p.block.accept(this);
@@ -120,7 +131,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (p.name.equals("main")) {
             writer.println("li $v0 10");
             writer.println("syscall");
-        }
+        } else writer.println("jr $ra");
         return null;
     }
 
@@ -158,6 +169,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // TODO: is this right?
     public Register visitStrLiteral(StrLiteral sl) {
         // returns the address of the string
         Register reg = getRegister();
@@ -194,8 +206,12 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // TODO: stack isn't being returned to the order it was in before call
+    // something is not being allocated or deallocated correctly
+    // check funcall.fundecl and local block allocations
     public Register visitFunCallExpr(FunCallExpr fce) {
         writer.println();
+        writer.println("### entering visit funcall expr");
 
         // library functions
         if (fce.name.equals("print_s")) {
@@ -392,12 +408,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // TODO: check this
     public Register visitArrayAccessExpr(ArrayAccessExpr aae) {
         writer.println();
         String loadInstruct;
         Type baseType;
 
-        Register arrAddr = getArrayAccessAddress(aae);
+        Register addrReg = getArrayAccessAddress(aae);
         Register resultReg = getRegister();
 
         // arr can be either an array or a pointer
@@ -407,14 +424,15 @@ public class CodeGenerator implements ASTVisitor<Register> {
         if (baseType == BaseType.CHAR) loadInstruct = "lb";
         else loadInstruct = "lw";
 
-        writer.printf("%s %s,(%s)\n", loadInstruct, resultReg, arrAddr);
+        writer.printf("%s %s,(%s)\n", loadInstruct, resultReg, addrReg);
 
-        freeRegister(arrAddr);
+        freeRegister(addrReg);
         writer.println();
         return resultReg;
     }
 
     @Override
+    // TODO: check this
     public Register visitFieldAccessExpr(FieldAccessExpr fae) {
         writer.println();
 
@@ -496,6 +514,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         // 6. or jump back to body
 
         writer.println();
+        writer.println("### entering visit while");
         int n = numWhiles;
         numWhiles++;
 
@@ -534,6 +553,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         // 5. end
 
         writer.println();
+        writer.println("### entering visit if");
         int n = numIfs;
         numIfs++;
 
@@ -555,12 +575,11 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // 5. end
         writer.printf("if_end%s:\n", n);
-        writer.println();
-
         return null;
     }
 
     @Override
+    // TODO: check this
     public Register visitAssign(Assign a) {
         Register rhsReg = a.rhs.accept(this);
 
@@ -577,11 +596,30 @@ public class CodeGenerator implements ASTVisitor<Register> {
             Register addrReg = vae.expr.accept(this);
             writer.printf("sw %s,0(%s)\n", rhsReg, addrReg);
             freeRegister(addrReg);
+        } else if (a.lhs instanceof ArrayAccessExpr) {
+            ArrayAccessExpr aae = ((ArrayAccessExpr) a.lhs);
+
+            String storeInstruct;
+            Type baseType;
+
+            Register addrReg = getArrayAccessAddress(aae);
+
+            // arr can be either an array or a pointer
+            if (aae.arr.type instanceof ArrayType) baseType = (((ArrayType) aae.arr.type).baseType);
+            else baseType = (((PointerType) aae.arr.type).baseType);
+
+            if (baseType == BaseType.CHAR) storeInstruct = "sb";
+            else storeInstruct = "sw";
+
+            writer.printf("%s %s,(%s)\n", storeInstruct, rhsReg, addrReg);
+            freeRegister(addrReg);
+        } else if (a.lhs instanceof FieldAccessExpr) {
+            FieldAccessExpr fae = ((FieldAccessExpr) a.lhs);
+            Register addrReg = getFieldAccessAddress(fae);
+            writer.printf("sw %s,(%s)\n", rhsReg, addrReg);
+            freeRegister(addrReg);
         }
 
-        // TODO - what if lhs is not a varexpr?
-
-        // may be field access, array access or value at
         freeRegister(rhsReg);
         return null;
     }
@@ -692,15 +730,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
         return addr;
     }
 
-
-
-//    private Register getVarAddress(VarExpr v) {
-//        Register addrReg = getRegister();
-//
-//        if (v.vd.isGlobal) writer.printf("sw %s,%s\n", rhsReg, v.name);
-//        else writer.printf("sw %s,%s($fp)\n", rhsReg, v.vd.offset);
-//    }
-
     private Register getArrayAccessAddress(ArrayAccessExpr aae) {
         Register arrReg;
         Register idxReg = aae.idx.accept(this);
@@ -710,8 +739,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
 
         // TODO: what about field access?
-        // TODO: pointers too
-        // TODO: typecast expr, value at
+
+        // TODO: value at ?
+
+        // TOOD: do we allow pointers to arrays? if so, how?
 
         if (aae.arr instanceof FieldAccessExpr) arrReg = getFieldAccessAddress((FieldAccessExpr) aae.arr);
         else arrReg = aae.arr.accept(this);

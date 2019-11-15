@@ -40,4 +40,7 @@ void main() {
     // prints 4
     size = sizeof(void);
     print_i(size);
+
+    size = sizeof(int* a[10])
+
 }
