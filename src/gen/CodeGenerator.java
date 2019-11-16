@@ -249,13 +249,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
         writer.println("addi $sp,$sp,-4");
         writer.println("sw $ra,0($sp)");
 
-        // TODO: push caller saves
-        for (Register reg : Register.tmpRegs) {
-            if (!freeRegs.contains(reg)) {
-                writer.println("addi $sp,$sp,-4");
-                writer.printf("sw %s,0($sp)\n", reg);
-            }
-        }
+//        // TODO: push caller saves
+//        for (Register reg : Register.tmpRegs) {
+//            if (!freeRegs.contains(reg)) {
+//                writer.println("addi $sp,$sp,-4");
+//                writer.printf("sw %s,0($sp)\n", reg);
+//            }
+//        }
 
         // push all args onto stack
         for (Expr arg : fce.args) {
@@ -310,13 +310,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
         // pop args
         writer.printf("addi $sp,$sp,%s\n", argsSpace);
 
-        // TODO: pop caller saves
-        for (Register reg : Register.tmpRegs) {
-            if (!freeRegs.contains(reg)) {
-                writer.printf("lw %s,0($sp)\n", reg);
-                writer.println("subi $sp,$sp,-4");
-            }
-        }
+//        // TODO: pop caller saves
+//        for (Register reg : Register.tmpRegs) {
+//            if (!freeRegs.contains(reg)) {
+//                writer.printf("lw %s,0($sp)\n", reg);
+//                writer.println("subi $sp,$sp,-4");
+//            }
+//        }
 
         // pop ra
         writer.println("lw $ra,0($sp)");
