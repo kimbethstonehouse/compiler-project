@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/tests/gen/int_literal.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/shadowing.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dummy.out" beforeDir="false" afterPath="$PROJECT_DIR$/dummy.out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gen/DataAllocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/DataAllocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gen/array_access.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/array_access.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gen/size_of.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/size_of.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -178,7 +177,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571872532853</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fixed escape characters">
+      <created>1573908491589</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1573908491589</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -201,14 +207,15 @@
     <MESSAGE value="added lookahead to fundecl" />
     <MESSAGE value="changed == and != to eq" />
     <MESSAGE value="sem analysis passes checked and refactored and tested" />
-    <option name="LAST_COMMIT_MESSAGE" value="sem analysis passes checked and refactored and tested" />
+    <MESSAGE value="fixed escape characters" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed escape characters" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>188</line>
+          <line>192</line>
           <properties class="gen.CodeGenerator" method="visitVarExpr">
             <option name="EMULATED" value="true" />
           </properties>
@@ -216,7 +223,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>582</line>
+          <line>586</line>
           <properties class="gen.CodeGenerator" method="visitAssign">
             <option name="EMULATED" value="true" />
           </properties>

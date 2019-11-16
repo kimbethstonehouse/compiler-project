@@ -83,9 +83,9 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     @Override
     public Register visitVarDecl(VarDecl vd) {
-        vd.offset = currentOffset;
-        // increment offset by size of the type for the next vardecl
+        // increment offset by size of the type
         currentOffset -= dataAlloc.getAlignedTypeSize(vd.type);
+        vd.offset = currentOffset;
         return null;
     }
 
@@ -103,7 +103,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // initialise fp to the value of sp
         writer.println("move $fp,$sp");
-        int paramOffset = 4;
+        int paramOffset = 0;
         currentOffset = 0;
 
         // iterate through the parameters in reverse order
@@ -128,6 +128,9 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // end
         writer.printf("func_%s_end:\n", p.name);
+        // deallocate local variables
+        writer.printf("subi $sp,$sp,%s\n", currentOffset);
+
         if (p.name.equals("main")) {
             writer.println("li $v0 10");
             writer.println("syscall");
@@ -493,9 +496,9 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         for (Stmt stmt : b.stmts) { stmt.accept(this); }
 
-        // move sp back after variable scope ends
-        writer.printf("subi $sp,$sp,%s\n", blockOffset);
-        currentOffset -= blockOffset;
+//        // move sp back after variable scope ends
+//        writer.printf("subi $sp,$sp,%s\n", blockOffset);
+//        currentOffset -= blockOffset;
         return null;
     }
 
@@ -631,6 +634,9 @@ public class CodeGenerator implements ASTVisitor<Register> {
             // evaluate return value
             Register expReg = r.expr.accept(this);
 
+            // deallocate local variables
+            writer.printf("subi $sp,$sp,%s\n", currentOffset);
+
             // the register stores the address of arrays or structs
             if (r.expr.type instanceof ArrayType || r.expr.type instanceof StructType) {
                 Register temp = getRegister();
@@ -654,9 +660,15 @@ public class CodeGenerator implements ASTVisitor<Register> {
             }
 
             freeRegister(expReg);
+        } else {
+            // deallocate local variables
+            writer.printf("subi $sp,$sp,%s\n", currentOffset);
         }
 
-        if (!currentFuncName.equals("main")) writer.println("jr $ra");
+        if (currentFuncName.equals("main")) {
+            writer.println("li $v0,10");
+            writer.println("syscall");
+        } else writer.println("jr $ra");
         return null;
     }
 
@@ -674,7 +686,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
     // the register contains the integer
 
     // HELPER FUNCTIONS
-    // TODO: you will need to fix escape chars
     // void print_s(const char* s)
     private void print_s(Register addrRegister) {
         // the register contains the address of the string
