@@ -42,7 +42,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     private void freeRegister(Register reg) {
-        freeRegs.push(reg);
+        if (!freeRegs.contains(reg)) freeRegs.push(reg);
     }
 
 
@@ -235,7 +235,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
             return mcmalloc(fce.args.get(0).accept(this));
         }
 
-        Register returnReg = getRegister();
         Register argReg;
         int argsSpace = 0;
 
@@ -250,12 +249,12 @@ public class CodeGenerator implements ASTVisitor<Register> {
         writer.println("sw $ra,0($sp)");
 
 //        // TODO: push caller saves
-//        for (Register reg : Register.tmpRegs) {
-//            if (!freeRegs.contains(reg)) {
-//                writer.println("addi $sp,$sp,-4");
-//                writer.printf("sw %s,0($sp)\n", reg);
-//            }
-//        }
+        for (Register reg : Register.tmpRegs) {
+            if (!freeRegs.contains(reg)) {
+                writer.println("addi $sp,$sp,-4");
+                writer.printf("sw %s,0($sp)\n", reg);
+            }
+        }
 
         // push all args onto stack
         for (Expr arg : fce.args) {
@@ -294,11 +293,14 @@ public class CodeGenerator implements ASTVisitor<Register> {
         // callee
         writer.printf("jal func_%s_start\n", fce.name);
 
+        Register returnReg = getRegister();
+
         // pop return
         // TODO: if return is larger than a reg, returning an address - is this correct?
         if (fce.type instanceof StructType) {
             // return the address of the array or struct on the stack
             writer.printf("mv %s,$sp\n", returnReg);
+            // TODO: how to return struct?
             // TODO: in this case, the ra fp will be in the wrong place
         } else if (fce.type == BaseType.CHAR || fce.type == BaseType.INT
                 || fce.type instanceof PointerType) {
@@ -310,13 +312,14 @@ public class CodeGenerator implements ASTVisitor<Register> {
         // pop args
         writer.printf("addi $sp,$sp,%s\n", argsSpace);
 
-//        // TODO: pop caller saves
-//        for (Register reg : Register.tmpRegs) {
-//            if (!freeRegs.contains(reg)) {
-//                writer.printf("lw %s,0($sp)\n", reg);
-//                writer.println("subi $sp,$sp,-4");
-//            }
-//        }
+        // pop caller saves
+        for (int i = Register.tmpRegs.size() - 1; i >= 0; i--) {
+            Register reg = Register.tmpRegs.get(i);
+            if (!freeRegs.contains(reg) && !reg.equals(returnReg)) {
+                writer.printf("lw %s,0($sp)\n", Register.tmpRegs.get(i));
+                writer.println("subi $sp,$sp,-4");
+            }
+        }
 
         // pop ra
         writer.println("lw $ra,0($sp)");
@@ -787,14 +790,18 @@ public class CodeGenerator implements ASTVisitor<Register> {
         Register structReg = fae.struct.accept(this);
         int offset = 0;
 
+        // TODO: what if this is not varexpr? rerun killer, valueat, func.args.c - returning runtime exceptions atm
         // find the offset from the struct for the field
-        for (VarDecl vd : ((StructType) (((VarExpr) fae.struct).vd.type)).std.varDecls) {
-            if (vd.varName.equals(fae.fieldName)) offset = vd.offset;
-        }
+        // struct can be a variable of type struct
+        if (fae.struct instanceof VarExpr) {
+            for (VarDecl vd : ((StructType) (((VarExpr) fae.struct).vd.type)).std.varDecls) {
+                if (vd.varName.equals(fae.fieldName)) offset = vd.offset;
+            }
 
-        if (((VarExpr) fae.struct).vd.isGlobal) writer.printf("add %s,%s,%s\n", structReg, structReg, offset);
-            // local variables are stored on the stack which grows down so we subtract
-        else writer.printf("sub %s,%s,%s\n", structReg, structReg, offset);
+            if (((VarExpr) fae.struct).vd.isGlobal) writer.printf("add %s,%s,%s\n", structReg, structReg, offset);
+                // local variables are stored on the stack which grows down so we subtract
+            else writer.printf("sub %s,%s,%s\n", structReg, structReg, offset);
+        }
 
         return structReg;
     }
