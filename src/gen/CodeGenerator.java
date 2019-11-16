@@ -180,7 +180,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
     @Override
     public Register visitChrLiteral(ChrLiteral cl) {
         Register reg = getRegister();
-        writer.printf("li %s,'%s'\n", reg, cl.c);
+        if (cl.isEscape) writer.printf("li %s,'\\%s'\n", reg, cl.c);
+        else writer.printf("li %s,'%s'\n", reg, cl.c);
         return reg;
     }
 

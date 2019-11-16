@@ -531,6 +531,7 @@ public class Parser {
 
             // if expect threw an error, t will be an invalid token with empty data field
             if (t.tokenClass == TokenClass.INVALID) return new ChrLiteral(' ');
+            else if (t.data.charAt(0) == '\\') return new ChrLiteral(t.data.charAt(1), true);
             else return new ChrLiteral(t.data.charAt(0));
         }
     }
