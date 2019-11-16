@@ -126,7 +126,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // push return
 
-        // end
+        // end - in case of no return statement
         writer.printf("func_%s_end:\n", p.name);
         // deallocate local variables
         writer.printf("subi $sp,$sp,%s\n", currentOffset);
@@ -250,6 +250,12 @@ public class CodeGenerator implements ASTVisitor<Register> {
         writer.println("sw $ra,0($sp)");
 
         // TODO: push caller saves
+        for (Register reg : Register.tmpRegs) {
+            if (!freeRegs.contains(reg)) {
+                writer.println("addi $sp,$sp,-4");
+                writer.printf("sw %s,0($sp)\n", reg);
+            }
+        }
 
         // push all args onto stack
         for (Expr arg : fce.args) {
@@ -290,7 +296,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // pop return
         // TODO: if return is larger than a reg, returning an address - is this correct?
-        if (fce.type instanceof ArrayType || fce.type instanceof StructType) {
+        if (fce.type instanceof StructType) {
             // return the address of the array or struct on the stack
             writer.printf("mv %s,$sp\n", returnReg);
             // TODO: in this case, the ra fp will be in the wrong place
@@ -305,6 +311,12 @@ public class CodeGenerator implements ASTVisitor<Register> {
         writer.printf("addi $sp,$sp,%s\n", argsSpace);
 
         // TODO: pop caller saves
+        for (Register reg : Register.tmpRegs) {
+            if (!freeRegs.contains(reg)) {
+                writer.printf("lw %s,0($sp)\n", reg);
+                writer.println("subi $sp,$sp,-4");
+            }
+        }
 
         // pop ra
         writer.println("lw $ra,0($sp)");
@@ -634,7 +646,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
             // evaluate return value
             Register expReg = r.expr.accept(this);
 
-            // deallocate local variables
+            // deallocate local variables then push return
             writer.printf("subi $sp,$sp,%s\n", currentOffset);
 
             // the register stores the address of arrays or structs
@@ -661,10 +673,11 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
             freeRegister(expReg);
         } else {
-            // deallocate local variables
+            // void function, so just deallocate local variables
             writer.printf("subi $sp,$sp,%s\n", currentOffset);
         }
 
+        // return
         if (currentFuncName.equals("main")) {
             writer.println("li $v0,10");
             writer.println("syscall");
