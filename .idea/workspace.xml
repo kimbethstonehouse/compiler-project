@@ -2,38 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/gen/bin_search.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/chr_literal.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/funcall_structs.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/int_literal.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/library_functions.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/old_fieldacc.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/q.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/recursive.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/shadowing.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/size_of.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/str_literal.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/typecast.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/gen/value_at.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/a.out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dummy.out" beforeDir="false" afterPath="$PROJECT_DIR$/dummy.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/ChrLiteral.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/ChrLiteral.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/lexer/Tokeniser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/lexer/Tokeniser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ast/ChrLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ChrLiteral.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gen/DataAllocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/DataAllocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lexer/Tokeniser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Tokeniser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gen/array_access.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/array_access.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gen/local_allocation.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/local_allocation.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gen/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/test.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/lexer/literals.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/lexer/literals.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

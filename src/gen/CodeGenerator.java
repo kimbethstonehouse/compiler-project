@@ -669,7 +669,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
             writer.printf("move $v0,%s\n", expReg);
             freeRegister(expReg);
 
-//            // the register stores the address of arrays or structs
+            // the register stores the address of arrays or structs
 //            if (r.expr.type instanceof ArrayType || r.expr.type instanceof StructType) {
 //                Register temp = getRegister();
 //                int size;
@@ -690,7 +690,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 //                writer.println("addi $sp,$sp,-4");
 //                writer.printf("sw %s,0($sp)\n", expReg);
 //            }
-//
+
         } else {
             // void function, so just deallocate local variables
             writer.printf("addi $sp,$sp,%s\n", totalSize);
