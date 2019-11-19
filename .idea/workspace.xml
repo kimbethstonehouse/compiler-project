@@ -8,8 +8,8 @@
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gen/funcall_structs.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/funcall_structs.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/gen/recursive.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/recursive.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/test.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,7 +48,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.gen funcall structs">
+  <component name="RunManager" selected="Application.gen recursive">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
@@ -72,18 +72,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="gen funcall structs" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="ct-19-20" />
-      <option name="PROGRAM_PARAMETERS" value="-gen tests/gen/funcall_structs.c dummy.out" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="gen local alloc" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
       <option name="PROGRAM_PARAMETERS" value="-gen tests/gen/local_allocation.c dummy.out" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="gen recursive" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ct-19-20" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/gen/recursive.c dummy.out" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -141,7 +141,7 @@
       <item itemvalue="Application.ast fibonacci" />
       <item itemvalue="Application.sem fibonacci" />
       <item itemvalue="Application.sem test" />
-      <item itemvalue="Application.gen funcall structs" />
+      <item itemvalue="Application.gen recursive" />
       <item itemvalue="Application.gen struct" />
       <item itemvalue="Application.sem q" />
       <item itemvalue="Application.sem tictactoe" />
@@ -218,17 +218,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>109</line>
-          <option name="timeStamp" value="105" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>257</line>
+          <line>248</line>
           <option name="timeStamp" value="108" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>199</line>
+          <line>196</line>
           <properties class="gen.CodeGenerator" method="visitFunCallExpr">
             <option name="EMULATED" value="true" />
           </properties>
@@ -236,7 +231,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>648</line>
+          <line>642</line>
           <properties class="gen.CodeGenerator" method="visitReturn">
             <option name="EMULATED" value="true" />
           </properties>

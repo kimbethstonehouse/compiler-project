@@ -16,13 +16,12 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     // contains all the free temporary registers
     private Stack<Register> freeRegs = new Stack<Register>();
-    private int totalSize;       // tracks how much offset from the frame pointer is
-    private int frameOffset;          // tracks the offset at which the next variable can be stored
+    private int totalSize;              // tracks the offset from the frame pointer for the current function
+    private int frameOffset;            // tracks the offset at which the next variable can be stored
     private int returnOffset;           // tracks where on the stack the return should go
-    // needed for the local variables encountered so far
-    private int numWhiles = 0;       // number of while loops or if statements encountered
-    private int numIfs = 0;          // so far, used for generating unique labels
-    private String currentFuncName;  // the name of the function currently in
+    private int numWhiles = 0;          // number of while loops or if statements encountered so far
+    private int numIfs = 0;
+    private String currentFuncName;     // the name of the current function
 
     public CodeGenerator() {
         freeRegs.addAll(Register.tmpRegs);
@@ -44,8 +43,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
 
-    private PrintWriter writer; // use this writer to output the assembly instructions
-    private DataAllocation dataAlloc; // use this pass to allocate global and local variables
+    private PrintWriter writer;         // use this writer to output the assembly instructions
+    private DataAllocation dataAlloc;   // use this pass to allocate global and local variables
 
     public void emitProgram(Program program, File outputFile) throws FileNotFoundException {
         writer = new PrintWriter(outputFile);
@@ -59,8 +58,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
         visitProgram(program);
         writer.println();
 
-        //writer.println("li $v0 10");
-        //writer.println("syscall");
         writer.close();
     }
 
@@ -68,8 +65,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     // Program ::= StructTypeDecl* VarDecl* FunDecl*
     public Register visitProgram(Program p) {
         for (StructTypeDecl std : p.structTypeDecls) std.accept(this);
-        // done in the data allocation pass
-        //for (VarDecl vd : p.varDecls) vd.accept(this);
+        // vardecls allocated in the data allocation pass
         for (FunDecl fd : p.funDecls) fd.accept(this);
         return null;
     }
@@ -107,7 +103,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         totalSize = 0;
         frameOffset = -4;
 
-        // iterate through the parameters in reverse order, stopping before the first parameter
+        // iterate through the parameters in reverse order
         for (int i = p.params.size() - 1; i >= 0; i--) {
             VarDecl vd = p.params.get(i);
             int varSize = dataAlloc.getAlignedTypeSize(vd.type);
@@ -118,13 +114,18 @@ public class CodeGenerator implements ASTVisitor<Register> {
         }
 
         // set return offset
-        if (p.type != BaseType.VOID) returnOffset = paramOffset + dataAlloc.getTypeSize(p.type);
+        int returnSize = dataAlloc.getAlignedTypeSize(p.type);
+        returnOffset = returnSize + 8;      // add 8 for the fp and ra, remove 4 begin from 0, net add 4
+        returnOffset += paramOffset;
 
         // allocate local variables
         p.block.accept(this);
 
-        // end - return jumps to here
+        // return jumps to here
         writer.printf("func_%s_end:\n", p.name);
+
+        // deallocate local variables
+        writer.printf("addi $sp,$sp,%s\n", totalSize);
 
         if (p.name.equals("main")) {
             writer.println("li $v0 10");
@@ -135,17 +136,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     // TYPES
     @Override
-    public Register visitBaseType(BaseType bt) {
-        return null;
-    }
+    public Register visitBaseType(BaseType bt) { return null; }
 
     @Override
     public Register visitPointerType(PointerType pt) { return null; }
 
     @Override
-    public Register visitStructType(StructType st) {
-        return null;
-    }
+    public Register visitStructType(StructType st) { return null; }
 
     @Override
     public Register visitArrayType(ArrayType at) { return null; }
@@ -224,9 +221,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // 1. PRECALL
 
-        // push space for the return value
-        int returnSize = dataAlloc.getAlignedTypeSize(fce.fd.type);
-        writer.printf("subi $sp,$sp,%s\n", returnSize);
+        // push space for the return value if necessary
+        if (fce.fd.type instanceof StructType) writer.printf("subi $sp,$sp,%s\n", dataAlloc.getAlignedTypeSize(fce.fd.type));
 
         // push fp
         writer.println("addi $sp,$sp,-4");
@@ -236,7 +232,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
         writer.println("addi $sp,$sp,-4");
         writer.println("sw $ra,0($sp)");
 
-        // push caller saves
+        // push callee saves
+        // todo: this causes issues if the return type is a struct
         for (Register reg : Register.tmpRegs) {
             if (!freeRegs.contains(reg)) {
                 writer.println("addi $sp,$sp,-4");
@@ -244,14 +241,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
             }
         }
 
-        // push all args onto stack in reverse order
-        // TODO: big todo fix this plz, check putting args onto stack and check offsets from fp
-        // check local allocations and offsets from fp
-        // and check passing and returning structs!
+        // push args
         for (Expr arg : fce.args) {
-            // if the arg is an int, pointer or char the register
-            // will store the value, else it will store the address
-            // TODO: what if expr returnfs null?
             argReg = arg.accept(this);
 
             // the register stores the address of structs
@@ -292,16 +283,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // 2. POSTRETURN
 
-        // deallocate local variables
-        writer.printf("addi $sp,$sp,%s\n", totalSize);
-
         // pop args
         writer.printf("addi $sp,$sp,%s\n", argsSpace);
 
         // pop caller saves
         for (int i = Register.tmpRegs.size() - 1; i >= 0; i--) {
             Register reg = Register.tmpRegs.get(i);
-            if (!freeRegs.contains(reg)) { // && !reg.equals(returnReg)
+            if (!freeRegs.contains(reg)) {
                 writer.printf("lw %s,0($sp)\n", Register.tmpRegs.get(i));
                 writer.println("subi $sp,$sp,-4");
             }
@@ -317,7 +305,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // move return value
         Register returnReg = getRegister();
-        writer.printf("move %s,$sp\n", returnReg);
+        if (fce.fd.type instanceof StructType) {
+            writer.printf("move %s,$sp\n", returnReg);
+            writer.printf("addi %s,%s,%s\n", returnReg, returnReg, dataAlloc.getAlignedTypeSize(fce.fd.type) - 4);
+        } else {
+            // load the value
+            writer.printf("move %s,$v0\n", returnReg);
+        }
 
         return returnReg;
     }
@@ -598,8 +592,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
                 // so they are copied to the stack word by word
                 for (int offset = 0; offset <= size; offset += 4) {
-                    writer.printf("lw %s,%s(%s)\n", temp, offset, rhsReg);
-                    writer.printf("sw %s,%s(%s)\n", temp, offset, addrReg);
+                    writer.printf("lw %s,%s(%s)\n", temp, -offset, rhsReg);
+                    writer.printf("sw %s,%s(%s)\n", temp, -offset, addrReg);
                 }
 
                 freeRegister(temp);
@@ -660,20 +654,20 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
                 // so they are copied to the stack word by word
                 for (int offset = 0; offset < size; offset += 4) {
-                    writer.printf("lw %s,%s(%s)\n", temp, offset, expReg);
-                    writer.printf("sw %s,%s($fp)\n", temp, returnOffset+8-offset);
+                    writer.printf("lw %s,%s(%s)\n", temp, -offset, expReg);
+                    writer.printf("sw %s,%s($fp)\n", temp, returnOffset-offset);
                 }
 
                 freeRegister(temp);
             } else {
                 // the register stores the value of ints, pointers and chars
-                writer.println("addi $sp,$sp,-4");
-                writer.printf("sw %s,0($sp)\n", expReg);
+//                writer.println("addi $sp,$sp,-4");
+//                writer.printf("sw %s,0($sp)\n", expReg);
+//                writer.printf("sw %s,%s($fp)\n", expReg, returnOffset);
+//                writer.printf("lw $v0,0($sp)\n");
+                writer.printf("move $v0,%s\n", expReg);
             }
 
-
-
-            writer.printf("move $v0,%s\n", expReg);
             freeRegister(expReg);
         }
 
