@@ -2,17 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/gen/old_fieldacc.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/funcall_structs.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dummy.out" beforeDir="false" afterPath="$PROJECT_DIR$/dummy.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/ChrLiteral.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/ChrLiteral.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/lexer/Tokeniser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/lexer/Tokeniser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/.__afsB3B" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/local_allocation.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/local_allocation.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/gen/recursive.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/recursive.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -52,7 +50,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.gen recursive">
+  <component name="RunManager" selected="Application.gen local alloc">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
@@ -84,10 +82,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="gen recursive" type="Application" factoryName="Application">
+    <configuration name="gen struct" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
-      <option name="PROGRAM_PARAMETERS" value="-gen tests/gen/recursive.c dummy.out" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/gen/funcall_struct.c dummy.out" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -146,7 +144,7 @@
       <item itemvalue="Application.sem fibonacci" />
       <item itemvalue="Application.sem test" />
       <item itemvalue="Application.gen test" />
-      <item itemvalue="Application.gen recursive" />
+      <item itemvalue="Application.gen struct" />
       <item itemvalue="Application.sem q" />
       <item itemvalue="Application.sem tictactoe" />
       <item itemvalue="Application.ast exp" />
@@ -220,21 +218,23 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>601</line>
-          <properties class="gen.CodeGenerator" method="visitAssign">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="101" />
+          <line>108</line>
+          <option name="timeStamp" value="105" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
+          <line>264</line>
+          <option name="timeStamp" value="108" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>215</line>
-          <properties class="gen.CodeGenerator" method="visitFunCallExpr">
+          <line>615</line>
+          <properties class="gen.CodeGenerator" method="visitAssign">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="102" />
+          <option name="timeStamp" value="110" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

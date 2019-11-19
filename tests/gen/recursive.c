@@ -29,6 +29,6 @@ int fibonacci(int i) {
 
 void main() {
     int i;
-    i = fibonacci(5);
+    i = fibonacci(10);
     print_i(i);
 }
