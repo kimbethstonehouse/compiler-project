@@ -2,8 +2,38 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/tests/gen/bin_search.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/chr_literal.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/funcall_structs.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/int_literal.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/library_functions.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/old_fieldacc.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/q.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/recursive.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/shadowing.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/size_of.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/str_literal.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/typecast.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/value_at.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/a.out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dummy.out" beforeDir="false" afterPath="$PROJECT_DIR$/dummy.out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/ast/ChrLiteral.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/ast/ChrLiteral.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/lexer/Tokeniser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/lexer/Tokeniser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/parser/Parser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ast/ChrLiteral.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ast/ChrLiteral.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/DataAllocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/DataAllocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lexer/Tokeniser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lexer/Tokeniser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/array_access.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/array_access.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/local_allocation.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/local_allocation.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/test.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/lexer/literals.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/lexer/literals.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +72,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.gen fib">
+  <component name="RunManager" selected="Application.gen test">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
@@ -66,18 +96,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="gen fib" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="ct-19-20" />
-      <option name="PROGRAM_PARAMETERS" value="-gen tests/parser/fibonacci.c dummy.out" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="gen local alloc" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
       <option name="PROGRAM_PARAMETERS" value="-gen tests/gen/local_allocation.c dummy.out" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="gen struct" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ct-19-20" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/gen/funcall_struct.c dummy.out" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -136,7 +166,7 @@
       <item itemvalue="Application.sem fibonacci" />
       <item itemvalue="Application.sem test" />
       <item itemvalue="Application.gen test" />
-      <item itemvalue="Application.gen fib" />
+      <item itemvalue="Application.gen struct" />
       <item itemvalue="Application.sem q" />
       <item itemvalue="Application.sem tictactoe" />
       <item itemvalue="Application.ast exp" />
@@ -174,8 +204,18 @@
       <option name="project" value="LOCAL" />
       <updated>1571872532853</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fixed escape characters">
+      <created>1573908491589</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1573908491589</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.h" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -194,50 +234,37 @@
     <MESSAGE value="added lookahead to fundecl" />
     <MESSAGE value="changed == and != to eq" />
     <MESSAGE value="sem analysis passes checked and refactored and tested" />
-    <option name="LAST_COMMIT_MESSAGE" value="sem analysis passes checked and refactored and tested" />
+    <MESSAGE value="fixed escape characters" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed escape characters" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java</url>
-          <line>218</line>
-          <properties class="sem.NameAnalysisVisitor" method="visitSizeOfExpr">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="82" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>177</line>
-          <properties class="gen.CodeGenerator" method="visitVarExpr">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="100" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>556</line>
-          <properties class="gen.CodeGenerator" method="visitAssign">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="101" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>444</line>
-          <properties class="gen.CodeGenerator" method="visitTypecastExpr">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="102" />
+          <line>108</line>
+          <option name="timeStamp" value="105" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>235</line>
-          <option name="timeStamp" value="99" />
+          <line>264</line>
+          <option name="timeStamp" value="108" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
+          <line>210</line>
+          <properties class="gen.CodeGenerator" method="visitFunCallExpr">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="111" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="freeRegs" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ct_19_20$sem_match.ic" NAME="sem match Coverage Results" MODIFIED="1571778523160" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

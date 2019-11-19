@@ -1,10 +1,96 @@
-char c;
-char d;
+#include "minic-stdlib.h"
+
+struct s {
+    int age;
+    char gender;
+    int number;
+    int intArr[3];
+    char charArr[17];
+};
+
+void foo(struct s k) {
+    print_c(k.charArr[0]);
+    print_c(k.charArr[1]);
+    print_c(k.charArr[2]);
+    print_c(k.charArr[3]);
+    print_c(k.charArr[4]);
+    print_c(k.charArr[5]);
+    print_c(k.charArr[6]);
+    print_c(k.charArr[7]);
+    print_c(k.charArr[8]);
+    print_c(k.charArr[9]);
+    print_c(k.charArr[10]);
+    print_c(k.charArr[11]);
+    print_c(k.charArr[12]);
+    print_c(k.charArr[13]);
+    print_c(k.charArr[14]);
+    print_c(k.charArr[15]);
+    print_c(k.charArr[16]);
+}
 
 int main() {
-    c = 'A';
-    d = c;
+//    int size = sizeof(void);
+//    print_i(size);
+
+    struct s k;
+
+    k.age = 20;
+    k.gender = 'M';
+    k.number = 50;
+    k.intArr[0] = 1;
+    k.intArr[1] = 2;
+    k.intArr[2] = 3;
+    k.charArr[0] = 'A';
+    k.charArr[1] = 'B';
+    k.charArr[2] = 'C';
+    k.charArr[3] = 'D';
+    k.charArr[4] = 'E';
+    k.charArr[5] = 'F';
+    k.charArr[6] = 'G';
+    k.charArr[7] = 'H';
+    k.charArr[8] = 'I';
+    k.charArr[9] = 'J';
+    k.charArr[10] = 'K';
+    k.charArr[11] = 'L';
+    k.charArr[12] = 'M';
+    k.charArr[13] = 'N';
+    k.charArr[14] = 'O';
+    k.charArr[15] = 'P';
+    k.charArr[16] = 'Q';
+
+
+//    print_c(k.charArr[0]);
+//    print_c(k.charArr[1]);
+//    print_c(k.charArr[2]);
+//    print_c(k.charArr[3]);
+//    print_c(k.charArr[4]);
+//    print_c(k.charArr[5]);
+//    print_c(k.charArr[6]);
+//    print_c(k.charArr[7]);
+//    print_c(k.charArr[8]);
+//    print_c(k.charArr[9]);
+//    print_c(k.charArr[10]);
+//    print_c(k.charArr[11]);
+//    print_c(k.charArr[12]);
+//    print_c(k.charArr[13]);
+//    print_c(k.charArr[14]);
+//    print_c(k.charArr[15]);
+//    print_c(k.charArr[16]);
+
+
+//    print_s((char*) k.charArr);
+
+    foo(k);
 }
+
+
+//char c;
+//char d;
+//
+//int main() {
+//    c = 'A';
+//    d = c;
+//}
 
 
 //int foo(int a, int b, int c, int d, int e){

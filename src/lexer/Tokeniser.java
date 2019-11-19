@@ -162,19 +162,12 @@ public class Tokeniser {
                 // escape character is paired with the character to escape, so
                 // deal with them both at the same time to avoid complications
                 if (c == '\\') {
-                    try {
-                        c = scanner.next();
+                    List<Character> specialChars = Arrays.asList('t', 'b', 'n', 'r', 'f', '\'', '\"', '\\', '0');
 
-                        if (c == 't') sb.append('\t');
-                        else if (c == 'b') sb.append('\b');
-                        else if (c == 'n') sb.append('\n');
-                        else if (c == 'r') sb.append('\r');
-                        else if (c == 'f') sb.append('\f');
-                        else if (c == '\'') sb.append('\'');
-                        else if (c == '\"') sb.append('\"');
-                        else if (c == '\\') sb.append('\\');
-                        else if (c == '0') sb.append('\0');
-                        else {
+                    try {
+                        sb.append(c);
+                        c = scanner.next();
+                        if (!specialChars.contains(c)) {
                             // illegal escape character
                             error(c, line, column);
                             return new Token(TokenClass.INVALID, sb.toString(), line, column);
@@ -184,10 +177,9 @@ public class Tokeniser {
                         error(c, line, column);
                         return new Token(TokenClass.INVALID, sb.toString(), line, column);
                     }
-                } else {
-                    sb.append(c);
                 }
 
+                sb.append(c);
                 try { c = scanner.next(); }
                 catch (EOFException e) {
                     // unterminated string, return immediately
@@ -228,33 +220,16 @@ public class Tokeniser {
                 // character to escape - deal with them both
                 // at the same time to avoid complications
                 if (c == '\\') {
-                    try {
-                        // skip escape character
-                        c = scanner.next();
-
-                        if (c == 't') sb.append('\t');
-                        else if (c == 'b') sb.append('\b');
-                        else if (c == 'n') sb.append('\n');
-                        else if (c == 'r') sb.append('\r');
-                        else if (c == 'f') sb.append('\f');
-                        else if (c == '\'') sb.append('\'');
-                        else if (c == '\"') sb.append('\"');
-                        else if (c == '\\') sb.append('\\');
-                        else if (c == '0') sb.append('\0');
-                        else {
-                            // illegal escape character
-                            error(c, line, column);
-                            return new Token(TokenClass.INVALID, sb.toString(), line, column);
-                        }
-                    }
+                    // skip escape character
+                    sb.append(c);
+                    try { c = scanner.next(); }
                     catch (EOFException e) {
                         error(c, line, column);
                         return new Token(TokenClass.INVALID, sb.toString(), line, column);
                     }
-                } else {
-                    sb.append(c);
                 }
 
+                sb.append(c);
                 try { c = scanner.next(); }
                 catch (EOFException e) {
                     error(c, line, column);
@@ -262,8 +237,12 @@ public class Tokeniser {
                 }
             }
 
-            // handle regular characters first
-            if (sb.toString().length() == 1) { return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column); }
+            // handle special characters first
+            List<String> specialChars = Arrays.asList("\\t", "\\b", "\\n", "\\r", "\\f",
+                    "\\'", "\\\"", "\\\\", "\\0");
+            if (specialChars.contains(sb.toString())) { return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column); }
+            // then regular characters
+            else if (sb.toString().length() == 1) { return new Token(TokenClass.CHAR_LITERAL, sb.toString(), line, column); }
             // then errors
             else {
                 error(c, line, column);

@@ -1,94 +1,168 @@
 .data
 
-str0: .asciiz "First "
-str1: .asciiz " terms of Fibonacci series are : "
-str2: .asciiz " "
+str0: .asciiz "Enter value to find\n"
+str1: .asciiz "found.\n"
+str2: .asciiz "Not found!\n"
 
 .text
 
 
+### entering visit fundecl
 .globl main
 main:
 move $fp,$sp
-addi $sp,$sp,-24
+subi $sp,$sp,40
+li $t9,5
+sw $t9,-16($fp)
+li $t9,10
+li $t8,0
+la $s7,-24($fp)
+mul $t8,$t8,4
+sub $s7,$s7,$t8
+sw $t9,($s7)
+li $t9,20
+li $s7,1
+la $t8,-24($fp)
+mul $s7,$s7,4
+sub $t8,$t8,$s7
+sw $t9,($t8)
+li $t9,30
+li $t8,2
+la $s7,-24($fp)
+mul $t8,$t8,4
+sub $s7,$s7,$t8
+sw $t9,($s7)
+li $t9,40
+li $s7,3
+la $t8,-24($fp)
+mul $s7,$s7,4
+sub $t8,$t8,$s7
+sw $t9,($t8)
+li $t9,50
+li $t8,4
+la $s7,-24($fp)
+mul $t8,$t8,4
+sub $s7,$s7,$t8
+sw $t9,($s7)
 
+### entering visit funcall expr
+la $t9 str0
+li $v0,4
+move $a0,$t9
+syscall
+
+### entering visit funcall expr
 li $v0,5
 syscall
 move $t9,$v0
-sw $t9,0($fp)
-li $t8,0
-sw $t8,-4($fp)
+sw $t9,-20($fp)
+li $t9,0
+sw $t9,-4($fp)
+lw $t9,-16($fp)
 li $s7,1
-sw $s7,-8($fp)
+sub $t8 $t9 $s7
+sw $t8,-8($fp)
+lw $t8,-4($fp)
+lw $s7,-8($fp)
+add $t9 $t8 $s7
+li $s7,2
+div $t9,$s7
+mflo $t8
+sw $t8,-12($fp)
 
-la $s6 str0
-li $v0 4
-move $a0 $s6
-syscall
-
-lw $s6,0($fp)
-li $v0 1
-move $a0 $s6
-syscall
-
-la $s6 str1
-li $v0 4
-move $a0 $s6
-syscall
-li $s6,0
-sw $s6,-16($fp)
-
-lw $s5,-16($fp)
-lw $s4,0($fp)
-slt $s3,$s5,$s4
-beqz $s3,while_end0
+### entering visit while
+lw $t8,-4($fp)
+lw $s7,-8($fp)
+sle $t9,$t8,$s7
+beqz $t9,while_end0
 while_body0:
-addi $sp,$sp,0
+subi $sp,$sp,0
 
-lw $s3,-16($fp)
-li $s4,1
-sle $s5,$s3,$s4
-beqz $s5,if_else0
-lw $s5,-16($fp)
-sw $s5,-12($fp)
+### entering visit if
+
+lw $t9,-12($fp)
+la $s7,-24($fp)
+mul $t9,$t9,4
+sub $s7,$s7,$t9
+lw $t9,($s7)
+
+lw $s7,-20($fp)
+slt $t8,$t9,$s7
+beqz $t8,if_else0
+lw $t8,-12($fp)
+li $s7,1
+add $t9 $t8 $s7
+sw $t9,-4($fp)
 j if_end0
 if_else0:
-addi $sp,$sp,0
-lw $s4,-4($fp)
-lw $s3,-8($fp)
-add $s2 $s4 $s3
-sw $s2,-12($fp)
-lw $s3,-8($fp)
-sw $s3,-4($fp)
-lw $s4,-12($fp)
-sw $s4,-8($fp)
+
+### entering visit if
+
+lw $t9,-12($fp)
+la $s7,-24($fp)
+mul $t9,$t9,4
+sub $s7,$s7,$t9
+lw $t9,($s7)
+
+lw $s7,-20($fp)
+seq $t8,$t9,$s7
+beqz $t8,if_else1
 subi $sp,$sp,0
+
+### entering visit funcall expr
+la $t8 str1
+li $v0,4
+move $a0,$t8
+syscall
+li $t8,0
+addi $sp,$sp,40
+move $v0,$t8
+li $v0,10
+syscall
+j if_end1
+if_else1:
+lw $t8,-12($fp)
+li $s7,1
+sub $t9 $t8 $s7
+sw $t9,-8($fp)
+if_end1:
 if_end0:
-
-
-lw $s1,-12($fp)
-li $v0 1
-move $a0 $s1
-syscall
-
-la $s1 str2
-li $v0 4
-move $a0 $s1
-syscall
-lw $s1,-16($fp)
-li $s0,1
-add $t7 $s1 $s0
-sw $t7,-16($fp)
-subi $sp,$sp,0
-lw $s0,-16($fp)
-lw $s1,0($fp)
-slt $t6,$s0,$s1
-beqz $t6,while_end0
+lw $t9,-4($fp)
+lw $s7,-8($fp)
+add $t8 $t9 $s7
+li $s7,2
+div $t8,$s7
+mflo $t9
+sw $t9,-12($fp)
+lw $t9,-4($fp)
+lw $s7,-8($fp)
+sle $t8,$t9,$s7
+beqz $t8,while_end0
 j while_body0
 while_end0:
 
-subi $sp,$sp,-24
+
+### entering visit if
+lw $t8,-4($fp)
+lw $s7,-8($fp)
+sgt $t9,$t8,$s7
+beqz $t9,if_else2
+
+### entering visit funcall expr
+la $t9 str2
+li $v0,4
+move $a0,$t9
+syscall
+j if_end2
+if_else2:
+if_end2:
+li $t9,0
+addi $sp,$sp,40
+move $v0,$t9
+li $v0,10
+syscall
 func_main_end:
+addi $sp,$sp,40
 li $v0 10
 syscall
 

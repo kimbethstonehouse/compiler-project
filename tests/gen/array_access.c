@@ -1,11 +1,36 @@
+struct s {
+    char p[4];
+    int x;
+    int q[11];
+};
 int a[14];
 
 void main() {
     int c[10];
     char b[12];
+    int* d[17];
+    struct s str;
+    char f;
 
-    a[1];
-    b[5];
+    a[1] = 1;
+    b[5] = 'C';
+
+    // should print 1
+    print_i(a[1]);
+    // should print C
+    print_c(b[5]);
+
+    // should print 900
+    c[6] = 900;
+    print_i(c[6]);
+
+    // should print D
+    str.p[2] = 'D';
+    print_c(str.p[2]);
+
+    // should print D
+    f = str.p[2];
+    print_c(f);
 }
 
 //.data
