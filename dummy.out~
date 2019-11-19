@@ -16,13 +16,13 @@ li $t9,'F'
 la $t8,-4($fp)
 sub $t8,$t8,4
 sw $t9,($t8)
-
 la $t9,-4($fp)
 lw $t8,0($t9)
-
-sw $t8,12($fp)
+sw $t8,0($fp)
 lw $t8,4($t9)
-sw $t8,8($fp)
+sw $t8,0($fp)
+lw $t8,8($t9)
+sw $t8,0($fp)
 move $v0,$t9
 j func_foo_end
 func_foo_end:
@@ -41,40 +41,13 @@ sw $fp,0($sp)
 addi $sp,$sp,-4
 sw $ra,0($sp)
 jal func_foo_start
+move $t9,$v0
 addi $sp,$sp,8
 addi $sp,$sp,0
 lw $ra,0($sp)
 subi $sp,$sp,-4
 lw $fp,0($sp)
 subi $sp,$sp,-4
-move $t9,$sp
-la $t8,-4($fp)
-lw $s7,0($t9)
-sw $s7,0($t8)
-lw $s7,4($t9)
-sw $s7,4($t8)
-lw $s7,8($t9)
-sw $s7,8($t8)
-
-### entering visit funcall expr
-
-la $t9,-4($fp)
-sub $t9,$t9,0
-lw $t8,($t9)
-
-li $v0,1
-move $a0,$t8
-syscall
-
-### entering visit funcall expr
-
-la $t8,-4($fp)
-sub $t8,$t8,4
-lw $t9,($t8)
-
-li $v0,11
-move $a0,$t9
-syscall
 func_main_end:
 li $v0 10
 syscall

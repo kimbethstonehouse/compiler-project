@@ -18,6 +18,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     private Stack<Register> freeRegs = new Stack<Register>();
     private int totalSize;       // tracks how much offset from the frame pointer is
     private int frameOffset;          // tracks the offset at which the next variable can be stored
+    private int returnOffset;           // tracks where on the stack the return should go
     // needed for the local variables encountered so far
     private int numWhiles = 0;       // number of while loops or if statements encountered
     private int numIfs = 0;          // so far, used for generating unique labels
@@ -116,15 +117,14 @@ public class CodeGenerator implements ASTVisitor<Register> {
             vd.offset = paramOffset;
         }
 
+        // set return offset
+        if (p.type != BaseType.VOID) returnOffset = paramOffset + dataAlloc.getTypeSize(p.type);
+
         // allocate local variables
         p.block.accept(this);
 
-        // push return
-
-        // end - in case of no return statement
+        // end - return jumps to here
         writer.printf("func_%s_end:\n", p.name);
-        // deallocate local variables
-        writer.printf("addi $sp,$sp,%s\n", totalSize);
 
         if (p.name.equals("main")) {
             writer.println("li $v0 10");
@@ -140,11 +140,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
-    public Register visitPointerType(PointerType pt) {
-        // TODO return address for array access expr - maybe this is
-        // TODO handled in varexpr and maybe it doesnt even make sense
-        return null;
-    }
+    public Register visitPointerType(PointerType pt) { return null; }
 
     @Override
     public Register visitStructType(StructType st) {
@@ -152,11 +148,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
-    public Register visitArrayType(ArrayType at) {
-
-        // TODO-maybe covered in varexpr, return address for array access expr
-        return null;
-    }
+    public Register visitArrayType(ArrayType at) { return null; }
 
     // EXPR
     @Override
@@ -205,9 +197,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
-    // TODO: stack isn't being returned to the order it was in before call
-    // something is not being allocated or deallocated correctly
-    // check funcall.fundecl and local block allocations
     public Register visitFunCallExpr(FunCallExpr fce) {
         writer.println();
         writer.println("### entering visit funcall expr");
@@ -235,6 +224,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // 1. PRECALL
 
+        // push space for the return value
+        int returnSize = dataAlloc.getAlignedTypeSize(fce.fd.type);
+        writer.printf("subi $sp,$sp,%s\n", returnSize);
+
         // push fp
         writer.println("addi $sp,$sp,-4");
         writer.println("sw $fp,0($sp)");
@@ -243,7 +236,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         writer.println("addi $sp,$sp,-4");
         writer.println("sw $ra,0($sp)");
 
-//        // TODO: push caller saves
+        // push caller saves
         for (Register reg : Register.tmpRegs) {
             if (!freeRegs.contains(reg)) {
                 writer.println("addi $sp,$sp,-4");
@@ -267,8 +260,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 StructType struct = ((StructType) arg.type);
                 int size = struct.std.structSize;
 
-//                if (arg.type instanceof ArrayType) size = ((ArrayType) arg.type).size;
-
                 // so they are copied to the stack word by word
                 if (arg instanceof VarExpr && ((VarExpr) arg).vd.isGlobal) {
                     for (int offset = 0; offset <= size - 4; offset += 4) {
@@ -283,7 +274,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
                         writer.printf("sw %s,0($sp)\n", temp);
                     }
                 }
-
 
                 argsSpace += size;
                 freeRegister(temp);
@@ -300,28 +290,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
         // callee
         writer.printf("jal func_%s_start\n", fce.name);
 
-
         // 2. POSTRETURN
 
-        // move return value
-        Register returnReg = getRegister();
-        writer.printf("move %s,$v0\n", returnReg);
-
-        // pop return
-        // TODO: if return is larger than a reg, returning an address - is this correct?
-//        if (fce.type instanceof StructType) {
-//            // return the address of the array or struct on the stack
-//            writer.printf("mv %s,$sp\n", returnReg);
-//            // TODO: how to return struct?
-//            // TODO: in this case, the ra fp will be in the wrong place
-//        } else if (fce.type == BaseType.CHAR || fce.type == BaseType.INT
-//                || fce.type instanceof PointerType) {
-//            // load the value and decrement the stack pointer
-//            writer.printf("lw %s,0($sp)\n", returnReg);
-//            writer.println("subi $sp,$sp,-4");
-//        }
-
-
+        // deallocate local variables
+        writer.printf("addi $sp,$sp,%s\n", totalSize);
 
         // pop args
         writer.printf("addi $sp,$sp,%s\n", argsSpace);
@@ -329,7 +301,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         // pop caller saves
         for (int i = Register.tmpRegs.size() - 1; i >= 0; i--) {
             Register reg = Register.tmpRegs.get(i);
-            if (!freeRegs.contains(reg) && !reg.equals(returnReg)) {
+            if (!freeRegs.contains(reg)) { // && !reg.equals(returnReg)
                 writer.printf("lw %s,0($sp)\n", Register.tmpRegs.get(i));
                 writer.println("subi $sp,$sp,-4");
             }
@@ -343,6 +315,9 @@ public class CodeGenerator implements ASTVisitor<Register> {
         writer.println("lw $fp,0($sp)");
         writer.println("subi $sp,$sp,-4");
 
+        // move return value
+        Register returnReg = getRegister();
+        writer.printf("move %s,$sp\n", returnReg);
 
         return returnReg;
     }
@@ -355,7 +330,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
         Register resultReg = getRegister();
 
         switch (bo.op) {
-            // TODO: maybe change to positional encoding
             case ADD:
                 writer.printf("add %s %s %s\n", resultReg, lhsReg, rhsReg);
                 break;
@@ -525,9 +499,6 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         for (Stmt stmt : b.stmts) { stmt.accept(this); }
 
-//        // move sp back after variable scope ends
-//        writer.printf("subi $sp,$sp,%s\n", blockOffset);
-//        currentOffset -= blockOffset;
         return null;
     }
 
@@ -618,10 +589,27 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
         // store the result in the variable
         if (a.lhs instanceof VarExpr) {
-            VarExpr v = ((VarExpr) a.lhs);
+            // register holds the address of the
+            // struct type so copy it over
+            if (a.lhs.type instanceof StructType) {
+                Register addrReg = a.lhs.accept(this);
+                Register temp = getRegister();
+                int size = ((StructType) a.lhs.type).std.structSize;
 
-            if (v.vd.isGlobal) writer.printf("sw %s,%s\n", rhsReg, v.name);
-            else writer.printf("sw %s,%s($fp)\n", rhsReg, v.vd.offset);
+                // so they are copied to the stack word by word
+                for (int offset = 0; offset <= size; offset += 4) {
+                    writer.printf("lw %s,%s(%s)\n", temp, offset, rhsReg);
+                    writer.printf("sw %s,%s(%s)\n", temp, offset, addrReg);
+                }
+
+                freeRegister(temp);
+                freeRegister(addrReg);
+            } else {
+                VarExpr v = ((VarExpr) a.lhs);
+
+                if (v.vd.isGlobal) writer.printf("sw %s,%s\n", rhsReg, v.name);
+                else writer.printf("sw %s,%s($fp)\n", rhsReg, v.vd.offset);
+            }
         // store the result at the address the pointer points to
         } else if (a.lhs instanceof ValueAtExpr) {
             ValueAtExpr vae = ((ValueAtExpr) a.lhs);
@@ -663,44 +651,33 @@ public class CodeGenerator implements ASTVisitor<Register> {
             // evaluate return value
             Register expReg = r.expr.accept(this);
 
-            // deallocate local variables then push return
-            writer.printf("addi $sp,$sp,%s\n", totalSize);
+            // TODO: doesn't currently handle returning structs
+            if (r.expr.type instanceof StructType) {
+                Register temp = getRegister();
+                int size;
+
+                size = ((StructType) r.expr.type).std.structSize;
+
+                // so they are copied to the stack word by word
+                for (int offset = 0; offset < size; offset += 4) {
+                    writer.printf("lw %s,%s(%s)\n", temp, offset, expReg);
+                    writer.printf("sw %s,%s($fp)\n", temp, returnOffset+8-offset);
+                }
+
+                freeRegister(temp);
+            } else {
+                // the register stores the value of ints, pointers and chars
+                writer.println("addi $sp,$sp,-4");
+                writer.printf("sw %s,0($sp)\n", expReg);
+            }
+
+
 
             writer.printf("move $v0,%s\n", expReg);
             freeRegister(expReg);
-
-            // the register stores the address of arrays or structs
-//            if (r.expr.type instanceof ArrayType || r.expr.type instanceof StructType) {
-//                Register temp = getRegister();
-//                int size;
-//
-//                if (r.expr.type instanceof ArrayType) size = ((ArrayType) r.expr.type).size;
-//                else size = ((StructType) r.expr.type).std.structSize;
-//
-//                // so they are copied to the stack word by word
-//                for (int offset = 0; offset <= size; offset += 4) {
-//                    writer.printf("lw %s,%s(%s)\n", temp, offset, expReg);
-//                    writer.println("addi $sp,$sp,-4");
-//                    writer.printf("sw %s,0($sp)\n", temp);
-//                }
-//
-//                freeRegister(temp);
-//            } else {
-//                // the register stores the value of ints, pointers and chars
-//                writer.println("addi $sp,$sp,-4");
-//                writer.printf("sw %s,0($sp)\n", expReg);
-//            }
-
-        } else {
-            // void function, so just deallocate local variables
-            writer.printf("addi $sp,$sp,%s\n", totalSize);
         }
 
-        // return
-        if (currentFuncName.equals("main")) {
-            writer.println("li $v0,10");
-            writer.println("syscall");
-        } else writer.println("jr $ra");
+        writer.printf("j func_%s_end\n", currentFuncName);
         return null;
     }
 
