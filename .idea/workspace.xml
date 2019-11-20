@@ -2,14 +2,36 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Mars4_5.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out.asm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/recursive_factorial.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/gen/recursive_fibonacci.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dummy.out" beforeDir="false" afterPath="$PROJECT_DIR$/dummy.out" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gen/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/gen/recursive.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/recursive.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen/DataAllocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/DataAllocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/array_access.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/array_access.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/chr_literal.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/chr_literal.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_array_alignment.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_array_alignment.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_duplicate_str.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_duplicate_str.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_multiple_str.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_multiple_str.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_self_refer.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_self_refer.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/data_alloc_structs_vars.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/data_alloc_structs_vars.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/field_access.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/field_access.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/funcall_structs.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/funcall_structs.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/int_literal.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/int_literal.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/library_functions.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/library_functions.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/old_fieldacc.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/q.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/recursive.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/size_of.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/size_of.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/str_literal.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/str_literal.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/gen/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/test.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/gen/while.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/gen/while.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,7 +70,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.gen recursive">
+  <component name="RunManager" selected="Application.gen fields">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
@@ -68,6 +90,14 @@
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ct-19-20" />
       <option name="PROGRAM_PARAMETERS" value="-ast tests/parser/fibonacci.c fibonacci.c-ast-dump" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="gen fields" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="ct-19-20" />
+      <option name="PROGRAM_PARAMETERS" value="-gen tests/gen/field_access.c dummy.out" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -142,6 +172,7 @@
       <item itemvalue="Application.sem fibonacci" />
       <item itemvalue="Application.sem test" />
       <item itemvalue="Application.gen recursive" />
+      <item itemvalue="Application.gen fields" />
       <item itemvalue="Application.gen struct" />
       <item itemvalue="Application.sem q" />
       <item itemvalue="Application.sem tictactoe" />
@@ -218,24 +249,16 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>248</line>
+          <line>256</line>
           <option name="timeStamp" value="108" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>196</line>
-          <properties class="gen.CodeGenerator" method="visitFunCallExpr">
+          <line>427</line>
+          <properties class="gen.CodeGenerator" method="visitArrayAccessExpr">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="111" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/gen/CodeGenerator.java</url>
-          <line>642</line>
-          <properties class="gen.CodeGenerator" method="visitReturn">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="112" />
+          <option name="timeStamp" value="119" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -247,5 +270,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ct_19_20$sem_match.ic" NAME="sem match Coverage Results" MODIFIED="1571778523160" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/ct_19_20$gen_test.ic" NAME="gen test Coverage Results" MODIFIED="1574202564904" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/ct_19_20$gen_fields.ic" NAME="gen fields Coverage Results" MODIFIED="1574209820740" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

@@ -41,6 +41,5 @@ void main() {
     size = sizeof(void);
     print_i(size);
 
-    size = sizeof(int* a[10])
-
+//    size = sizeof(int* a[10])
 }

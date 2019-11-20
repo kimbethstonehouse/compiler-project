@@ -44,7 +44,7 @@ public class DataAllocation implements ASTVisitor<Void> {
     public Void visitVarDecl(VarDecl vd) {
         // global variables go in the static storage area (.data)
         int size = getAlignedTypeSize(vd.type);
-        writer.printf("%s: .word %s\n", vd.varName, size / 4);
+        writer.printf("%s: .space %s\n", vd.varName, size);
         // record the variable as global
         vd.isGlobal = true;
         return null;

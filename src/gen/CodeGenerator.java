@@ -5,6 +5,7 @@ import ast.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.lang.reflect.Field;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
@@ -21,6 +22,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
     private int returnOffset;           // tracks where on the stack the return should go
     private int numWhiles = 0;          // number of while loops or if statements encountered so far
     private int numIfs = 0;
+    private int numAnds = 0;
+    private int numOrs = 0;
     private String currentFuncName;     // the name of the current function
 
     public CodeGenerator() {
@@ -71,11 +74,13 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // StructTypeDecl ::= StructType VarDecl*
     public Register visitStructTypeDecl(StructTypeDecl st) {
         return null;
     }
 
     @Override
+    // VarDecl ::= Type String
     public Register visitVarDecl(VarDecl vd) {
         vd.offset = frameOffset;
         // increment frame offset by size of the variable's type
@@ -89,7 +94,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     // FunDecl ::= Type String VarDecl* Block
     public Register visitFunDecl(FunDecl p) {
         writer.println();
-        writer.println("### entering visit fundecl");
+        writer.printf("### entering visit fundecl %s\n", p.name);
         currentFuncName = p.name;
 
         if (p.name.equals("main")) {
@@ -149,6 +154,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     // EXPR
     @Override
+    // IntLiteral ::= int
     public Register visitIntLiteral(IntLiteral il) {
         Register reg = getRegister();
         writer.printf("li %s,%s\n", reg, il.i);
@@ -156,7 +162,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
-    // TODO: is this right?
+    // StrLiteral ::= String
     public Register visitStrLiteral(StrLiteral sl) {
         // returns the address of the string
         Register reg = getRegister();
@@ -165,6 +171,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // ChrLiteral ::= char
     public Register visitChrLiteral(ChrLiteral cl) {
         Register reg = getRegister();
         if (cl.isEscape) writer.printf("li %s,'\\%s'\n", reg, cl.c);
@@ -194,9 +201,10 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // FunCallExpr ::= String Expr*
     public Register visitFunCallExpr(FunCallExpr fce) {
         writer.println();
-        writer.println("### entering visit funcall expr");
+        writer.printf("### entering visit funcall expr %s\n", fce.fd.name);
 
         // library functions
         if (fce.name.equals("print_s")) {
@@ -233,7 +241,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
         writer.println("sw $ra,0($sp)");
 
         // push callee saves
-        // todo: this causes issues if the return type is a struct
+        // TODO: this causes issues if the return type is a struct and the registers need saving
         for (Register reg : Register.tmpRegs) {
             if (!freeRegs.contains(reg)) {
                 writer.println("addi $sp,$sp,-4");
@@ -360,48 +368,54 @@ public class CodeGenerator implements ASTVisitor<Register> {
                 writer.printf("seq %s,%s,%s\n", resultReg, lhsReg, rhsReg);
                 break;
             case OR:
+                int n = numOrs;
+                numOrs++;
+
                 // short circuit evaluation
                 // if lhs is true, whole expr is true
-                writer.printf("bnez %s,or_true\n", lhsReg);
+                writer.printf("bnez %s,or_%s_true\n", lhsReg, n);
                 // if rhs is true, whole expr is true
-                writer.printf("bnez %s,or_true\n", rhsReg);
+                writer.printf("bnez %s,or_%s_true\n", rhsReg, n);
                 // if neither true, the statement is false
-                writer.printf("b or_false\n");
+                writer.printf("b or_%s_false\n", n);
 
                 // code for what to in the case of true and false
-                writer.println("or_true:");
+                writer.printf("or_%s_true:\n", n);
                 // set result to 1 and finish
                 writer.printf("li %s,1\n", resultReg);
-                writer.printf("b or_end");
+                writer.printf("b or_%s_end\n", n);
 
-                writer.println("or_false:");
+                writer.printf("or_%s_false:\n", n);
                 // set result to 0 and finish
                 writer.printf("li %s,0\n", resultReg);
 
                 writer.println();
-                writer.println("or_end:");
+                writer.printf("or_%s_end:\n", n);
                 break;
             case AND:
+                n = numAnds;
+                numAnds++;
+
                 // short circuit evaluation
                 // if lhs is false, whole expr is false
-                writer.printf("beqz %s,and_false\n", lhsReg);
+                writer.printf("beqz %s,and_%s_false\n", lhsReg, n);
                 // if rhs is false, jump to false
-                writer.printf("beqz %s,and_false\n", rhsReg);
+                writer.printf("beqz %s,and_%s_false\n", rhsReg, n);
                 // if neither false, the statement is true
-                writer.printf("b and_true\n");
+                writer.printf("b and_%s_true\n", n);
 
                 // code for what to in the case of true and false
-                writer.println("and_true:");
+                writer.printf("and_%s_true:\n", n);
                 // set result to 1 and finish
                 writer.printf("li %s,1\n", resultReg);
-                writer.printf("b and_end");
+                writer.printf("b and_%s_end\n", n);
 
-                writer.println("and_false:");
+                writer.printf("and_%s_false:\n", n);
                 // set result to 0 and finish
                 writer.printf("li %s,0\n", resultReg);
 
                 writer.println();
-                writer.println("and_end:");
+                writer.printf("and_%s_end:\n", n);
         }
 
         freeRegister(lhsReg);
@@ -410,16 +424,16 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
-    // TODO: check this
+    // ArrayAccessExpr ::= Expr Expr
     public Register visitArrayAccessExpr(ArrayAccessExpr aae) {
-        writer.println();
+        writer.println("### entering array access expression");
         String loadInstruct;
         Type baseType;
 
         Register addrReg = getArrayAccessAddress(aae);
         Register resultReg = getRegister();
 
-        // arr can be either an array or a pointer
+        // arr can either be an array or a pointer
         if (aae.arr.type instanceof ArrayType) baseType = (((ArrayType) aae.arr.type).baseType);
         else baseType = (((PointerType) aae.arr.type).baseType);
 
@@ -427,21 +441,40 @@ public class CodeGenerator implements ASTVisitor<Register> {
         else loadInstruct = "lw";
 
         writer.printf("%s %s,(%s)\n", loadInstruct, resultReg, addrReg);
-
         freeRegister(addrReg);
+
         writer.println();
         return resultReg;
     }
 
     @Override
-    // TODO: check this
+    // FieldAccessExpr ::= Expr String
     public Register visitFieldAccessExpr(FieldAccessExpr fae) {
-        writer.println();
+        writer.println("### entering field access expression");
 
         Register fieldAddress = getFieldAccessAddress(fae);
         Register resultReg = getRegister();
+        Type fieldType = BaseType.INT;
 
-        writer.printf("lw %s,(%s)\n", resultReg, fieldAddress);
+        if (fae.struct instanceof VarExpr) {
+            VarExpr ve = ((VarExpr) fae.struct);
+            StructType structType = ((StructType) ve.vd.type);
+
+            for (VarDecl vd : structType.std.varDecls) if (vd.varName.equals(fae.fieldName)) fieldType = vd.type;
+        } else if (fae.struct instanceof ValueAtExpr) {
+            ValueAtExpr vae = ((ValueAtExpr) fae.struct);
+            VarExpr ve = ((VarExpr) vae.expr);
+            PointerType pt = ((PointerType) ve.type);
+            StructType structType = (StructType) pt.baseType;
+
+            for (VarDecl vd : structType.std.varDecls) if (vd.varName.equals(fae.fieldName)) fieldType = vd.type;
+        }
+
+        // if this is an array or struct, return the address
+        if (fieldType instanceof ArrayType || fieldType instanceof StructType) {
+            writer.printf("la %s,(%s)\n", resultReg, fieldAddress);
+            // else return the value
+        } else writer.printf("lw %s,(%s)\n", resultReg, fieldAddress);
 
         freeRegister(fieldAddress);
         writer.println();
@@ -453,6 +486,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     public Register visitValueAtExpr(ValueAtExpr vae) {
         Register valueReg = getRegister();
         Register addrReg = vae.expr.accept(this);
+
         writer.printf("lw %s,0(%s)\n", valueReg, addrReg);
         freeRegister(addrReg);
         return valueReg;
@@ -497,6 +531,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // While ::= Expr Stmt
     public Register visitWhile(While w) {
         // CONTROL FLOW
         // PRE TEST
@@ -542,6 +577,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // If ::= Expr Stmt [Stmt]
     public Register visitIf(If i) {
         // CONTROL FLOW
         // 1. evaluate condition
@@ -577,20 +613,19 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
-    // TODO: check this
+    // Assign ::= Expr Expr
     public Register visitAssign(Assign a) {
         Register rhsReg = a.rhs.accept(this);
 
         // store the result in the variable
         if (a.lhs instanceof VarExpr) {
-            // register holds the address of the
-            // struct type so copy it over
+            // the register holds the address of the struct type
             if (a.lhs.type instanceof StructType) {
                 Register addrReg = a.lhs.accept(this);
                 Register temp = getRegister();
                 int size = ((StructType) a.lhs.type).std.structSize;
 
-                // so they are copied to the stack word by word
+                // so copy it over word by word
                 for (int offset = 0; offset <= size; offset += 4) {
                     writer.printf("lw %s,%s(%s)\n", temp, -offset, rhsReg);
                     writer.printf("sw %s,%s(%s)\n", temp, -offset, addrReg);
@@ -607,8 +642,8 @@ public class CodeGenerator implements ASTVisitor<Register> {
         // store the result at the address the pointer points to
         } else if (a.lhs instanceof ValueAtExpr) {
             ValueAtExpr vae = ((ValueAtExpr) a.lhs);
-
             Register addrReg = vae.expr.accept(this);
+
             writer.printf("sw %s,0(%s)\n", rhsReg, addrReg);
             freeRegister(addrReg);
         } else if (a.lhs instanceof ArrayAccessExpr) {
@@ -640,19 +675,17 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // Return ::= [Expr]
     public Register visitReturn(Return r) {
         if (r.expr != null) {
             // evaluate return value
             Register expReg = r.expr.accept(this);
 
-            // TODO: doesn't currently handle returning structs
             if (r.expr.type instanceof StructType) {
                 Register temp = getRegister();
-                int size;
+                int size = ((StructType) r.expr.type).std.structSize;
 
-                size = ((StructType) r.expr.type).std.structSize;
-
-                // so they are copied to the stack word by word
+                // copy to the stack word by word
                 for (int offset = 0; offset < size; offset += 4) {
                     writer.printf("lw %s,%s(%s)\n", temp, -offset, expReg);
                     writer.printf("sw %s,%s($fp)\n", temp, returnOffset-offset);
@@ -660,11 +693,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
                 freeRegister(temp);
             } else {
-                // the register stores the value of ints, pointers and chars
-//                writer.println("addi $sp,$sp,-4");
-//                writer.printf("sw %s,0($sp)\n", expReg);
-//                writer.printf("sw %s,%s($fp)\n", expReg, returnOffset);
-//                writer.printf("lw $v0,0($sp)\n");
+                // store in the return register
                 writer.printf("move $v0,%s\n", expReg);
             }
 
@@ -676,17 +705,14 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     @Override
+    // ExprStmt ::= Expr
     public Register visitExprStmt(ExprStmt es) {
         es.expr.accept(this);
         return null;
     }
 
     @Override
-    public Register visitErrorType(ErrorType et) {
-        return null;
-    }
-
-    // the register contains the integer
+    public Register visitErrorType(ErrorType et) { return null; }
 
     // HELPER FUNCTIONS
     // void print_s(const char* s)
@@ -700,6 +726,7 @@ public class CodeGenerator implements ASTVisitor<Register> {
 
     // void print_i(int i)
     private void print_i(Register argRegister) {
+        // the register contains the integer
         writer.println("li $v0,1");
         writer.printf("move $a0,%s\n", argRegister);
         writer.println("syscall");
@@ -746,65 +773,57 @@ public class CodeGenerator implements ASTVisitor<Register> {
     }
 
     private Register getArrayAccessAddress(ArrayAccessExpr aae) {
-        Register arrReg;
+        Register arrReg = aae.arr.accept(this);
         Register idxReg = aae.idx.accept(this);
-        int typeSize = dataAlloc.getTypeSize(((ArrayType) aae.arr.type).baseType);
-        // all structs are global so this is initially assumed true
-        // TODO: no they fucking aren't jesus
-        boolean isGlobal = false;
+        int typeSize;
 
-
-        // TODO: what about field access?
-
-        // TODO: value at ?
-
-        // TODO: do we allow pointers to arrays? if so, how?
-
-        if (aae.arr instanceof FieldAccessExpr) arrReg = getFieldAccessAddress((FieldAccessExpr) aae.arr);
-        else arrReg = aae.arr.accept(this);
-
+        // TODO: endianness is wrong for struct character arrays
+        if (aae.arr.type instanceof ArrayType) typeSize = dataAlloc.getTypeSize(((ArrayType) aae.arr.type).baseType);
+        else typeSize = dataAlloc.getTypeSize(((PointerType) aae.arr.type).baseType);
         writer.printf("mul %s,%s,%s\n", idxReg, idxReg, typeSize);
-        // if the array is global the address will be stored in the data segment
-        if (aae.arr instanceof VarExpr) isGlobal = (((VarExpr) aae.arr).vd.isGlobal);
 
-        // tODO: endianness?
-        if (isGlobal) writer.printf("add %s,%s,%s\n", arrReg, arrReg, idxReg);
-//        else if (typeSize == 1) {
-//            Register remReg = getRegister();
-//            Register divOp = getRegister();
-//
-//            // endianness
-//            writer.printf("li %s,4\n", divOp);
-//            writer.printf("div %s,%s\n", idxReg, divOp);
-//            freeRegister(divOp);
-//            writer.printf("mflo %s\n", idxReg);
-//            writer.printf("mfhi %s\n", remReg);
-//            writer.printf("sub %s,%s,%s\n", arrReg, arrReg, idxReg);
-//            writer.printf("add %s,%s,%s\n", arrReg, arrReg, remReg);
-//            freeRegister(remReg);
-        else writer.printf("sub %s,%s,%s\n", arrReg, arrReg, idxReg);
+        if (aae.arr instanceof VarExpr) {
+            boolean isGlobal = (((VarExpr) aae.arr).vd.isGlobal);
+            if (isGlobal) writer.printf("add %s,%s,%s\n", arrReg, arrReg, idxReg);
+            else writer.printf("sub %s,%s,%s\n", arrReg, arrReg, idxReg);
+        } else if (aae.arr instanceof FieldAccessExpr) {
+            arrReg = getFieldAccessAddress((FieldAccessExpr) aae.arr);
+            writer.printf("sub %s,%s,%s\n", arrReg, arrReg, idxReg);
+        }
 
         freeRegister(idxReg);
         return arrReg;
     }
 
     private Register getFieldAccessAddress(FieldAccessExpr fae) {
-        Register structReg = fae.struct.accept(this);
+        // base address of the struct
+        Register structAddr = fae.struct.accept(this);
         int offset = 0;
 
-        // TODO: what if this is not varexpr? rerun killer, valueat, func.args.c - returning runtime exceptions atm
         // find the offset from the struct for the field
-        // struct can be a variable of type struct
         if (fae.struct instanceof VarExpr) {
-            for (VarDecl vd : ((StructType) (((VarExpr) fae.struct).vd.type)).std.varDecls) {
-                if (vd.varName.equals(fae.fieldName)) offset = vd.offset;
-            }
+            VarExpr ve = ((VarExpr) fae.struct);
+            StructType structType = ((StructType) ve.vd.type);
 
-            if (((VarExpr) fae.struct).vd.isGlobal) writer.printf("add %s,%s,%s\n", structReg, structReg, offset);
+            for (VarDecl vd : structType.std.varDecls) if (vd.varName.equals(fae.fieldName)) offset = vd.offset;
+
+            if (ve.vd.isGlobal) writer.printf("add %s,%s,%s\n", structAddr, structAddr, offset);
                 // local variables are stored on the stack which grows down so we subtract
-            else writer.printf("sub %s,%s,%s\n", structReg, structReg, offset);
+            else writer.printf("sub %s,%s,%s\n", structAddr, structAddr, offset);
+        } else if (fae.struct instanceof ValueAtExpr) {
+            ValueAtExpr vae = ((ValueAtExpr) fae.struct);
+            VarExpr ve = ((VarExpr) vae.expr);
+            PointerType pt = ((PointerType) ve.type);
+            StructType structType = (StructType) pt.baseType;
+
+            for (VarDecl vd : structType.std.varDecls) if (vd.varName.equals(fae.fieldName)) offset = vd.offset;
+            // overwrite value with address
+            Register addrReg = vae.expr.accept(this);
+            writer.printf("la %s,0(%s)\n", structAddr, addrReg);
+            freeRegister(addrReg);
+            writer.printf("sub %s,%s,%s\n", structAddr, structAddr, offset);
         }
 
-        return structReg;
+        return structAddr;
     }
 }

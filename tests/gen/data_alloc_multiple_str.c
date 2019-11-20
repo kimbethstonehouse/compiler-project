@@ -11,8 +11,7 @@ void main() {
         "Jen";
 }
 
-//.data
-//a: .word 1
+//a: .space 4
 //str0: .asciiz "Hello, world!"
 //str1: .asciiz "Jen"
 //str2: .asciiz "Hello"

@@ -1,19 +1,45 @@
+#include "minic-stdlib.h"
+
 struct a {
-    int b;          // 4
-    void* c;        // 4
-    char d;         // 4
-    int e[10];      // 40
-    void* g[1];     // 4
-    char f[10];     // 12
+    int x;
 };
 
-struct a b;
+struct b {
+    int z;
+    struct a a1;
+};
 
 void main() {
-    struct a c;
+    struct b bArr[10];
+    struct a* ia;
+    struct a a2;
+    struct b b2;
 
-    b.b;
-    c.d;
+    // varexpr
+    struct b b1;
+    // PRINT 0
+    b1.z = 0;
+    print_i(b1.z);
 
-    c.g[1];
+    // field access
+    // PRINT 2
+    b1.a1.x = 2;
+    print_i(b1.a1.x);
+
+    a2 = b1.a1;
+    // PRINT 1
+    a2.x = 1;
+    print_i(a2.x);
+
+    // TODO: array access doesn't work
+//    b2 = bArr[1];
+//    b2.z = 2;
+//    print_i(b2.z);
+//
+//    // valueat
+    ia = (struct a*) mcmalloc(sizeof(struct a));
+    (*ia) = a2;
+    // PRINT 3
+    (*ia).x = 3;
+    print_i((*ia).x);
 }

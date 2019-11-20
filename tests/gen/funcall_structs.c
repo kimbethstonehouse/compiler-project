@@ -3,6 +3,13 @@ struct p {
     char gender;
 };
 
+struct g {
+    int age;
+    char gender;
+    int a[3];
+    int b;
+};
+
 struct p foo() {
     struct p s;
     s.age = 11;
@@ -13,47 +20,47 @@ struct p foo() {
 
 void main() {
     struct p s;
+//    struct g m;
+
     s = foo();
 
+    // PRINT 11
     print_i(s.age);
+    // PRINT F
     print_c(s.gender);
+
+    // PRINT
+    // 21
+    // F
+    // 0
+    // 1
+    // 2
+    // 500
+//    m.age = 21;
+//    m.gender = 'F';
+//    m.a[0] = 0;
+//    m.a[1] = 1;
+//    m.a[2] = 2;
+//    m.b = 500;
+//
+//    bar(m);
 }
 
-//struct s {
-//    int age;
-//    char gender;
-//    int a[3];
-//    int b;
-//};
-//
-//void foo(struct s p) {
-//    print_i(p.age);
+//void bar(struct g m) {
+//    print_i(m.age);
 //    print_c('\n');
 //
-//    print_c(p.gender);
+//    print_c(m.gender);
 //    print_c('\n');
 //
-//    print_i(p.a[0]);
+//    print_i(m.a[0]);
 //    print_c('\n');
 //
-//    print_i(p.a[1]);
+//    print_i(m.a[1]);
 //    print_c('\n');
 //
-//    print_i(p.a[2]);
+//    print_i(m.a[2]);
 //    print_c('\n');
 //
-//    print_i(p.b);
-//}
-//
-//void main() {
-//    struct s p;
-//
-//    p.age = 21;
-//    p.gender = 'F';
-//    p.a[0] = 0;
-//    p.a[1] = 1;
-//    p.a[2] = 2;
-//    p.b = 500;
-//
-//    foo(p);
+//    print_i(m.b);
 //}

@@ -5,5 +5,4 @@ struct a {
 
 struct a p;     // 8
 
-//.data
-//p: .word 2
+//p: .space 8
