@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0e6ea3e-f9ed-46ac-b8f4-47a2e58199fb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/gen/DataAllocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/DataAllocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator$RegisterAllocationError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/CodeGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ct-19-20/gen/DataAllocation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sem/NameAnalysisVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ast/test.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ast/test.c" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,10 +31,17 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="#JAVA_INTERNAL" />
+  </component>
   <component name="ProjectId" id="1RxwqnyVqIHnVYcjP5xnKous3it" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">

@@ -1,17 +1,21 @@
-int foo(int a) {
-    int x;
-    x=4;
-    print_i(x);
-    return x;
-}
-
-void a() {
-    return;
-}
-
 void main() {
-    foo(a());
+    "hel\nlo";
 }
+
+//int foo(int a) {
+//    int x;
+//    x=4;
+//    print_i(x);
+//    return x;
+//}
+//
+//void a() {
+//    return;
+//}
+//
+//void main() {
+//    foo(a());
+//}
 
 
 
