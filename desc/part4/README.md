@@ -119,10 +119,10 @@ cmake3 ..
 make
 ```
 
-There should be a shared library for your new pass in src/libMyPass.so. When you compile a program with LLVM it will load your pass and automatically call it. You'll need a C file to use as a test. You can use the test.c you created in Step 0 or create a new file.
+There should be a shared library for your new pass in `src/libMyPass.so`. Use `opt` to load the shared library and invoke the pass with the option `-mypass` . To test the pass use the LLVM bitcode you created in Step 0 or create a new file.
 
 ```
-~/ug3-ct/build/bin/clang -Xclang -load -Xclang src/libMyPass.so ~/ug3-ct/build/test.c
+~/ug3-ct/build/bin/opt -load src/libMyPass.so -mypass test.ll -o test.o
 I saw a function called main!
 ```
 
@@ -186,7 +186,7 @@ SmallVector<Instruction*, 64> Worklist;
 
 You need to run LLVM's `mem2reg` pass before your DCE pass to convert the bitcode into a form that will work with your optimization. Without running `mem2reg` all instructions will store their destinations operands to the stack and load their source operands from the stack. The memory instructions will block the ability for you to discover dead code. When you run `mem2reg`, you are converting the stack allocated code in non-SSA form, into SSA form with virtual registers.
 
-Use the `opt` tool to run `mem2reg` before your DCE pass. Give your pass a command line option called `mypass`.
+Make sure to pass `-mem2reg` to `opt` or your DCE pass will not work!
 
 ```
 ~/ug3-ct/build/bin/clang -S -emit-llvm -Xclang -disable-O0-optnone dead.c
