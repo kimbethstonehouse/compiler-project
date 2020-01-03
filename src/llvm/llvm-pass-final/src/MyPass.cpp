@@ -50,9 +50,3 @@ struct MyPass : public FunctionPass {
 
 char MyPass::ID = 0;
 static RegisterPass<MyPass> X("mypass", "My liveness analysis and dead code elimination pass");
-
-static RegisterStandardPasses Y(
-    PassManagerBuilder::EP_EarlyAsPossible,
-    [](const PassManagerBuilder &Builder,
-       legacy::PassManagerBase &PM) { PM.add(new MyPass()); });
-
