@@ -3,9 +3,9 @@
 
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"
-#include "llvm/Support/raw_ostream.h"
-
+#include "llvm/IR/Instructions.h"
 #include "llvm/IR/LegacyPassManager.h"
+#include "llvm/Support/raw_ostream.h"
 #include "llvm/Transforms/IPO/PassManagerBuilder.h"
 
 using namespace llvm;
@@ -16,9 +16,35 @@ struct MyPass : public FunctionPass {
   MyPass() : FunctionPass(ID) {}
 
   bool runOnFunction(Function &F) override {
-    errs() << "I saw a function called " << F.getName() << "!\n";
-    return false;
+    printLiveness(F);
+    return true;
   }
+  
+  void printLiveness(Function &F) {
+    for (Function::iterator bb = F.begin(), end = F.end(); bb != end; bb++) {
+      for (BasicBlock::iterator i = bb->begin(), e = bb->end(); i != e; i++) {
+        // skip phis
+        if (dyn_cast<PHINode>(i))
+          continue;
+        
+        errs() << "{";
+        
+        /* UNCOMMENT AND ADAPT FOR YOUR "IN" SET
+        auto operatorSet = in[&*i];
+        for (auto oper = operatorSet.begin(); oper != operatorSet.end(); oper++) {
+          auto op = *oper;
+          if (oper != operatorSet.begin())
+            errs() << ", ";
+          (*oper)->printAsOperand(errs(), false);
+        }
+        */
+        
+        errs() << "}\n";
+      }
+    }
+    errs() << "{}\n";
+  }
+  
 };
 }
 
