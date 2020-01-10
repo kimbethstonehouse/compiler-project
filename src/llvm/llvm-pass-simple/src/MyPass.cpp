@@ -18,46 +18,42 @@ using namespace llvm;
 using namespace std;
 
 namespace {
-struct MyPass : public FunctionPass {
-  static char ID;
-  MyPass() : FunctionPass(ID) {}
+  struct MyPass : public FunctionPass {
+    static char ID;
+    MyPass() : FunctionPass(ID) {}
 
-  bool removeDeadInstructions(Function &F) {
-    bool cutInstruction = false;
-    errs() << "Function " << F.getName() << "\n";
-    SmallVector<Instruction*, 64> Worklist;
+    bool removeDeadInstructions(Function &F) {
+      bool cutInstruction = false;
+      errs() << "Function " << F.getName() << "\n";
+      SmallVector<Instruction*, 64> Worklist;
 
-    
+      for (inst_iterator I = inst_begin(F), E = inst_end(F); I!= E; ++I) {
+          if (isInstructionTriviallyDead(&*I)) {
+            // store dead instructions for later elimination
+            Worklist.push_back(&*I);
+            cutInstruction = true;
+          }
+      }
 
-    for (inst_iterator I = inst_begin(F), E = inst_end(F); I!= E; ++I) {
-        if (isInstructionTriviallyDead(&*I)) {
-          // errs() << "found dead instruction\n";
-          // store dead instructions for later elimination
-          Worklist.push_back(&*I);
-          cutInstruction = true;
-        }
+      // eliminate the dead instructions
+      while (!Worklist.empty()) {
+        Instruction* I = Worklist.pop_back_val();
+        I->eraseFromParent();
+      }
+
+      return cutInstruction;
     }
 
-    // eliminate the dead instructions
-    while (!Worklist.empty()) {
-      Instruction* I = Worklist.pop_back_val();
-      // errs() << "removed dead instruction\n";
-      I->eraseFromParent();
+    virtual bool runOnFunction(Function &F) {
+      bool instructionsRemoved = true; 
+
+      while (instructionsRemoved) {
+        instructionsRemoved = removeDeadInstructions(F);
+      }
+
+      return true;
     }
-
-    return cutInstruction;
-  }
-
-  virtual bool runOnFunction(Function &F) {
-    bool instructionsRemoved = true; 
-
-    while (instructionsRemoved) {
-      instructionsRemoved = removeDeadInstructions(F);
-    }
-
-    return false;
-  }
-};
+  };
 }
 
 char MyPass::ID = 0;
