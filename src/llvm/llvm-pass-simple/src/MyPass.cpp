@@ -3,9 +3,13 @@
 //#define DEBUG_TYPE "myPass"
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"
+#include "llvm/IR/InstIterator.h"
+#include "llvm/IR/Instructions.h"
+
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/Transforms/IPO/PassManagerBuilder.h"
+#include "llvm/Transforms/Utils/Local.h"
 
 #include <vector>
 #include <map>
@@ -15,30 +19,42 @@ using namespace std;
 
 namespace {
 struct MyPass : public FunctionPass {
-  map<string, int> opCounter;
   static char ID;
   MyPass() : FunctionPass(ID) {}
-  virtual bool runOnFunction(Function &F) {
-    errs() << "Function " << F.getName() << "\n";
 
-    for (Function::iterator bb = F.begin(), e = F.end(); bb != e; ++bb) {
-      for (BasicBlock::iterator i = bb->begin(), e = bb->end(); i != e; ++i) {
-        if(opCounter.find(i->getOpcodeName()) == opCounter.end()) {
-          opCounter[i->getOpcodeName()] = 1;
-        } else {
-          opCounter[i->getOpcodeName()]++;
+  bool removeDeadInstructions(Function &F) {
+    bool cutInstruction = false;
+    errs() << "Function " << F.getName() << "\n";
+    SmallVector<Instruction*, 64> Worklist;
+
+    
+
+    for (inst_iterator I = inst_begin(F), E = inst_end(F); I!= E; ++I) {
+        if (isInstructionTriviallyDead(&*I)) {
+          // errs() << "found dead instruction\n";
+          // store dead instructions for later elimination
+          Worklist.push_back(&*I);
+          cutInstruction = true;
         }
-      }
     }
 
-    map <string, int>::iterator i = opCounter.begin();
-    map <string, int>::iterator e = opCounter.end();
-    while (i != e) {
-      errs() << i->first << ": " << i->second << "\n";
-      i++;
-    } 
-    errs() << "\n";
-    opCounter.clear();
+    // eliminate the dead instructions
+    while (!Worklist.empty()) {
+      Instruction* I = Worklist.pop_back_val();
+      // errs() << "removed dead instruction\n";
+      I->eraseFromParent();
+    }
+
+    return cutInstruction;
+  }
+
+  virtual bool runOnFunction(Function &F) {
+    bool instructionsRemoved = true; 
+
+    while (instructionsRemoved) {
+      instructionsRemoved = removeDeadInstructions(F);
+    }
+
     return false;
   }
 };
