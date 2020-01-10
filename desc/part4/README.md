@@ -1,12 +1,23 @@
 # Part IV : Introduction to LLVM
-The goal of part IV is to write a simple LLVM pass.
-If you have no previous experience with C++, we suggest that you take a look at these [C++ for Java programmers](https://www.cs.cmu.edu/afs/cs/academic/class/15494-s12/lectures/c++forjava.pdf) slides.
+The goal of part IV is to write an LLVM pass. If you have no previous experience with C++, we suggest that you take a look at these [C++ for Java programmers](https://www.cs.cmu.edu/afs/cs/academic/class/15494-s12/lectures/c++forjava.pdf) slides.
 
-The project counts for 30% of your grade: 10% for writing a simple dead code elimination pass using the code provided, and 20% for implementing liveness analysis and writing your own method to determine dead code.
+The project counts for 30% of your grade: 10% for writing a simple dead code elimination pass using existing LLVM methods, and 20% for implementing liveness analysis and writing your own method to detect dead code.
 
 ## 0. Setup
 
-You will use Git to clone the LLVM sources and cmake to generate the Makefiles to build LLVM on Linux. To get started, clone the LLVM sources into your home directory (or location of your choice). If you clone the entire llvm-project git repo you need about 2GBs of free disk space. If you do a shallow clone (--depth option) it will take about 500MB. We will use 'ug3-ct' as the name of the directory to clone into.
+### Disk Space Required on DICE
+
+Here is some information about the spaced required to build LLVM on DICE using this guide. You have been given an extra 50GB of space for this course. LLVM takes significant amounts of space and time to build. Be careful not to fill up your home directory! 
+
+| Build (X86+Shared Libraries) | Disk Space |
+|---|---|
+| Release | 652 MB |
+| RelWithDebInfo | 16 GB |
+| Debug | 14 GB |
+
+### Cloning the LLVM sources
+
+You will use Git to clone the LLVM sources and cmake to generate the Makefiles to build LLVM on Linux. To get started, clone the LLVM sources into your home directory (or location of your choice). If you clone the entire llvm-project git repo you need about 2GBs of free disk space. If you do a shallow clone (--depth option) it will take about 500MB. We will use `ug3-ct` as the name of the directory to clone into.
 
 ```
 cd ~
@@ -15,19 +26,23 @@ cd ug3-ct
 git clone --depth=100 --branch release/9.x https://github.com/llvm/llvm-project
 ```
 
-You have been given an 50GB of space for this course. The Debug build of LLVM requires around 40GB of disk space! Be careful not to fill up your home directory. If you are using DICE use the 'RelWithDebInfo' cmake build type, which uses less space.
+### Building LLVM on DICE
 
-Create a directory called 'build' where you will build LLVM. This directory can be located anywhere EXCEPT under your LLVM source directory. We will place it under 'ug3-ct' in this document.
+If you are using DICE, the correct version of Cmake is installed as `cmake3`. If you are using your own machine you may need to install Cmake from http://cmake.org. After installation the name of the binary will be `cmake`.
 
-If you are using DICE, the correct version of Cmake is installed as 'cmake3'. If you are using your own machine you may need to install Cmake from http://cmake.org. After installation the name of the binary will be 'cmake'.
+The default linker used to build LLVM on Linux is GCC. This linker often runs out of memory when building LLVM. On DICE we will add  `-DLLVM_USE_LINKER=gold` to the Cmake command line to use the [gold linker](https://en.wikipedia.org/wiki/Gold_(linker)). The Visual Studio and OS X linkers do not have this problem.
+
+To reduce the amount of disk space LLVM takes on DICE, only build the X86 support with `-DLLVM_TARGETS_TO_BUILD=X86` and enable building LLVM with shared libraries using the `-DBUILD_SHARED_LIBS=True` option.
+
+Create a directory called `build` where you will build LLVM. This directory can be located anywhere EXCEPT under your LLVM source directory. We will place it under `ug3-ct` in this document.
 
 ```
 mkdir build
 cd build
-cmake3 -DLLVM_TARGETS_TO_BUILD=X86 -DLLVM_ENABLE_PROJECTS=clang -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=true ../llvm-project/llvm
+cmake3 -DLLVM_TARGETS_TO_BUILD=X86 -DLLVM_ENABLE_PROJECTS=clang -DBUILD_SHARED_LIBS=True -DLLVM_USE_LINKER=gold -DCMAKE_BUILD_TYPE=Debug -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=true ../llvm-project/llvm
 ```
 
-After Cmake finishes creating the Makefiles the next step is to actually build LLVM. This can take anywhere from 10 minutes to 1 hour depending on your machine. The '-j' option to make specifies the number of threads to use. A good rule of thumb is to use a number that is twice the number of cores in your computer (-j4 for a dual-core machine or -j8 for a quad core machine).
+After Cmake finishes creating the Makefiles the next step is to actually build LLVM. This can take anywhere from 10 minutes to 1 hour depending on your machine. The `-j` option to make specifies the number of threads to use. A good rule of thumb is to use a number that is twice the number of cores in your computer (-j4 for a dual-core machine or -j8 for a quad core machine).
 
 ```
 make -j4
@@ -70,17 +85,17 @@ Congratulations you have just built LLVM!
 
 ## 1. Writing a LLVM Pass
 
-You have LLVM and are able to compile C programs. The next step is to create a pass of your own. There is example code for an LLVM pass in the CT git repository on GitLab. If you have not done so already, clone the git repo as follows.
+You have LLVM and are able to compile C programs. The next step is to create a pass of your own. There is example code for a simple LLVM pass in the CT git repository on GitLab. If you have not done so already, clone the git repo as follows.
 
 ```
 cd ~/ug3-ct
-git clone https://git.ecdf.ed.ac.uk/cdubach/ct-19-20/
+git clone https://git.ecdf.ed.ac.uk/cdubach/ct-19-20.git
 ```
 
-Change to the directory for the example pass and take a look at the source. It does nothing except print the name of whatever function it encounters.
+Change to the directory for the simple pass and take a look at the source. It does nothing except print the name of whatever function it encounters.
 
 ```
-cd ct-19-20/src/llvm-pass
+cd ct-19-20/src/llvm/llvm-pass-simple
 cat src/MyPass.cpp
 ```
 
@@ -91,8 +106,7 @@ mkdir build
 cd build
 ```
 
-Before running Cmake and building the pass, you need to set LLVM_DIR to your LLVM build directory, i.e. ~/ug3-ct/build. Otherwise when you build the pass it will try to build with the version of LLVM that
-is already installed on DICE and fail.
+Before running Cmake and building the pass, you need to set LLVM_DIR to your LLVM build directory, i.e. ~/ug3-ct/build. Otherwise when you build the pass it will try to build with the version of LLVM that is already installed on DICE and fail.
 
 ```
 export LLVM_DIR=~/ug3-ct/build
@@ -105,10 +119,10 @@ cmake3 ..
 make
 ```
 
-There should be a shared library for your new pass in src/libMyPass.so. When you compile a program with LLVM it will load your pass and automatically call it. You'll need a C file to use as a test. You can use the test.c you created in Step 0 or create a new file.
+There should be a shared library for your new pass in `src/libMyPass.so`. Use `opt` to load the shared library and invoke the pass with the option `-mypass` . To test the pass use the LLVM bitcode you created in Step 0 or create a new file.
 
 ```
-~/ug3-ct/build/bin/clang -Xclang -load -Xclang src/libMyPass.so ~/ug3-ct/build/test.c
+~/ug3-ct/build/bin/opt -load src/libMyPass.so -mypass test.ll -o test.o
 I saw a function called main!
 ```
 
@@ -145,8 +159,7 @@ LoopInfo &LI = getAnalysis<LoopInfoWrapperPass>().getLoopInfo();
 
 ## 3. Implement a Simple Dead Code Elimination Pass
 
-Add a new method to your instruction counting pass to eliminate dead code. In the C program below, 'd' is dead because it is not used after it's assignment in the program. The assignment to 'c' is dead 
-because it's only use is in the assignment to 'd' which is dead.
+Add a new method to your instruction counting pass to eliminate dead code. In the C program below, `d` is dead because it is not used after it's assignment in the program. The assignment to `c` is dead because it's only use is in the assignment to `d` which is dead.
 
 ```
 int foo() {
@@ -171,9 +184,9 @@ You will use the LLVM iterators we discussed in class to find the dead instructi
 SmallVector<Instruction*, 64> Worklist;
 ```
 
-You need to run LLVM's 'mem2reg' pass before your DCE pass to convert the bitcode into a form that will work with your optimization. Without running 'mem2reg' all instructions will store their destinations operands to the stack and load their source operands from the stack. The memory instructions will block the ability for you to discover dead code. When you run 'mem2reg', you are converting the stack allocated code in non-SSA form, into SSA form with virtual registers.
+You need to run LLVM's `mem2reg` pass before your DCE pass to convert the bitcode into a form that will work with your optimization. Without running `mem2reg` all instructions will store their destinations operands to the stack and load their source operands from the stack. The memory instructions will block the ability for you to discover dead code. When you run `mem2reg`, you are converting the stack allocated code in non-SSA form, into SSA form with virtual registers.
 
-Use the 'opt' tool to run 'mem2reg' before your DCE pass. Give your pass a command line option called 'mypass'.
+Make sure to pass `-mem2reg` to `opt` or your DCE pass will not work!
 
 ```
 ~/ug3-ct/build/bin/clang -S -emit-llvm -Xclang -disable-O0-optnone dead.c
@@ -182,15 +195,15 @@ Use the 'opt' tool to run 'mem2reg' before your DCE pass. Give your pass a comma
 
 ## 4. Implement Iterative Liveness Analysis
 
-For the final part of your project you will replace the isInstructionTriviallyDead() method from LLVM with your own method to identify dead code. This relies on computing liveness which you learned about in class. Refer back to the [lecture slides](https://www.inf.ed.ac.uk/teaching/courses/ct/19-20/slides/llvm-5-liveness.pdf) for the dataflow equations you need to implement and examples.
+For the final part of your project you will write a second pass to remove dead code. In this new pass, replace the isInstructionTriviallyDead() method from LLVM with your own method to identify dead code. This relies on computing liveness which you learned about in class. Refer back to the [lecture slides](https://www.inf.ed.ac.uk/teaching/courses/ct/19-20/slides/llvm-5-liveness.pdf) for the dataflow equations you need to implement and examples.
 
-Refer to the [Final project PDF](https://git.ecdf.ed.ac.uk/cdubach/ct-19-20/blob/master/desc/part4/ug3project.pdf) for more information.
+Refer to the [Final project PDF](https://git.ecdf.ed.ac.uk/cdubach/ct-19-20/blob/master/desc/part4/llvmproject.pdf) for more information about how to implement the pass. Modify the example code located in the git rep at `src/llvm/llvm-pass-final`.
 
-## 5. Submitting Your Project
+## 5. Submitting Your Passes
 
 As with parts 1-3, part 4 will be marked with a set of automated scripts, but we won't be running scripts every day like with previous tests. 
 
-You should modify the two passes stored in the  `src/llvm` directory and push your changes to gitlab. Do not change the cmake files or source file names in the folder or the marking script will fail!!
+You should modify the two skeleton passes stored in the `src/llvm` directory and push your changes to gitlab. Do not change the cmake files or source file names in the folder or the marking script will fail!!
 
 Here is the structure of the folders in git for the LLVM project:
 
