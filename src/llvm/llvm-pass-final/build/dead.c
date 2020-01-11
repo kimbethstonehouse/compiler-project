@@ -5,3 +5,4 @@ int foo() {
   int d = c / a;   // dead
   return b;
 }
+

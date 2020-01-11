@@ -1,4 +1,4 @@
-# Install script for directory: /home/kim/ug3-ct/ct-19-20/src/llvm/llvm-pass-final/src
+# Install script for directory: /afs/inf.ed.ac.uk/user/s16/s1615906/ug3-ct/ct-19-20/src/llvm/llvm-pass-final/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -29,7 +29,7 @@ endif()
 
 # Install shared libraries without execute permission?
 if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
-  set(CMAKE_INSTALL_SO_NO_EXE "1")
+  set(CMAKE_INSTALL_SO_NO_EXE "0")
 endif()
 
 # Is this installation the result of a crosscompile?
