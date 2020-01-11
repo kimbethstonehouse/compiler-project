@@ -19,8 +19,8 @@ using namespace llvm;
 using namespace std;
 
 namespace {
-  map<Value*, set<Value*>> in;
-  map<Value*, set<Value*>> out;
+  map<Value*, set<Value*>> liveIn;
+  map<Value*, set<Value*>> liveOut;
   map<Value*, set<Value*>> prevIn;
   map<Value*, set<Value*>> prevOut;
 
@@ -30,20 +30,18 @@ namespace {
   }
 
   bool myIsInstructionTriviallyDead(Instruction* I) {
-    return out[I].find(I) == out[I].end() && safeToRemove(I);
+    return liveOut[I].find(I) == liveOut[I].end() && safeToRemove(I);
   }
 
   bool computeSets(Function &F) {
     do {
-      prevIn = in;
-      prevOut = out;
+      prevIn = liveIn;
+      prevOut = liveOut;
 
       for (inst_iterator I = inst_begin(F), E = inst_end(F); I!= E; I++) {
-        
         set<Value*> uses;
         set<Value*> defs;
         set<Value*> successors;
-
         Instruction* inst = &*I;
 
         // calculate uses (gen) set
@@ -59,10 +57,8 @@ namespace {
         
         // in[n] = uses[n] U (out[n] - defs[n])
         set<Value*> result;
-        set_difference(out[inst].begin(), out[inst].end(), defs.begin(), defs.end(), inserter(result, result.begin()));
-        set<Value*> result2;
-        set_union(uses.begin(), uses.end(), result.begin(), result.end(), inserter(result2, result2.begin()));
-        in[inst] = result2;
+        set_difference(liveOut[inst].begin(), liveOut[inst].end(), defs.begin(), defs.end(), inserter(result, result.begin()));
+        set_union(uses.begin(), uses.end(), result.begin(), result.end(), inserter(liveIn[inst], liveIn[inst].begin()));
 
         if (inst->isTerminator()) {
           // iterate over all basic blocks that the instruction can branch to
@@ -82,14 +78,14 @@ namespace {
         set<Value*> result3;
         for (Value* successor : successors) {
           set<Value*> temp;
-          set_union(result3.begin(), result3.end(), in[successor].begin(), 
-              in[successor].end(), inserter(temp, temp.begin()));
+          set_union(result3.begin(), result3.end(), liveIn[successor].begin(), 
+              liveIn[successor].end(), inserter(temp, temp.begin()));
           result3 = temp;
         }
 
-        out[inst] = result3;
+        liveOut[inst] = result3;
       }
-    } while (!(prevIn == in && prevOut == out));
+    } while (!(prevIn == liveIn && prevOut == liveOut));
   }
 
   void printLiveness(Function &F) {
@@ -101,7 +97,7 @@ namespace {
         
         errs() << "{";
         
-        auto operatorSet = in[&*i];
+        auto operatorSet = liveIn[&*i];
         for (auto oper = operatorSet.begin(); oper != operatorSet.end(); oper++) {
           auto op = *oper;
           if (oper != operatorSet.begin())
@@ -140,8 +136,6 @@ namespace {
       inst->eraseFromParent();
     }
 
-    printLiveness(F);
-
     return cutInstruction;
   }
 
@@ -151,6 +145,9 @@ namespace {
 
     bool runOnFunction(Function &F) override {
       bool instructionsRemoved = false; 
+
+      computeSets(F);
+      printLiveness(F);
 
       do {
         instructionsRemoved = removeDeadInstructions(F);

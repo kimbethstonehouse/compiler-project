@@ -17,6 +17,6 @@ bb:	; preds = %bb, %bb.nph
   br i1 %exitcond, label %bb2, label %bb
 
 bb2:	; preds = %bb, %entry
-  %res.0.lcssa = phi i32 [ 1, %entry ], [ %1, %bb ]
+  %res.0.lcssa = phi i32 [ 1, %entry ], [ %1, %bb ]!
   ret i32 %res.0.lcssa
 }
