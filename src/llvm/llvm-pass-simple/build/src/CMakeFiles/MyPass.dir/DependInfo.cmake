@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/kim/ug3-ct/ct-19-20/src/llvm/llvm-pass-simple/src/MyPass.cpp" "/home/kim/ug3-ct/ct-19-20/src/llvm/llvm-pass-simple/build/src/CMakeFiles/MyPass.dir/MyPass.cpp.o"
+  "/afs/inf.ed.ac.uk/user/s16/s1615906/ug3-ct/ct-19-20/src/llvm/llvm-pass-simple/src/MyPass.cpp" "/afs/inf.ed.ac.uk/user/s16/s1615906/ug3-ct/ct-19-20/src/llvm/llvm-pass-simple/build/src/CMakeFiles/MyPass.dir/MyPass.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -15,8 +15,8 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/home/kim/ug3-ct/llvm-project/llvm/include"
-  "/home/kim/ug3-ct/build/include"
+  "/afs/inf.ed.ac.uk/user/s16/s1615906/ug3-ct/llvm-project/llvm/include"
+  "/afs/inf.ed.ac.uk/user/s16/s1615906/ug3-ct/build/include"
   )
 
 # Targets to which this target links.

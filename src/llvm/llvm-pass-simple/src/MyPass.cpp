@@ -1,6 +1,3 @@
-// Example of how to write an LLVM pass
-// For more information see: http://llvm.org/docs/WritingAnLLVMPass.html
-//#define DEBUG_TYPE "myPass"
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/InstIterator.h"
@@ -24,32 +21,35 @@ namespace {
 
     bool removeDeadInstructions(Function &F) {
       bool cutInstruction = false;
-      errs() << "Function " << F.getName() << "\n";
       SmallVector<Instruction*, 64> Worklist;
 
       for (inst_iterator I = inst_begin(F), E = inst_end(F); I!= E; ++I) {
-          if (isInstructionTriviallyDead(&*I)) {
-            // store dead instructions for later elimination
-            Worklist.push_back(&*I);
-            cutInstruction = true;
-          }
+        Instruction* inst = &*I; 
+
+        if (isInstructionTriviallyDead(inst)) {
+          // store dead instructions for later elimination
+          Worklist.push_back(inst);
+          cutInstruction = true;
+        }
       }
 
       // eliminate the dead instructions
       while (!Worklist.empty()) {
-        Instruction* I = Worklist.pop_back_val();
-        I->eraseFromParent();
+        Instruction* inst = Worklist.pop_back_val();
+        inst->eraseFromParent();
       }
 
       return cutInstruction;
     }
 
     virtual bool runOnFunction(Function &F) {
-      bool instructionsRemoved = true; 
+      bool instructionsRemoved = false; 
 
-      while (instructionsRemoved) {
+      do {
+        // removal of dead instructions exposes other dead instructions
+        // so iterate while instructions are still being removed
         instructionsRemoved = removeDeadInstructions(F);
-      }
+      } while (instructionsRemoved);
 
       return true;
     }
