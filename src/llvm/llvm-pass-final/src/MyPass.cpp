@@ -1,6 +1,3 @@
-// Example of how to write an LLVM pass
-// For more information see: http://llvm.org/docs/WritingAnLLVMPass.html
-
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/InstIterator.h"
@@ -13,12 +10,12 @@
 
 #include <set>
 #include <map>
-#include <algorithm>
 
 using namespace llvm;
 using namespace std;
 
 namespace {
+  map<PHINode*, map<BasicBlock*, set<Value*>>> phiUses;
   map<Value*, set<Value*>> liveIn;
   map<Value*, set<Value*>> liveOut;
   map<Value*, set<Value*>> prevIn;
@@ -38,54 +35,95 @@ namespace {
       prevIn = liveIn;
       prevOut = liveOut;
 
-      for (inst_iterator I = inst_begin(F), E = inst_end(F); I!= E; I++) {
-        set<Value*> uses;
-        set<Value*> defs;
-        set<Value*> successors;
-        Instruction* inst = &*I;
+      // for (inst_iterator I = inst_begin(F), E = inst_end(F); I!= E; I++) {
+      for (Function::iterator bb = F.begin(); bb != F.end(); ++bb) {
+        for (BasicBlock::iterator I = bb->begin(); I != bb->end(); ++I) {
+          set<Value*> uses;
+          set<Value*> defs;
+          set<Value*> successors;
+          Instruction* inst = &*I;
 
-        // calculate uses (gen) set
-        for (int i = 0; i < inst->getNumOperands(); i++) {
-          Value* operand = I->getOperand(i);
-          if (isa<Instruction>(operand) || isa<Argument>(operand)) {
-            uses.insert(operand);
+          // calculate uses (gen) set
+          if (isa<PHINode>(inst)) {
+            PHINode* phi = dyn_cast<PHINode>(inst);
+            
+
+            for (int i = 0; i < phi->getNumIncomingValues(); i++) {
+              Value* incoming = phi->getIncomingValue(i);
+              if (isa<Instruction>(incoming) || isa<Argument>(incoming)) {
+                // get the block corresponding to the incoming value
+                BasicBlock* basicBlock = phi->getIncomingBlock(i);
+                // store a map of incoming values for each block
+                phiUses[phi][basicBlock].insert(incoming);
+              }
+            }
+          } else {
+            for (int i = 0; i < inst->getNumOperands(); i++) {
+              Value* operand = I->getOperand(i);
+              if (isa<Instruction>(operand) || isa<Argument>(operand)) {
+                uses.insert(operand);
+              }
+            } 
           }
-        }
 
-        // calculate defs (kill) set
-        defs.insert(&*I);
-        
-        // in[n] = uses[n] U (out[n] - defs[n])
-        set<Value*> result;
-        set_difference(liveOut[inst].begin(), liveOut[inst].end(), defs.begin(), defs.end(), inserter(result, result.begin()));
-        set_union(uses.begin(), uses.end(), result.begin(), result.end(), inserter(liveIn[inst], liveIn[inst].begin()));
+          // calculate defs (kill) set
+          defs.insert(&*I);
+          
+          // in[n] = uses[n] U (out[n] - defs[n])
+          set<Value*> result;
+          set_difference(liveOut[inst].begin(), liveOut[inst].end(), defs.begin(), defs.end(), inserter(result, result.begin()));
+          set_union(uses.begin(), uses.end(), result.begin(), result.end(), inserter(liveIn[inst], liveIn[inst].begin()));
 
-        if (inst->isTerminator()) {
-          // iterate over all basic blocks that the instruction can branch to
-          for (int i = 0; i < I->getNumSuccessors(); i++) {
-            BasicBlock* basicBlockSuccessor = I->getSuccessor(i); 
-            auto instructionSuccessor = &*(basicBlockSuccessor->begin());
-            successors.insert(instructionSuccessor);
-            // todo: what if this is a phi node?
+          if (inst->isTerminator()) {
+            // iterate over all basic blocks that the instruction can branch to
+            for (int i = 0; i < I->getNumSuccessors(); i++) {
+              BasicBlock* basicBlockSuccessor = I->getSuccessor(i); 
+              auto instructionSuccessor = &*(basicBlockSuccessor->begin());
+              successors.insert(instructionSuccessor);
+            }
+          } else {
+              auto instructionSuccessor = I;
+              successors.insert(&*(++instructionSuccessor));
           }
-        } else {
-            auto instructionSuccessor = I;
-            ++instructionSuccessor;
-            successors.insert(&*instructionSuccessor);
-        }
 
-        // out[n] = union over all successors s of in[s]
-        set<Value*> result3;
-        for (Value* successor : successors) {
-          set<Value*> temp;
-          set_union(result3.begin(), result3.end(), liveIn[successor].begin(), 
-              liveIn[successor].end(), inserter(temp, temp.begin()));
-          result3 = temp;
-        }
+          // out[n] = union over all successors s of in[s]
+          set<Value*> result3;
+          for (Value* successor : successors) {
+            set<Value*> temp;
+            set<Value*> toUnion;
 
-        liveOut[inst] = result3;
+            if (isa<PHINode>(successor)) {
+              PHINode* phi = dyn_cast<PHINode>(successor);
+              // calculate the in set
+              // out[n] - defs[n]
+              set<Value*> phiTemp = liveOut[phi];
+              phiTemp.erase(phi);
+
+              if (isa<BranchInst>(I)) {
+                uses = phiUses[phi][&*bb];
+                set<Value*> phiIn;
+
+                // in[n] = uses[n] U (out[n] - defs[n])
+                set_union(uses.begin(), uses.end(), phiTemp.begin(), 
+                  phiTemp.end(), inserter(phiIn, phiIn.begin()));
+
+                set_union(result3.begin(), result3.end(), phiIn.begin(), 
+                  phiIn.end(), inserter(temp, temp.begin()));
+              } else {
+                set_union(result3.begin(), result3.end(), phiTemp.begin(), 
+                  phiTemp.end(), inserter(temp, temp.begin()));
+              }
+            } else {
+              set_union(result3.begin(), result3.end(), liveIn[successor].begin(), 
+                liveIn[successor].end(), inserter(temp, temp.begin()));
+            }
+            result3 = temp;
+          }
+
+          liveOut[inst] = result3;
+        }
       }
-    } while (!(prevIn == liveIn && prevOut == liveOut));
+    } while (prevIn != liveIn || prevOut != liveOut);
   }
 
   void printLiveness(Function &F) {
@@ -122,7 +160,7 @@ namespace {
       Instruction* inst = &*I; 
 
       if (myIsInstructionTriviallyDead(inst)) {
-        errs() << "found dead instruction\n";
+        // errs() << "found dead instruction\n";
         // store dead instructions for later elimination
         Worklist.push_back(inst);
         cutInstruction = true;
@@ -132,7 +170,7 @@ namespace {
     // eliminate the dead instructions
     while (!Worklist.empty()) {
       Instruction* inst = Worklist.pop_back_val();
-      errs() << "removed dead instruction\n";
+      // errs() << "removed dead instruction\n";
       inst->eraseFromParent();
     }
 

@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC   -shared  -o libMyPass.so CMakeFiles/MyPass.dir/MyPass.cpp.o  -L/afs/inf.ed.ac.uk/user/s16/s1615906/ug3-ct/build/./lib 
