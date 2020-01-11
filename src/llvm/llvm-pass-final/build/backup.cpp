@@ -15,9 +15,9 @@ using namespace llvm;
 using namespace std;
 
 namespace {
-  map<PHINode*, map<BasicBlock*, set<Value*>>> phiUses;
   map<Value*, set<Value*>> liveIn;
   map<Value*, set<Value*>> liveOut;
+  map<PHINode*, map<BasicBlock*, set<Value*>>> phiSets;
   map<Value*, set<Value*>> prevIn;
   map<Value*, set<Value*>> prevOut;
 
@@ -45,16 +45,26 @@ namespace {
 
           // calculate uses (gen) set
           if (isa<PHINode>(inst)) {
-            PHINode* phi = dyn_cast<PHINode>(inst);
-            
-
-            for (int i = 0; i < phi->getNumIncomingValues(); i++) {
-              Value* incoming = phi->getIncomingValue(i);
+            auto phi = dyn_cast<PHINode>(inst);
+            for (auto i = 0; i < phi->getNumIncomingValues(); i++) {
+              // for each incoming value that is an instruction or an argument
+              auto incoming = phi->getIncomingValue(i);
               if (isa<Instruction>(incoming) || isa<Argument>(incoming)) {
-                // get the block corresponding to the incoming value
-                BasicBlock* basicBlock = phi->getIncomingBlock(i);
-                // store a map of incoming values for each block
-                phiUses[phi][basicBlock].insert(incoming);
+                // get the corresponding block
+                auto basicBlock = phi->getIncomingBlock(i);
+                // calculate the in set
+                // in[n] = uses[n] U (out[n] - defs[n])
+                
+                // set<Value*> phiTemp = liveOut[phi];
+                // phiTemp.erase(phi);
+                // phiTemp.insert(incoming);
+
+                // for (auto oper = operatorSet.begin(); oper != operatorSet.end(); oper++) {
+                //   // use the block as a key for the set
+                //   phiSets[phi][basicBlock].insert(oper);
+                // }
+
+                phiSets[phi][basicBlock].insert(incoming);
               }
             }
           } else {
@@ -83,7 +93,8 @@ namespace {
             }
           } else {
               auto instructionSuccessor = I;
-              successors.insert(&*(++instructionSuccessor));
+              ++instructionSuccessor;
+              successors.insert(&*instructionSuccessor);
           }
 
           // out[n] = union over all successors s of in[s]
@@ -93,30 +104,25 @@ namespace {
             set<Value*> toUnion;
 
             if (isa<PHINode>(successor)) {
-              PHINode* phi = dyn_cast<PHINode>(successor);
-              // calculate the in set
-              // out[n] - defs[n]
-              set<Value*> phiTemp = liveOut[phi];
-              phiTemp.erase(phi);
+              auto phi = dyn_cast<PHINode>(successor);
 
-              if (isa<BranchInst>(I)) {
-                uses = phiUses[phi][&*bb];
-                set<Value*> phiIn;
+              if (I->isTerminator()) {
+                auto s = phiSets[phi][&*bb];
 
-                // in[n] = uses[n] U (out[n] - defs[n])
-                set_union(uses.begin(), uses.end(), phiTemp.begin(), 
-                  phiTemp.end(), inserter(phiIn, phiIn.begin()));
+                set<Value*> phiTemp = liveOut[phi];
+                phiTemp.erase(phi);
 
-                set_union(result3.begin(), result3.end(), phiIn.begin(), 
-                  phiIn.end(), inserter(temp, temp.begin()));
+                set_union(s.begin(), s.end(), phiTemp.begin(), 
+                  phiTemp.end(), inserter(toUnion, toUnion.begin()));
               } else {
-                set_union(result3.begin(), result3.end(), phiTemp.begin(), 
-                  phiTemp.end(), inserter(temp, temp.begin()));
+                toUnion = liveOut[phi];
+                toUnion.erase(phi);
               }
             } else {
-              set_union(result3.begin(), result3.end(), liveIn[successor].begin(), 
-                liveIn[successor].end(), inserter(temp, temp.begin()));
+              toUnion = liveIn[successor];
             }
+            set_union(result3.begin(), result3.end(), toUnion.begin(), 
+                toUnion.end(), inserter(temp, temp.begin()));
             result3 = temp;
           }
 
