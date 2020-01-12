@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC   -shared  -o libMyPass.so CMakeFiles/MyPass.dir/MyPass.cpp.o   -L/home/kim/ug3-ct/build/./lib 
