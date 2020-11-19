@@ -1,8 +1,6 @@
 # Compiling Techniques 19-20 #
 
-Please note that the description of the course work might be updated from time to time to clarify things or fix mistakes.
-
-# Results #
+## Results
 
 The scoreboard runs a series of hidden test programs on this compiler about twice a day. View my results [here](https://www.inf.ed.ac.uk/teaching/courses/ct/19-20/scoreboard/puppy_results.html).
 
