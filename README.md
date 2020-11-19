@@ -2,7 +2,11 @@
 
 ## Results
 
-The scoreboard runs a series of hidden test programs on this compiler about twice a day. View my results [here](https://www.inf.ed.ac.uk/teaching/courses/ct/19-20/scoreboard/puppy_results.html).
+I was awarded a mark of 88% (A2) for this coursework. The scoreboard runs a series of hidden test programs on this compiler about twice a day. View my results [here](https://www.inf.ed.ac.uk/teaching/courses/ct/19-20/scoreboard/puppy_results.html).
+
+## About
+
+The aim of this assignment was to write a compiler for a subset of the C language, targeting the MIPS ISA. The compiler is written in Java, and focuses on the lexing, parsing, semantic analysis and code generation phases. It also involved writing an LLVM pass in C++ to perform liveness analysis and dead code elimination.
 
 ## Building the project
 In order to build the project you must have Ant installed. On DICE machines Ant is already installed.
