@@ -1,8 +1,8 @@
-# Compiling Techniques 19-20 #
+# Compiler #
 
 ## Results
 
-I was awarded a mark of 88% (A2) for this coursework. The scoreboard runs a series of hidden test programs on this compiler about twice a day. View my results [here](https://www.inf.ed.ac.uk/teaching/courses/ct/19-20/scoreboard/puppy_results.html).
+This coursework attained a mark of 86% (A2) for the Compiling Techniques course. The scoreboard runs a series of hidden test programs on this compiler about twice a day. View my results [here](https://www.inf.ed.ac.uk/teaching/courses/ct/19-20/scoreboard/puppy_results.html).
 
 ## About
 
